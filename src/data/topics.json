@@ -1,0 +1,1562 @@
+[
+  {
+    "id": "anim-001",
+    "title": "My Favorite Animal",
+    "category": "Animals",
+    "emoji": "🐶",
+    "minAge": 3,
+    "maxAge": 5,
+    "helperPrompts": [
+      "What sound does this animal make?",
+      "What does its fur or skin feel like?",
+      "Why do you like this animal so much?"
+    ]
+  },
+  {
+    "id": "anim-002",
+    "title": "The Fluffiest Creature",
+    "category": "Animals",
+    "emoji": "🐰",
+    "minAge": 3,
+    "maxAge": 5,
+    "helperPrompts": [
+      "How soft is this fluffy animal?",
+      "Does it hop, roll, or walk softly?",
+      "What would you name a fluffy bunny?"
+    ]
+  },
+  {
+    "id": "anim-003",
+    "title": "Animals with Big Ears",
+    "category": "Animals",
+    "emoji": "🐘",
+    "minAge": 3,
+    "maxAge": 5,
+    "helperPrompts": [
+      "How big are its giant ears?",
+      "What do you think it can hear from far away?",
+      "Can it flap its ears when it gets hot?"
+    ]
+  },
+  {
+    "id": "anim-004",
+    "title": "An Animal with Super Senses",
+    "category": "Animals",
+    "emoji": "🦉",
+    "minAge": 6,
+    "maxAge": 8,
+    "helperPrompts": [
+      "Does it see in the dark or smell things far away?",
+      "How does this superpower help it hunt or hide?",
+      "What would it be like to have that sense for a day?"
+    ]
+  },
+  {
+    "id": "anim-005",
+    "title": "Under the Deep Blue Sea",
+    "category": "Animals",
+    "emoji": "🐬",
+    "minAge": 6,
+    "maxAge": 8,
+    "helperPrompts": [
+      "What sea creature would you swim beside?",
+      "How fast can it glide through the ocean?",
+      "What does the underwater world look like to it?"
+    ]
+  },
+  {
+    "id": "anim-006",
+    "title": "The Fastest Animal on Land",
+    "category": "Animals",
+    "emoji": "🐆",
+    "minAge": 6,
+    "maxAge": 8,
+    "helperPrompts": [
+      "How fast can a cheetah dash across the grass?",
+      "What helps its body sprint like a racecar?",
+      "If you raced a cheetah on a bicycle, who would win?"
+    ]
+  },
+  {
+    "id": "anim-007",
+    "title": "If Dinosaurs Were Alive Today",
+    "category": "Animals",
+    "emoji": "🦕",
+    "minAge": 6,
+    "maxAge": 8,
+    "helperPrompts": [
+      "Which dinosaur would be the friendliest pet?",
+      "What giant snacks would you feed it?",
+      "Where would a huge dinosaur sleep at night?"
+    ]
+  },
+  {
+    "id": "anim-008",
+    "title": "Extreme Animal Adaptations",
+    "category": "Animals",
+    "emoji": "🦎",
+    "minAge": 9,
+    "maxAge": 12,
+    "helperPrompts": [
+      "Which animal has the coolest natural camouflage or defense?",
+      "How does changing colors or spitting water help it survive?",
+      "What can human engineers learn from this creature?"
+    ]
+  },
+  {
+    "id": "anim-009",
+    "title": "How Animals Communicate",
+    "category": "Animals",
+    "emoji": "🐋",
+    "minAge": 9,
+    "maxAge": 12,
+    "helperPrompts": [
+      "Do whales sing or do bees dance to talk?",
+      "How do creatures send messages without words?",
+      "What do you imagine an animal would say if it spoke English?"
+    ]
+  },
+  {
+    "id": "anim-010",
+    "title": "Protecting Endangered Wildlife",
+    "category": "Animals",
+    "emoji": "🐼",
+    "minAge": 9,
+    "maxAge": 12,
+    "helperPrompts": [
+      "Why is saving habitats like rainforests or oceans important?",
+      "What is one creative way kids can protect local wildlife?",
+      "Which endangered animal deserves more spotlight and care?"
+    ]
+  },
+  {
+    "id": "fam-011",
+    "title": "A Game We Love Playing Together",
+    "category": "My Family",
+    "emoji": "🎲",
+    "minAge": 3,
+    "maxAge": 5,
+    "helperPrompts": [
+      "Is it a board game, tag, or hide and seek?",
+      "Who laughs the most when playing this game?",
+      "How do you feel when you get to play together?"
+    ]
+  },
+  {
+    "id": "fam-012",
+    "title": "Singing Fun Songs Together",
+    "category": "My Family",
+    "emoji": "🎶",
+    "minAge": 3,
+    "maxAge": 5,
+    "helperPrompts": [
+      "What is a silly or catchy song you love to sing?",
+      "Do you clap your hands or dance along?",
+      "Who sings the highest or funniest note?"
+    ]
+  },
+  {
+    "id": "fam-013",
+    "title": "Helping with Little Chores",
+    "category": "My Family",
+    "emoji": "🧹",
+    "minAge": 3,
+    "maxAge": 5,
+    "helperPrompts": [
+      "Do you like watering plants, picking up toys, or folding napkins?",
+      "How does helping make you feel like a big helper?",
+      "What high-five do you get after finishing?"
+    ]
+  },
+  {
+    "id": "fam-014",
+    "title": "Our Favorite Family Tradition",
+    "category": "My Family",
+    "emoji": "🎉",
+    "minAge": 6,
+    "maxAge": 8,
+    "helperPrompts": [
+      "What special thing does your family do on holidays or weekends?",
+      "When did this tradition start?",
+      "Why is this memory so warm and memorable?"
+    ]
+  },
+  {
+    "id": "fam-015",
+    "title": "The Funniest Joke at the Dinner Table",
+    "category": "My Family",
+    "emoji": "😂",
+    "minAge": 6,
+    "maxAge": 8,
+    "helperPrompts": [
+      "What silly joke made everyone laugh out loud?",
+      "Who is the biggest prankster or comedian at home?",
+      "What makes sharing laughter together so special?"
+    ]
+  },
+  {
+    "id": "fam-016",
+    "title": "Cozy Story or Movie Night",
+    "category": "My Family",
+    "emoji": "🍿",
+    "minAge": 6,
+    "maxAge": 8,
+    "helperPrompts": [
+      "Do you build blanket forts or eat warm popcorn?",
+      "What kind of stories make the best evening adventures?",
+      "What is the comfiest spot in your cozy corner?"
+    ]
+  },
+  {
+    "id": "fam-017",
+    "title": "What Makes My Family Team Unique",
+    "category": "My Family",
+    "emoji": "🤝",
+    "minAge": 9,
+    "maxAge": 12,
+    "helperPrompts": [
+      "What strengths or talents does each person bring?",
+      "How do you support each other when someone is having a rough day?",
+      "What is one funny habit everyone in your home shares?"
+    ]
+  },
+  {
+    "id": "fam-018",
+    "title": "A Special Family Recipe",
+    "category": "My Family",
+    "emoji": "🍲",
+    "minAge": 9,
+    "maxAge": 12,
+    "helperPrompts": [
+      "What dish always fills the kitchen with amazing aromas?",
+      "What is the secret ingredient or step that makes it delicious?",
+      "How does preparing food together bring people closer?"
+    ]
+  },
+  {
+    "id": "fam-019",
+    "title": "An Adventure We Shared",
+    "category": "My Family",
+    "emoji": "🏕️",
+    "minAge": 9,
+    "maxAge": 12,
+    "helperPrompts": [
+      "Was it a park trek, a beach day, or a rainy day camping indoors?",
+      "What unexpected funny surprise happened on that day?",
+      "What lesson or memory will stick with you the longest?"
+    ]
+  },
+  {
+    "id": "food-020",
+    "title": "The Ultimate Ice Cream Sundae",
+    "category": "Food",
+    "emoji": "🍨",
+    "minAge": 3,
+    "maxAge": 5,
+    "helperPrompts": [
+      "How many scoops of ice cream are on top?",
+      "Do you want rainbow sprinkles, strawberries, or chocolate drizzle?",
+      "Would you eat it with a spoon or lick the bowl clean?"
+    ]
+  },
+  {
+    "id": "food-021",
+    "title": "Crunchy Yummy Fruits",
+    "category": "Food",
+    "emoji": "🍎",
+    "minAge": 3,
+    "maxAge": 5,
+    "helperPrompts": [
+      "Do you like sweet apples, soft bananas, or juicy grapes?",
+      "What sound does a crisp bite make?",
+      "What bright color is your favorite fruit?"
+    ]
+  },
+  {
+    "id": "food-022",
+    "title": "Pancakes with Funny Faces",
+    "category": "Food",
+    "emoji": "🥞",
+    "minAge": 3,
+    "maxAge": 5,
+    "helperPrompts": [
+      "Can you make blueberry eyes and a strawberry smile?",
+      "Do you like sweet maple syrup poured all over?",
+      "How tall can you stack your fluffy pancakes?"
+    ]
+  },
+  {
+    "id": "food-023",
+    "title": "Inventing a Brand New Pizza",
+    "category": "Food",
+    "emoji": "🍕",
+    "minAge": 6,
+    "maxAge": 8,
+    "helperPrompts": [
+      "What unusual toppings would you add to this pizza?",
+      "Is the crust super crunchy or stuffed with gooey cheese?",
+      "What catchy name would you give this pizza invention?"
+    ]
+  },
+  {
+    "id": "food-024",
+    "title": "The Sweetest Dessert in the Galaxy",
+    "category": "Food",
+    "emoji": "🧁",
+    "minAge": 6,
+    "maxAge": 8,
+    "helperPrompts": [
+      "Does it sparkle like stars or glow in the dark?",
+      "What magical surprise is inside when you bite it?",
+      "Who would you share this galactic treat with?"
+    ]
+  },
+  {
+    "id": "food-025",
+    "title": "Cooking on a Kid Cooking Show",
+    "category": "Food",
+    "emoji": "🍳",
+    "minAge": 6,
+    "maxAge": 8,
+    "helperPrompts": [
+      "What would you tell the audience as you stir your ingredients?",
+      "What is your chef specialty dish?",
+      "How would the judges react when they take their first taste?"
+    ]
+  },
+  {
+    "id": "food-026",
+    "title": "Designing a Dream Restaurant",
+    "category": "Food",
+    "emoji": "🍽️",
+    "minAge": 9,
+    "maxAge": 12,
+    "helperPrompts": [
+      "What is the theme (underwater, treehouse, retro retro)?",
+      "What is the signature dish on the front cover of the menu?",
+      "How do customers get seated—by rollercoaster or magic elevator?"
+    ]
+  },
+  {
+    "id": "food-027",
+    "title": "Strange and Wonderful Flavors",
+    "category": "Food",
+    "emoji": "🌮",
+    "minAge": 9,
+    "maxAge": 12,
+    "helperPrompts": [
+      "What is the most unusual food combination that actually tastes great?",
+      "Would sweet and salty or spicy and sour win the flavor battle?",
+      "What food would you dare your best friend to taste?"
+    ]
+  },
+  {
+    "id": "food-028",
+    "title": "The Science of Baking",
+    "category": "Food",
+    "emoji": "🥖",
+    "minAge": 9,
+    "maxAge": 12,
+    "helperPrompts": [
+      "How does tiny yeast turn flat dough into giant fluffy loaves?",
+      "Why is precision so important when measuring baking ingredients?",
+      "What is your favorite baked treat to smell fresh from the oven?"
+    ]
+  },
+  {
+    "id": "hero-029",
+    "title": "My Super Flying Cape",
+    "category": "Superheroes",
+    "emoji": "🦸",
+    "minAge": 3,
+    "maxAge": 5,
+    "helperPrompts": [
+      "What color is your dazzling superhero cape?",
+      "How high into the clouds do you fly?",
+      "Who do you wave to down on the ground?"
+    ]
+  },
+  {
+    "id": "hero-030",
+    "title": "Talking to All Animals",
+    "category": "Superheroes",
+    "emoji": "🐾",
+    "minAge": 3,
+    "maxAge": 5,
+    "helperPrompts": [
+      "What animal friend would you say good morning to first?",
+      "What secrets would tiny birds chirp to you?",
+      "How would you ask a lion for a gentle ride?"
+    ]
+  },
+  {
+    "id": "hero-031",
+    "title": "Super Strength for Toy Clean Up",
+    "category": "Superheroes",
+    "emoji": "💪",
+    "minAge": 3,
+    "maxAge": 5,
+    "helperPrompts": [
+      "Can you lift an entire toy box with one pinky finger?",
+      "What heavy thing would you rescue from under the sofa?",
+      "What sound effect do you make when showing your muscles?"
+    ]
+  },
+  {
+    "id": "hero-032",
+    "title": "Designing My Superhero Suit",
+    "category": "Superheroes",
+    "emoji": "⚡",
+    "minAge": 6,
+    "maxAge": 8,
+    "helperPrompts": [
+      "What emblem or lightning bolt is on your chest?",
+      "What high-tech boots or wings does your suit have?",
+      "Does your suit glow in the dark or change colors?"
+    ]
+  },
+  {
+    "id": "hero-033",
+    "title": "A Superpower to Help the Planet",
+    "category": "Superheroes",
+    "emoji": "🌍",
+    "minAge": 6,
+    "maxAge": 8,
+    "helperPrompts": [
+      "Could you clean oceans in seconds or sprout instant forests?",
+      "How would people celebrate the planet getting greener?",
+      "What would your eco-hero codename be?"
+    ]
+  },
+  {
+    "id": "hero-034",
+    "title": "The Ultimate Hero Gadget",
+    "category": "Superheroes",
+    "emoji": "🕶️",
+    "minAge": 6,
+    "maxAge": 8,
+    "helperPrompts": [
+      "Does it look like a watch, a belt, or smart sunglasses?",
+      "What 3 cool tools pop out when you press the red button?",
+      "How does it help you get out of tricky situations?"
+    ]
+  },
+  {
+    "id": "hero-035",
+    "title": "Assembling the Hero Team",
+    "category": "Superheroes",
+    "emoji": "🛡️",
+    "minAge": 6,
+    "maxAge": 8,
+    "helperPrompts": [
+      "What powers would your sidekick or teammate have?",
+      "What is your secret headquarters called?",
+      "How do you signal your squad when danger approaches?"
+    ]
+  },
+  {
+    "id": "hero-036",
+    "title": "The True Code of a Hero",
+    "category": "Superheroes",
+    "emoji": "🏅",
+    "minAge": 9,
+    "maxAge": 12,
+    "helperPrompts": [
+      "Is courage about never being afraid, or acting even when scared?",
+      "Why is honesty more powerful than super strength?",
+      "Who is a real-life hero you admire without a costume?"
+    ]
+  },
+  {
+    "id": "hero-037",
+    "title": "Solving Big Problems with Brains",
+    "category": "Superheroes",
+    "emoji": "🧠",
+    "minAge": 9,
+    "maxAge": 12,
+    "helperPrompts": [
+      "How could a smart riddle solve a feud between rivals?",
+      "Why is outthinking a problem better than smashing through it?",
+      "What gadget would you build to help people understand each other?"
+    ]
+  },
+  {
+    "id": "hero-038",
+    "title": "Pausing Time for Sixty Minutes",
+    "category": "Superheroes",
+    "emoji": "⏳",
+    "minAge": 9,
+    "maxAge": 12,
+    "helperPrompts": [
+      "If the whole world stopped moving, what is the first thing you'd do?",
+      "What mysteries would you inspect while time stood still?",
+      "How would you feel when you clicked time back on?"
+    ]
+  },
+  {
+    "id": "space-039",
+    "title": "The Glowing Night Moon",
+    "category": "Space",
+    "emoji": "🌕",
+    "minAge": 3,
+    "maxAge": 5,
+    "helperPrompts": [
+      "Does the moon look like a big glowing nightlight?",
+      "What shape is the moon tonight (full circle or banana smile)?",
+      "Would you like to bounce like a bouncy ball on the moon?"
+    ]
+  },
+  {
+    "id": "space-040",
+    "title": "Twinkling Starlight Wishes",
+    "category": "Space",
+    "emoji": "✨",
+    "minAge": 3,
+    "maxAge": 5,
+    "helperPrompts": [
+      "How far away do the tiny twinkling stars live?",
+      "What wish would you whisper to the brightest star?",
+      "Can you connect the dots in the sky to make a picture?"
+    ]
+  },
+  {
+    "id": "space-041",
+    "title": "Blast Off in a Rocket Ship!",
+    "category": "Space",
+    "emoji": "🚀",
+    "minAge": 3,
+    "maxAge": 5,
+    "helperPrompts": [
+      "Can you count down: 3... 2... 1... BLAST OFF!",
+      "What noise does the fiery rocket engine roar with?",
+      "What does planet Earth look like out your tiny round window?"
+    ]
+  },
+  {
+    "id": "space-042",
+    "title": "The Rings of Giant Saturn",
+    "category": "Space",
+    "emoji": "🪐",
+    "minAge": 6,
+    "maxAge": 8,
+    "helperPrompts": [
+      "What are Saturn's rings made of (ice, rocks, space glitter)?",
+      "Would you ride the rings like a celestial waterslide?",
+      "How many moons would you see orbiting around it?"
+    ]
+  },
+  {
+    "id": "space-043",
+    "title": "Meeting a Friendly Space Alien",
+    "category": "Space",
+    "emoji": "👽",
+    "minAge": 6,
+    "maxAge": 8,
+    "helperPrompts": [
+      "How many antennas or friendly eyes does your alien friend have?",
+      "What snack from Earth would you share with them?",
+      "What song or dance would you teach each other?"
+    ]
+  },
+  {
+    "id": "space-044",
+    "title": "Floating in Zero Gravity",
+    "category": "Space",
+    "emoji": "🧑‍🚀",
+    "minAge": 6,
+    "maxAge": 8,
+    "helperPrompts": [
+      "How would you drink orange juice if the drops floated in bubbles?",
+      "How does doing somersaults in midair feel without falling?",
+      "How would you strap into your sleeping bag on the ceiling?"
+    ]
+  },
+  {
+    "id": "space-045",
+    "title": "The Great Warm Sun",
+    "category": "Space",
+    "emoji": "☀️",
+    "minAge": 6,
+    "maxAge": 8,
+    "helperPrompts": [
+      "How does the sun give energy to plants, trees, and animals?",
+      "Why can we only look at the sun with special safe glasses?",
+      "What is your favorite sunny day outdoor adventure?"
+    ]
+  },
+  {
+    "id": "space-046",
+    "title": "Building a Future City on Mars",
+    "category": "Space",
+    "emoji": "🏙️",
+    "minAge": 9,
+    "maxAge": 12,
+    "helperPrompts": [
+      "Would your colony live inside giant glass domes or lava tubes?",
+      "How would you grow crops and make oxygen on the red planet?",
+      "What would school and sports look like under lower gravity?"
+    ]
+  },
+  {
+    "id": "space-047",
+    "title": "The Mystery of Cosmic Black Holes",
+    "category": "Space",
+    "emoji": "🕳️",
+    "minAge": 9,
+    "maxAge": 12,
+    "helperPrompts": [
+      "Why is gravity inside a black hole so strong that even light cannot escape?",
+      "What do scientists think happens near the event horizon?",
+      "How do astronomers spot them even though they are completely dark?"
+    ]
+  },
+  {
+    "id": "space-048",
+    "title": "Discoveries of the Deep Space Telescopes",
+    "category": "Space",
+    "emoji": "🔭",
+    "minAge": 9,
+    "maxAge": 12,
+    "helperPrompts": [
+      "How do telescopes like James Webb look billions of years into the past?",
+      "What new exoplanet would you search for with astronomers?",
+      "Could life exist on moons with hidden oceans under ice?"
+    ]
+  },
+  {
+    "id": "hobby-049",
+    "title": "Coloring with Every Crayon",
+    "category": "Hobbies",
+    "emoji": "🖍️",
+    "minAge": 3,
+    "maxAge": 5,
+    "helperPrompts": [
+      "What is your all-time favorite color in the crayon box?",
+      "Do you draw funny suns with sunglasses or big purple trees?",
+      "How does filling a whole blank white page feel?"
+    ]
+  },
+  {
+    "id": "hobby-050",
+    "title": "Dancing to Bouncy Beats",
+    "category": "Hobbies",
+    "emoji": "💃",
+    "minAge": 3,
+    "maxAge": 5,
+    "helperPrompts": [
+      "Do you wiggle your hips, stomp your feet, or spin in circles?",
+      "What song makes your feet start moving instantly?",
+      "Can you freeze like a statue when the music stops?"
+    ]
+  },
+  {
+    "id": "hobby-051",
+    "title": "Tallest Block Tower Ever",
+    "category": "Hobbies",
+    "emoji": "🧱",
+    "minAge": 3,
+    "maxAge": 5,
+    "helperPrompts": [
+      "Is the tower taller than you or reaches up to the chair?",
+      "What happens when the tower gets wobbly at the top?",
+      "What fun sound does it make when it crashes down: CRASH!"
+    ]
+  },
+  {
+    "id": "hobby-052",
+    "title": "Zooming on Bikes and Scooters",
+    "category": "Hobbies",
+    "emoji": "🚲",
+    "minAge": 6,
+    "maxAge": 8,
+    "helperPrompts": [
+      "Do you have a cool helmet and shiny bell on your handlebars?",
+      "Where is your favorite sidewalk or park path to ride on?",
+      "What does the breeze feel like on your face when you pedal fast?"
+    ]
+  },
+  {
+    "id": "hobby-053",
+    "title": "My Favorite Sport to Play",
+    "category": "Hobbies",
+    "emoji": "⚽",
+    "minAge": 6,
+    "maxAge": 8,
+    "helperPrompts": [
+      "Is it soccer, swimming, gymnastics, or basketball?",
+      "What is the most thrilling play or goal you ever saw or made?",
+      "How does practicing help you get better each week?"
+    ]
+  },
+  {
+    "id": "hobby-054",
+    "title": "Drawing My Own Cartoon Character",
+    "category": "Hobbies",
+    "emoji": "🎨",
+    "minAge": 6,
+    "maxAge": 8,
+    "helperPrompts": [
+      "What does your character look like (spiky hair, round ears)?",
+      "What funny catchphrase do they say all the time?",
+      "What adventures would happen in their very first episode?"
+    ]
+  },
+  {
+    "id": "hobby-055",
+    "title": "Coding and Building a Video Game",
+    "category": "Hobbies",
+    "emoji": "🎮",
+    "minAge": 9,
+    "maxAge": 12,
+    "helperPrompts": [
+      "Is your game a 3D platformer, puzzle quest, or racing challenge?",
+      "What power-up does the player collect to beat the boss?",
+      "What soundtrack music plays in the background?"
+    ]
+  },
+  {
+    "id": "hobby-056",
+    "title": "Playing a Musical Instrument",
+    "category": "Hobbies",
+    "emoji": "🎸",
+    "minAge": 9,
+    "maxAge": 12,
+    "helperPrompts": [
+      "Do you play or dream of playing drums, piano, or electric guitar?",
+      "How does learning a tricky song teach you patience?",
+      "What feeling does playing your favorite tune give you?"
+    ]
+  },
+  {
+    "id": "hobby-057",
+    "title": "Photography: Finding Beauty Everywhere",
+    "category": "Hobbies",
+    "emoji": "📸",
+    "minAge": 9,
+    "maxAge": 12,
+    "helperPrompts": [
+      "What cool close-up (dew on a spiderweb, a pet yawning) would you snap?",
+      "How does framing an image change how the viewer feels?",
+      "What picture are you most proud of capturing?"
+    ]
+  },
+  {
+    "id": "feel-058",
+    "title": "Things That Make Me Giggle",
+    "category": "Feelings",
+    "emoji": "😄",
+    "minAge": 3,
+    "maxAge": 5,
+    "helperPrompts": [
+      "Does a tickle monster, a silly face, or a slip-up make you laugh?",
+      "What does your biggest belly laugh sound like?",
+      "Can you make Sparky laugh with a funny face?"
+    ]
+  },
+  {
+    "id": "feel-059",
+    "title": "Proud of Learning Something Hard",
+    "category": "Feelings",
+    "emoji": "🌟",
+    "minAge": 3,
+    "maxAge": 5,
+    "helperPrompts": [
+      "Did you learn to tie your shoes, button a coat, or balance on one foot?",
+      "Did you keep trying even when it was tricky?",
+      "How big was your proud smile when you got it right?"
+    ]
+  },
+  {
+    "id": "feel-060",
+    "title": "Getting Cozy When Tired",
+    "category": "Feelings",
+    "emoji": "🧸",
+    "minAge": 3,
+    "maxAge": 5,
+    "helperPrompts": [
+      "What soft blanket or stuffed toy hugs you back?",
+      "Do you like soft lullaby music or quiet bedtime whispers?",
+      "What do you say when giving goodnight hugs?"
+    ]
+  },
+  {
+    "id": "feel-061",
+    "title": "Butterflies in My Tummy",
+    "category": "Feelings",
+    "emoji": "🦋",
+    "minAge": 6,
+    "maxAge": 8,
+    "helperPrompts": [
+      "When do you feel butterflies (before speaking, on stage, before a match)?",
+      "How does taking 3 slow deep breaths calm the flutter down?",
+      "What reminder tells you: You can do this!"
+    ]
+  },
+  {
+    "id": "feel-062",
+    "title": "Finishing a Difficult Puzzle",
+    "category": "Feelings",
+    "emoji": "🧩",
+    "minAge": 6,
+    "maxAge": 8,
+    "helperPrompts": [
+      "What did you do when you couldn't find the corner pieces?",
+      "How did you feel when you slotted the very last piece into place?",
+      "Who did you call over to show your finished masterpiece?"
+    ]
+  },
+  {
+    "id": "feel-063",
+    "title": "Calm Like a Quiet Ocean Wave",
+    "category": "Feelings",
+    "emoji": "🌊",
+    "minAge": 6,
+    "maxAge": 8,
+    "helperPrompts": [
+      "What helps you feel peaceful when everything feels loud?",
+      "Do you imagine waves washing away grumpy feelings?",
+      "What is your peaceful safe happy place in your mind?"
+    ]
+  },
+  {
+    "id": "feel-064",
+    "title": "Courage is a Muscle That Grows",
+    "category": "Feelings",
+    "emoji": "🦁",
+    "minAge": 9,
+    "maxAge": 12,
+    "helperPrompts": [
+      "When was a time you were hesitant to speak up but did it anyway?",
+      "How did that moment make your confidence stronger?",
+      "What advice would you give to someone feeling shy?"
+    ]
+  },
+  {
+    "id": "feel-065",
+    "title": "Bouncing Back from Disappointment",
+    "category": "Feelings",
+    "emoji": "🌈",
+    "minAge": 9,
+    "maxAge": 12,
+    "helperPrompts": [
+      "When something didn't go your way, how did you process it?",
+      "What helped you see the positive side or try again?",
+      "Why is losing or failing often the best teacher?"
+    ]
+  },
+  {
+    "id": "feel-066",
+    "title": "The Power of True Empathy",
+    "category": "Feelings",
+    "emoji": "❤️",
+    "minAge": 9,
+    "maxAge": 12,
+    "helperPrompts": [
+      "How do you notice when a classmate is secretly feeling left out?",
+      "What simple question can make someone feel seen and valued?",
+      "Why does understanding other people's perspectives make you a leader?"
+    ]
+  },
+  {
+    "id": "kind-067",
+    "title": "Sharing My Favorite Toys",
+    "category": "Kindness",
+    "emoji": "🎁",
+    "minAge": 3,
+    "maxAge": 5,
+    "helperPrompts": [
+      "Which toy is extra fun to share with a friend?",
+      "Do you take turns back and forth happily?",
+      "How does seeing your friend smile make your heart happy?"
+    ]
+  },
+  {
+    "id": "kind-068",
+    "title": "A Gentle Warm Hug",
+    "category": "Kindness",
+    "emoji": "🤗",
+    "minAge": 3,
+    "maxAge": 5,
+    "helperPrompts": [
+      "Who gives the best hugs in the world?",
+      "When someone feels sad, how does a gentle hug help?",
+      "Can you give Sparky a warm high-five or hug?"
+    ]
+  },
+  {
+    "id": "kind-069",
+    "title": "Magic Words: Please and Thank You",
+    "category": "Kindness",
+    "emoji": "🌸",
+    "minAge": 3,
+    "maxAge": 5,
+    "helperPrompts": [
+      "Why are 'Please' and 'Thank You' called magic words?",
+      "What happens to people's faces when you say thank you?",
+      "What is something you were thankful for today?"
+    ]
+  },
+  {
+    "id": "kind-070",
+    "title": "Inviting Someone Sitting Alone",
+    "category": "Kindness",
+    "emoji": "🤝",
+    "minAge": 6,
+    "maxAge": 8,
+    "helperPrompts": [
+      "If you see someone by themselves on a bench, what can you say?",
+      "What game can you invite them to join right away?",
+      "How might that small invite turn into a lifelong friendship?"
+    ]
+  },
+  {
+    "id": "kind-071",
+    "title": "Making a Homemade Cheerful Card",
+    "category": "Kindness",
+    "emoji": "💌",
+    "minAge": 6,
+    "maxAge": 8,
+    "helperPrompts": [
+      "Who would you draw a colorful card for?",
+      "What words of cheer would you write inside?",
+      "How does receiving a handwritten note feel?"
+    ]
+  },
+  {
+    "id": "kind-072",
+    "title": "Standing Up for a Pal",
+    "category": "Kindness",
+    "emoji": "🛡️",
+    "minAge": 6,
+    "maxAge": 8,
+    "helperPrompts": [
+      "What does being an upstander mean when someone is teased?",
+      "How can you use a calm, firm voice to stop meanness?",
+      "Why does standing together make everyone safer?"
+    ]
+  },
+  {
+    "id": "kind-073",
+    "title": "The Ripple Effect of One Small Act",
+    "category": "Kindness",
+    "emoji": "💧",
+    "minAge": 9,
+    "maxAge": 12,
+    "helperPrompts": [
+      "How can holding a door or smiling change someone's entire day?",
+      "Have you ever experienced someone passing kindness forward?",
+      "What kindness challenge would you propose to your classmates?"
+    ]
+  },
+  {
+    "id": "kind-074",
+    "title": "Being a Role Model for Younger Kids",
+    "category": "Kindness",
+    "emoji": "🌱",
+    "minAge": 9,
+    "maxAge": 12,
+    "helperPrompts": [
+      "What behaviors do younger kids mirror when they look up to you?",
+      "How can you show good sportsmanship during games?",
+      "What is the most rewarding part of helping someone younger learn?"
+    ]
+  },
+  {
+    "id": "kind-075",
+    "title": "Kindness Toward Our Environment",
+    "category": "Kindness",
+    "emoji": "🌳",
+    "minAge": 9,
+    "maxAge": 12,
+    "helperPrompts": [
+      "Why is leaving a park cleaner than you found it an act of kindness?",
+      "How do caring for plants and saving water show respect for the future?",
+      "What is one environmental habit you do without being asked?"
+    ]
+  },
+  {
+    "id": "sch-076",
+    "title": "Storytime in the Rug Circle",
+    "category": "School",
+    "emoji": "📚",
+    "minAge": 3,
+    "maxAge": 5,
+    "helperPrompts": [
+      "Do you sit crisscross-applesauce on the rug?",
+      "What was the funnest picture you saw in a big picture book?",
+      "Do you like raising your hand to ask questions?"
+    ]
+  },
+  {
+    "id": "sch-077",
+    "title": "The Playground Swings and Slides",
+    "category": "School",
+    "emoji": "🛝",
+    "minAge": 3,
+    "maxAge": 5,
+    "helperPrompts": [
+      "Do you swing so high your toes touch the sky?",
+      "What slide goes whoosh the fastest?",
+      "What game do you play with your playground pals?"
+    ]
+  },
+  {
+    "id": "sch-078",
+    "title": "Counting and Number Magic",
+    "category": "School",
+    "emoji": "🔢",
+    "minAge": 3,
+    "maxAge": 5,
+    "helperPrompts": [
+      "Can you count to ten on your fingers?",
+      "What fun objects do you like counting (bears, blocks, stars)?",
+      "What is the biggest number you know?"
+    ]
+  },
+  {
+    "id": "sch-079",
+    "title": "Explosive Science Experiments!",
+    "category": "School",
+    "emoji": "🧪",
+    "minAge": 6,
+    "maxAge": 8,
+    "helperPrompts": [
+      "Have you ever made a baking soda volcano fizz and erupt?",
+      "What cool experiment would you like to test in class?",
+      "What happens when you mix different colored liquids?"
+    ]
+  },
+  {
+    "id": "sch-080",
+    "title": "What Makes a Teacher Wonderful",
+    "category": "School",
+    "emoji": "🍎",
+    "minAge": 6,
+    "maxAge": 8,
+    "helperPrompts": [
+      "How does a great teacher make hard subjects fun to learn?",
+      "What funny or kind memory do you have of a great teacher?",
+      "If you could award a teacher an Olympic medal, what would it be for?"
+    ]
+  },
+  {
+    "id": "sch-081",
+    "title": "My Favorite Book Ever Read",
+    "category": "School",
+    "emoji": "📖",
+    "minAge": 6,
+    "maxAge": 8,
+    "helperPrompts": [
+      "What is the title of the book you couldn't put down?",
+      "Who was the bravest or funniest character in the story?",
+      "Why should every kid read this book at least once?"
+    ]
+  },
+  {
+    "id": "sch-082",
+    "title": "If I Could Teach Any Class",
+    "category": "School",
+    "emoji": "👩‍🏫",
+    "minAge": 9,
+    "maxAge": 12,
+    "helperPrompts": [
+      "Would you teach Video Game Design, Astronomy, or Creative Writing?",
+      "What fun project would your students build as their final test?",
+      "What rule would your classroom have for encouraging curiosity?"
+    ]
+  },
+  {
+    "id": "sch-083",
+    "title": "Teamwork on a Big Project",
+    "category": "School",
+    "emoji": "🧩",
+    "minAge": 9,
+    "maxAge": 12,
+    "helperPrompts": [
+      "How did your group divide the tasks so everyone contributed?",
+      "What did you do when team members had different ideas?",
+      "How did the final presentation turn out?"
+    ]
+  },
+  {
+    "id": "sch-084",
+    "title": "A Skill Every Kid Should Learn",
+    "category": "School",
+    "emoji": "💡",
+    "minAge": 9,
+    "maxAge": 12,
+    "helperPrompts": [
+      "Should schools teach public speaking, personal budgeting, or cooking?",
+      "How would learning this skill help kids in real life?",
+      "How can kids start practicing this skill today?"
+    ]
+  },
+  {
+    "id": "dream-085",
+    "title": "Floating on a Soft Cloud",
+    "category": "Dreams",
+    "emoji": "☁️",
+    "minAge": 3,
+    "maxAge": 5,
+    "helperPrompts": [
+      "Is the cloud warm and fluffy like cotton candy?",
+      "Where does the gentle breeze steer your cloud across the sky?",
+      "Can you scoop a tiny cloud bite with your spoon?"
+    ]
+  },
+  {
+    "id": "dream-086",
+    "title": "Visiting a Magical Rainbow Castle",
+    "category": "Dreams",
+    "emoji": "🌈",
+    "minAge": 3,
+    "maxAge": 5,
+    "helperPrompts": [
+      "What color is the front gate of the rainbow castle?",
+      "Who lives inside (sparkly unicorns, singing birds)?",
+      "What magical games do you play in the castle garden?"
+    ]
+  },
+  {
+    "id": "dream-087",
+    "title": "A Tree That Grows Lollipops",
+    "category": "Dreams",
+    "emoji": "🍭",
+    "minAge": 3,
+    "maxAge": 5,
+    "helperPrompts": [
+      "What flavors grow on the branches (cherry, grape, watermelon)?",
+      "Do the leaves smell like sweet vanilla?",
+      "Who would you invite to pick treats from the tree?"
+    ]
+  },
+  {
+    "id": "dream-088",
+    "title": "When I Grow Up, I Want to Explore...",
+    "category": "Dreams",
+    "emoji": "🧭",
+    "minAge": 6,
+    "maxAge": 8,
+    "helperPrompts": [
+      "Will you explore deep jungles, frozen ice caps, or distant galaxies?",
+      "What tools or vehicle will you bring on your expeditions?",
+      "What is the first discovery you hope to name after yourself?"
+    ]
+  },
+  {
+    "id": "dream-089",
+    "title": "Living in an Underwater Bubble House",
+    "category": "Dreams",
+    "emoji": "🫧",
+    "minAge": 6,
+    "maxAge": 8,
+    "helperPrompts": [
+      "What fish would swim right outside your bedroom window?",
+      "How do you travel between bubble rooms (water tubes or submarines)?",
+      "What does falling asleep to the gentle ocean sound like?"
+    ]
+  },
+  {
+    "id": "dream-090",
+    "title": "A Magic Wand for Just One Day",
+    "category": "Dreams",
+    "emoji": "🪄",
+    "minAge": 6,
+    "maxAge": 8,
+    "helperPrompts": [
+      "What is the very first spell you would cast?",
+      "Would you make rainy days turn into chocolate sprinkles?",
+      "What kind thing would you conjure for your family or friends?"
+    ]
+  },
+  {
+    "id": "dream-091",
+    "title": "An Invention That Changes the World",
+    "category": "Dreams",
+    "emoji": "🤖",
+    "minAge": 9,
+    "maxAge": 12,
+    "helperPrompts": [
+      "What everyday problem or difficulty will your machine solve?",
+      "How does the technology work (solar power, AI, recycled materials)?",
+      "What will people say when your invention hits the news?"
+    ]
+  },
+  {
+    "id": "dream-092",
+    "title": "Solving One Big Global Challenge",
+    "category": "Dreams",
+    "emoji": "🌍",
+    "minAge": 9,
+    "maxAge": 12,
+    "helperPrompts": [
+      "Would you focus on clean drinking water, renewable energy, or ending hunger?",
+      "What steps can scientists and kids take together to start?",
+      "What does the world look like once this challenge is overcome?"
+    ]
+  },
+  {
+    "id": "dream-093",
+    "title": "My Dream Goal for the Future",
+    "category": "Dreams",
+    "emoji": "🎯",
+    "minAge": 9,
+    "maxAge": 12,
+    "helperPrompts": [
+      "What career or creative passion inspires you the most right now?",
+      "What small habit can you build this month to move closer to it?",
+      "Who will be the first person you thank when you achieve it?"
+    ]
+  },
+  {
+    "id": "wyr-094",
+    "title": "Fly Like a Bird or Swim Like a Fish?",
+    "category": "Would You Rather",
+    "emoji": "🕊️",
+    "minAge": 3,
+    "maxAge": 5,
+    "helperPrompts": [
+      "Would you rather soar high above treetops or dive with clownfish?",
+      "What would you see down below from the sky or ocean?",
+      "Which animal would you invite along on your trip?"
+    ]
+  },
+  {
+    "id": "wyr-095",
+    "title": "Sweet Bananas or Juicy Apples?",
+    "category": "Would You Rather",
+    "emoji": "🍌",
+    "minAge": 3,
+    "maxAge": 5,
+    "helperPrompts": [
+      "Do you like peeling yellow bananas or crunching red apples?",
+      "Which one tastes sweeter to your tongue?",
+      "Can you make a funny monkey face eating a banana?"
+    ]
+  },
+  {
+    "id": "wyr-096",
+    "title": "Floppy Bunny Ears or a Wagging Puppy Tail?",
+    "category": "Would You Rather",
+    "emoji": "🐰",
+    "minAge": 3,
+    "maxAge": 5,
+    "helperPrompts": [
+      "Would you wiggle long bunny ears when you hear music?",
+      "Or wag a fluffy puppy tail when you feel happy?",
+      "How would you surprise people with your new funny feature?"
+    ]
+  },
+  {
+    "id": "wyr-097",
+    "title": "Living in a Snow Palace or a Jungle Treehouse?",
+    "category": "Would You Rather",
+    "emoji": "🏰",
+    "minAge": 6,
+    "maxAge": 8,
+    "helperPrompts": [
+      "Would you rather slide down ice hallways or swing on jungle vines?",
+      "What would you wear every day to stay comfortable?",
+      "What friendly animal neighbor would visit your front porch?"
+    ]
+  },
+  {
+    "id": "wyr-098",
+    "title": "Speak Every Human Language or Talk to Animals?",
+    "category": "Would You Rather",
+    "emoji": "🗣️",
+    "minAge": 6,
+    "maxAge": 8,
+    "helperPrompts": [
+      "Imagine talking to people in Tokyo, Paris, and Cairo without a translator!",
+      "Or would you rather chat with squirrels, dogs, and dolphins?",
+      "Which superpower would help you make more friends?"
+    ]
+  },
+  {
+    "id": "wyr-099",
+    "title": "Travel 100 Years into Future or Dinosaur Times?",
+    "category": "Would You Rather",
+    "emoji": "🦕",
+    "minAge": 6,
+    "maxAge": 8,
+    "helperPrompts": [
+      "Would you rather see flying cars and robot cities?",
+      "Or hide in prehistoric ferns watching a giant Brachiosaurus?",
+      "What souvenir would you bring back to prove your journey?"
+    ]
+  },
+  {
+    "id": "wyr-100",
+    "title": "Never Feel Too Cold or Never Feel Too Hot?",
+    "category": "Would You Rather",
+    "emoji": "☀️",
+    "minAge": 6,
+    "maxAge": 8,
+    "helperPrompts": [
+      "Would you play in snowstorms in a t-shirt?",
+      "Or hike through scorching deserts without breaking a sweat?",
+      "Which climate do you find more challenging to deal with?"
+    ]
+  },
+  {
+    "id": "wyr-101",
+    "title": "Explore the Deepest Ocean Trench or Deepest Outer Space?",
+    "category": "Would You Rather",
+    "emoji": "🌌",
+    "minAge": 9,
+    "maxAge": 12,
+    "helperPrompts": [
+      "The Mariana Trench is darker and less explored than the moon!",
+      "Outer space holds billions of uncharted star systems and planets.",
+      "Which frontier would you risk an expedition to uncover?"
+    ]
+  },
+  {
+    "id": "wyr-102",
+    "title": "Invisibility Cloak or Mind Reading Power?",
+    "category": "Would You Rather",
+    "emoji": "🔮",
+    "minAge": 9,
+    "maxAge": 12,
+    "helperPrompts": [
+      "How would being invisible help you gather secret clues?",
+      "What are the pros and cons of hearing what people are thinking?",
+      "Which power carries a bigger moral responsibility?"
+    ]
+  },
+  {
+    "id": "wyr-103",
+    "title": "Infinite Library of Books or Workshop of Gadgets?",
+    "category": "Would You Rather",
+    "emoji": "📚",
+    "minAge": 9,
+    "maxAge": 12,
+    "helperPrompts": [
+      "A library holding every story and piece of knowledge ever written.",
+      "A futuristic workshop with 3D printers, laser cutters, and spare parts.",
+      "Are you more excited by discovering stories or building physical creations?"
+    ]
+  },
+  {
+    "id": "story-104",
+    "title": "The Teddy Bear That Whispered Hello",
+    "category": "Tell a Story",
+    "emoji": "🧸",
+    "minAge": 3,
+    "maxAge": 5,
+    "helperPrompts": [
+      "What did the little teddy bear whisper when the bedroom lights went dim?",
+      "Where did you two sneak off to for a midnight snack?",
+      "How did you get back into bed before morning?"
+    ]
+  },
+  {
+    "id": "story-105",
+    "title": "The Duck That Found a Sparkling Pebble",
+    "category": "Tell a Story",
+    "emoji": "🦆",
+    "minAge": 3,
+    "maxAge": 5,
+    "helperPrompts": [
+      "What colors flashed from the glowing pond pebble?",
+      "Did the pebble grant the duck a wish to fly to the clouds?",
+      "Who did the duck share its magical find with?"
+    ]
+  },
+  {
+    "id": "story-106",
+    "title": "A Day Where Everything Was Blue",
+    "category": "Tell a Story",
+    "emoji": "💙",
+    "minAge": 3,
+    "maxAge": 5,
+    "helperPrompts": [
+      "What if grass, pancakes, and dogs were all bright blue?",
+      "What was the funniest blue thing you saw on your walk?",
+      "How did the world turn back to normal rainbow colors?"
+    ]
+  },
+  {
+    "id": "story-107",
+    "title": "The Mysterious Tiny Door Behind the Bookshelf",
+    "category": "Tell a Story",
+    "emoji": "🚪",
+    "minAge": 6,
+    "maxAge": 8,
+    "helperPrompts": [
+      "What golden key unlocked the miniature door?",
+      "What magical hidden room or enchanted forest lay behind it?",
+      "What friendly miniature creature greeted you on the other side?"
+    ]
+  },
+  {
+    "id": "story-108",
+    "title": "The Morning Gravity Took a Five-Minute Break",
+    "category": "Tell a Story",
+    "emoji": "🎈",
+    "minAge": 6,
+    "maxAge": 8,
+    "helperPrompts": [
+      "What floated up to the ceiling first: cereal bowls, chairs, or pets?",
+      "How did people navigate around the room without touching the floor?",
+      "What was the countdown like right before gravity snapped back on?"
+    ]
+  },
+  {
+    "id": "story-109",
+    "title": "The Mystery of the Vanished Rainbow",
+    "category": "Tell a Story",
+    "emoji": "🌈",
+    "minAge": 6,
+    "maxAge": 8,
+    "helperPrompts": [
+      "Who stole the colors from the sky after the afternoon rain?",
+      "What clues did you follow through the forest to track them down?",
+      "How did you restore the bright colors to the sky?"
+    ]
+  },
+  {
+    "id": "story-110",
+    "title": "The Accidental Time Machine in the Garage",
+    "category": "Tell a Story",
+    "emoji": "⏰",
+    "minAge": 9,
+    "maxAge": 12,
+    "helperPrompts": [
+      "What mismatched parts (toaster, clock, microwave) made the machine work?",
+      "What era did you accidentally land in when you flipped the lever?",
+      "How did you fix the power core to return back to your own timeline?"
+    ]
+  },
+  {
+    "id": "story-111",
+    "title": "The Detective Who Only Solved Clues in Rhyme",
+    "category": "Tell a Story",
+    "emoji": "🔍",
+    "minAge": 9,
+    "maxAge": 12,
+    "helperPrompts": [
+      "What bizarre mystery occurred at the museum or bakery?",
+      "What funny rhymes did the detective drop while interrogating witnesses?",
+      "How did the final clue solve the whole case?"
+    ]
+  },
+  {
+    "id": "story-112",
+    "title": "The Island That Drifts to a New Ocean Every Night",
+    "category": "Tell a Story",
+    "emoji": "🏝️",
+    "minAge": 9,
+    "maxAge": 12,
+    "helperPrompts": [
+      "How did the explorers figure out the island wasn't anchored to the seabed?",
+      "What ancient turtle or machinery underneath moved the landmass?",
+      "What did they discover when they woke up off the coast of Antarctica?"
+    ]
+  },
+  {
+    "id": "show-113",
+    "title": "My Softest Comfort Toy",
+    "category": "Show and Tell",
+    "emoji": "🧸",
+    "minAge": 3,
+    "maxAge": 5,
+    "helperPrompts": [
+      "What is your toy's nickname and what animal is it?",
+      "Does it sleep with you every night under your blanket?",
+      "What is the funniest adventure you and your toy had together?"
+    ]
+  },
+  {
+    "id": "show-114",
+    "title": "A Shiny Rock or Leaf I Found Outside",
+    "category": "Show and Tell",
+    "emoji": "🍂",
+    "minAge": 3,
+    "maxAge": 5,
+    "helperPrompts": [
+      "Where did you spot this special nature treasure?",
+      "Is it smooth, bumpy, colorful, or shaped like a heart?",
+      "Where do you keep your outdoor treasure safe?"
+    ]
+  },
+  {
+    "id": "show-115",
+    "title": "A Masterpiece Picture I Drew",
+    "category": "Show and Tell",
+    "emoji": "🖼️",
+    "minAge": 3,
+    "maxAge": 5,
+    "helperPrompts": [
+      "What story is happening in your drawing?",
+      "What colors did you use the most?",
+      "Who was the first person you proudly showed your drawing to?"
+    ]
+  },
+  {
+    "id": "show-116",
+    "title": "A Souvenir from a Special Day Out",
+    "category": "Show and Tell",
+    "emoji": "🐚",
+    "minAge": 6,
+    "maxAge": 8,
+    "helperPrompts": [
+      "What is this object (a seashell, badge, ticket stub, or postcard)?",
+      "What fun memory rushes back every time you hold it?",
+      "Why is this object more valuable to you than expensive toys?"
+    ]
+  },
+  {
+    "id": "show-117",
+    "title": "A Craft or Origami I Built by Hand",
+    "category": "Show and Tell",
+    "emoji": "✂️",
+    "minAge": 6,
+    "maxAge": 8,
+    "helperPrompts": [
+      "What materials did you use to assemble this creation?",
+      "What was the most difficult fold or glue step?",
+      "How did you feel when you held the finished craft in your hands?"
+    ]
+  },
+  {
+    "id": "show-118",
+    "title": "My Favorite Book Cover and Why It Hooks Me",
+    "category": "Show and Tell",
+    "emoji": "📕",
+    "minAge": 6,
+    "maxAge": 8,
+    "helperPrompts": [
+      "What picture or title on the front cover grabbed your curiosity?",
+      "What did the blurb on the back promise the reader?",
+      "Did the book end up being as exciting as the cover looked?"
+    ]
+  },
+  {
+    "id": "show-119",
+    "title": "A Science Model or LEGO Build I Engineered",
+    "category": "Show and Tell",
+    "emoji": "⚙️",
+    "minAge": 9,
+    "maxAge": 12,
+    "helperPrompts": [
+      "How many pieces or components went into constructing this model?",
+      "Did you follow a plan or invent the design entirely from imagination?",
+      "What moving parts or clever mechanisms make it function?"
+    ]
+  },
+  {
+    "id": "show-120",
+    "title": "A Collection of Special Treasures",
+    "category": "Show and Tell",
+    "emoji": "💎",
+    "minAge": 9,
+    "maxAge": 12,
+    "helperPrompts": [
+      "What items do you collect (coins, cards, minerals, comic books)?",
+      "Which piece in your collection is the rarest or most meaningful?",
+      "What item are you hoping to hunt down and add next?"
+    ]
+  }
+]

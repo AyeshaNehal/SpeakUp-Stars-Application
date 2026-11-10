@@ -1,0 +1,272 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+    --safe-top: env(safe-area-inset-top, 0px);
+    --app-font-scale: 1;
+    --app-body-font: 'Nunito', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  }
+
+  html {
+    -webkit-tap-highlight-color: transparent;
+    scroll-behavior: smooth;
+    font-size: calc(16px * var(--app-font-scale, 1));
+  }
+
+  /* Text Size Scaling */
+  html[data-text-size="large"] {
+    --app-font-scale: 1.15;
+  }
+  html[data-text-size="extra-large"] {
+    --app-font-scale: 1.3;
+  }
+
+  /* Dyslexia-Friendly Font Mode */
+  html[data-dyslexia="true"],
+  .font-dyslexic {
+    --app-body-font: 'OpenDyslexic', 'Comic Sans MS', 'Trebuchet MS', sans-serif !important;
+    letter-spacing: 0.05em;
+    word-spacing: 0.1em;
+    line-height: 1.7 !important;
+  }
+
+  html[data-dyslexia="true"] body,
+  html[data-dyslexia="true"] h1,
+  html[data-dyslexia="true"] h2,
+  html[data-dyslexia="true"] h3,
+  html[data-dyslexia="true"] h4,
+  html[data-dyslexia="true"] h5,
+  html[data-dyslexia="true"] h6,
+  html[data-dyslexia="true"] button,
+  html[data-dyslexia="true"] input,
+  html[data-dyslexia="true"] span,
+  html[data-dyslexia="true"] p {
+    font-family: var(--app-body-font) !important;
+  }
+
+  body {
+    font-family: var(--app-body-font);
+    color: #1E293B;
+    background-color: #F8FAFC;
+    min-height: 100vh;
+    min-height: 100dvh;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  /* Headings default to Fredoka */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Fredoka', 'Nunito', cursive, sans-serif;
+    font-weight: 600;
+  }
+
+  /* High Contrast Mode */
+  html[data-high-contrast="true"] {
+    --tw-contrast: 1.25;
+  }
+  html[data-high-contrast="true"] body {
+    background-color: #FFFFFF !important;
+    color: #000000 !important;
+  }
+  html[data-high-contrast="true"] button,
+  html[data-high-contrast="true"] .card,
+  html[data-high-contrast="true"] [role="button"] {
+    border-width: 3px !important;
+    border-color: #000000 !important;
+  }
+  html[data-high-contrast="true"] .bg-slate-50,
+  html[data-high-contrast="true"] .bg-slate-100 {
+    background-color: #F1F5F9 !important;
+    color: #000000 !important;
+  }
+
+  /* Color-Blind Safe Modes */
+  html[data-color-blind="protanopia"] {
+    filter: url('#protanopia-filter', none);
+  }
+  html[data-color-blind="deuteranopia"] {
+    filter: url('#deuteranopia-filter', none);
+  }
+  html[data-color-blind="tritanopia"] {
+    filter: url('#tritanopia-filter', none);
+  }
+
+  /* Reduced Motion Mode */
+  html[data-reduced-motion="true"] *,
+  html[data-reduced-motion="true"] *::before,
+  html[data-reduced-motion="true"] *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    ::before,
+    ::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  /* Keyboard Navigation Focus Rings (WCAG 2.4.7 AA Compliance) */
+  :focus-visible {
+    outline: 3px solid #2563EB !important;
+    outline-offset: 3px !important;
+    border-radius: 8px;
+  }
+}
+
+/* Skip to Content accessible link */
+.skip-to-content {
+  position: absolute;
+  top: -999px;
+  left: 1rem;
+  z-index: 1000;
+  padding: 0.75rem 1.25rem;
+  background-color: #1E293B;
+  color: #FFFFFF;
+  border-radius: 0.75rem;
+  font-weight: 800;
+  text-decoration: none;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+}
+.skip-to-content:focus {
+  top: 1rem;
+}
+
+/* RTL Support Styles */
+[dir="rtl"] {
+  text-align: right;
+}
+[dir="rtl"] .rtl-flip {
+  transform: scaleX(-1);
+}
+
+/* Fluid Heading Clamps */
+.text-fluid-hero {
+  font-size: clamp(1.75rem, 5vw + 0.5rem, 3.25rem);
+  line-height: 1.15;
+}
+
+.text-fluid-title {
+  font-size: clamp(1.35rem, 3.5vw + 0.25rem, 2.25rem);
+  line-height: 1.25;
+}
+
+.text-fluid-subtitle {
+  font-size: clamp(1.05rem, 2vw + 0.25rem, 1.45rem);
+  line-height: 1.35;
+}
+
+.text-fluid-body {
+  font-size: clamp(0.95rem, 1.5vw + 0.1rem, 1.15rem);
+  line-height: 1.5;
+}
+
+/* Kid-friendly floating & bouncy animations */
+@keyframes kid-float {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(1.5deg);
+  }
+}
+
+@keyframes kid-wiggle {
+  0%, 100% { transform: rotate(-3deg); }
+  50% { transform: rotate(3deg); }
+}
+
+@keyframes star-twinkle {
+  0%, 100% { transform: scale(1) rotate(0deg); opacity: 1; }
+  50% { transform: scale(1.18) rotate(15deg); opacity: 0.9; }
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(0.95); opacity: 0.8; }
+  50% { transform: scale(1.08); opacity: 0.4; }
+  100% { transform: scale(0.95); opacity: 0.8; }
+}
+
+.animate-kid-float {
+  animation: kid-float 3.5s ease-in-out infinite;
+}
+
+.animate-kid-wiggle {
+  animation: kid-wiggle 2s ease-in-out infinite;
+}
+
+.animate-star-twinkle {
+  animation: star-twinkle 2.5s ease-in-out infinite;
+}
+
+.animate-pulse-ring {
+  animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Tactile 3D Button Shadows */
+.btn-3d-sunny {
+  box-shadow: 0 6px 0 0 #D49B00;
+}
+.btn-3d-sunny:active {
+  box-shadow: 0 2px 0 0 #D49B00;
+  transform: translateY(4px);
+}
+
+.btn-3d-sky {
+  box-shadow: 0 6px 0 0 #0284C7;
+}
+.btn-3d-sky:active {
+  box-shadow: 0 2px 0 0 #0284C7;
+  transform: translateY(4px);
+}
+
+.btn-3d-coral {
+  box-shadow: 0 6px 0 0 #D92626;
+}
+.btn-3d-coral:active {
+  box-shadow: 0 2px 0 0 #D92626;
+  transform: translateY(4px);
+}
+
+.btn-3d-mint {
+  box-shadow: 0 6px 0 0 #14925F;
+}
+.btn-3d-mint:active {
+  box-shadow: 0 2px 0 0 #14925F;
+  transform: translateY(4px);
+}
+
+.btn-3d-purple {
+  box-shadow: 0 6px 0 0 #792EE8;
+}
+.btn-3d-purple:active {
+  box-shadow: 0 2px 0 0 #792EE8;
+  transform: translateY(4px);
+}
+
+/* Custom Scrollbar for desktop/tablet */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #F1F5F9;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 9999px;
+  border: 2px solid #F1F5F9;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
+}

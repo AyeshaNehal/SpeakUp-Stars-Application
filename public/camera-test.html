@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SpeakUp Stars - Camera Hardware Diagnostic</title>
+  <style>
+    body { font-family: system-ui, sans-serif; background: #0f172a; color: white; padding: 24px; max-width: 800px; margin: 0 auto; }
+    h1 { color: #f59e0b; margin-bottom: 8px; }
+    button { background: #f59e0b; color: #1e1b4b; font-weight: bold; border: none; padding: 12px 20px; border-radius: 12px; cursor: pointer; font-size: 15px; margin-right: 8px; margin-bottom: 8px; transition: transform 0.1s; }
+    button:hover { background: #fbbf24; transform: scale(1.02); }
+    button:active { transform: scale(0.98); }
+    select { padding: 10px; border-radius: 8px; font-size: 14px; margin-bottom: 12px; background: #1e293b; color: white; border: 1px solid #475569; }
+    pre { background: #020617; border: 1px solid #334155; padding: 16px; border-radius: 12px; font-size: 13px; color: #38bdf8; overflow-x: auto; max-height: 250px; font-family: Consolas, monospace; }
+    video { width: 100%; max-width: 640px; border-radius: 16px; border: 3px solid #38bdf8; background: black; margin-top: 16px; display: block; aspect-ratio: 4/3; }
+    .card { background: #1e293b; padding: 16px; border-radius: 16px; margin-bottom: 16px; border: 1px solid #334155; }
+  </style>
+</head>
+<body>
+  <h1>📹 SpeakUp Stars - Camera Diagnostic</h1>
+  <p style="color: #94a3b8;">Standalone test to connect directly to your laptop camera.</p>
+  
+  <div class="card">
+    <div style="margin-bottom: 12px;">
+      <button id="btn-list">1. Scan Cameras</button>
+      <button id="btn-test-default">2. Test Default Camera</button>
+      <button id="btn-test-integrated">3. Test Integrated Camera</button>
+    </div>
+
+    <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+      <label for="camera-select" style="font-weight: bold; font-size: 14px;">Select Device:</label>
+      <select id="camera-select">
+        <option value="">(Click "1. Scan Cameras" first)</option>
+      </select>
+      <button id="btn-test-selected" style="padding: 10px 16px;">Test Selected</button>
+    </div>
+  </div>
+
+  <video id="vid" autoplay playsinline muted></video>
+
+  <h3>Diagnostic Log:</h3>
+  <pre id="log">Ready. Click a button above to test.</pre>
+
+  <script>
+    const logEl = document.getElementById('log');
+    const vidEl = document.getElementById('vid');
+    const selectEl = document.getElementById('camera-select');
+
+    function log(msg) {
+      logEl.textContent += '\n' + msg;
+      console.log(msg);
+    }
+
+    async function listCameras() {
+      log('Scanning for camera devices...');
+      try {
+        const devices = await navigator.mediaDevices.enumerateDevices();
+        const videoInputs = devices.filter(d => d.kind === 'videoinput');
+        log('Found ' + videoInputs.length + ' video input device(s):');
+        selectEl.innerHTML = '';
+        videoInputs.forEach((d, i) => {
+          log(`  [${i}] "${d.label || '(Permission needed to view name)'}" (ID: ${d.deviceId.substring(0, 12)}...)`);
+          const opt = document.createElement('option');
+          opt.value = d.deviceId;
+          opt.textContent = d.label || `Camera ${i + 1} (${d.deviceId.substring(0, 8)})`;
+          selectEl.appendChild(opt);
+        });
+      } catch (err) {
+        log('Error enumerating devices: ' + err.name + ' - ' + err.message);
+      }
+    }
+
+    async function startCamera(constraints) {
+      log('Requesting camera: ' + JSON.stringify(constraints));
+      try {
+        if (vidEl.srcObject) {
+          vidEl.srcObject.getTracks().forEach(t => t.stop());
+          vidEl.srcObject = null;
+        }
+        const stream = await navigator.mediaDevices.getUserMedia(constraints);
+        vidEl.srcObject = stream;
+        await vidEl.play();
+        log('SUCCESS! Camera is streaming video!');
+        const track = stream.getVideoTracks()[0];
+        log('Live Track: ' + track.label);
+        await listCameras();
+      } catch (err) {
+        log('FAILED: ' + err.name + ': ' + err.message);
+        if (err.name === 'NotAllowedError') {
+          log('-> REASON: Chrome has camera blocked or the wrong default camera is selected in Chrome settings.');
+          log('-> CHECK: Open chrome://settings/content/camera in a new tab.');
+          log('   Ensure "Integrated Camera" is selected in the dropdown at the top.');
+        }
+      }
+    }
+
+    document.getElementById('btn-list').onclick = listCameras;
+    document.getElementById('btn-test-default').onclick = () => startCamera({ video: true });
+    document.getElementById('btn-test-integrated').onclick = async () => {
+      await listCameras();
+      const devices = await navigator.mediaDevices.enumerateDevices();
+      const integrated = devices.find(d => d.kind === 'videoinput' && d.label.toLowerCase().includes('integrated') && !d.label.toLowerCase().includes('ir'));
+      if (integrated && integrated.deviceId) {
+        log('Targeting: ' + integrated.label);
+        startCamera({ video: { deviceId: { exact: integrated.deviceId } } });
+      } else {
+        log('Trying standard video constraints...');
+        startCamera({ video: true });
+      }
+    };
+    document.getElementById('btn-test-selected').onclick = () => {
+      const devId = selectEl.value;
+      if (devId) {
+        startCamera({ video: { deviceId: { exact: devId } } });
+      } else {
+        startCamera({ video: true });
+      }
+    };
+
+    listCameras();
+  </script>
+</body>
+</html>
