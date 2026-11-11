@@ -50,6 +50,10 @@ const FORBIDDEN_PATTERNS = [
   { name: 'FullStory Session Recording', regex: /fullstory\.com\/s\/fs\.js|\bFS\.identify\b/i },
   { name: 'AdSense / Google Ads', regex: /pagead2\.googlesyndication\.com|adservice\.google\.com/i },
   { name: 'Browser Fingerprinting', regex: /getVisitorId|FingerprintJS\.load/i },
+  { name: 'Hardcoded Stars Count (124 Stars)', regex: /\b124 Stars\b/ },
+  { name: 'Hardcoded Level (Level 3 🌟)', regex: /\bLevel 3 🌟\b/ },
+  { name: 'Fake Google Parent Email', regex: /google\.parent@speakupstars\.com/ },
+  { name: 'Hardcoded Child Tagline (Age 7 • Explorer)', regex: /\bAge 7 • Explorer\b/ },
 ];
 
 let errors = [];

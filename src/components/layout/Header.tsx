@@ -26,11 +26,11 @@ export const Header: React.FC<HeaderProps> = ({
   const [showA11yModal, setShowA11yModal] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
 
-  // Dynamic user data
-  const childId = activeChild?.id || 'default_child';
-  const childName = activeChild?.nickname || localStorage.getItem('speakup_child_nickname') || 'Star Speaker';
-  const points = rewardsService.getPoints(childId);
-  const streak = rewardsService.getStreak(childId).currentStreak;
+  // Dynamic user data from real store only
+  const childId = activeChild?.id || '';
+  const childName = activeChild?.nickname || 'Star Speaker';
+  const points = childId ? rewardsService.getPoints(childId) : 0;
+  const streak = childId ? rewardsService.getStreak(childId).currentStreak : 0;
 
   const currentMascotId = (localStorage.getItem('speakup_selected_mascot') as MascotId) || 'sparky';
   const mascotObj = ALL_MASCOTS.find((m) => m.id === currentMascotId) || ALL_MASCOTS[0];

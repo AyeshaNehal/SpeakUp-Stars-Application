@@ -19,7 +19,6 @@ import {
 import { Button } from '../common/Button';
 import { useParentAuth } from '../../context/ParentAuthContext';
 import { MascotCompanion, ALL_MASCOTS, MascotId } from '../mascot/MascotCompanion';
-import { GoogleSignInWindow } from './GoogleSignInWindow';
 import { AgeGroup } from '../../types';
 import confetti from 'canvas-confetti';
 
@@ -35,7 +34,8 @@ export const UnifiedAuthOnboardingModal: React.FC<UnifiedAuthOnboardingModalProp
   onCompleted,
 }) => {
   const {
-    signInWithGoogleAccount,
+    parent,
+    signInWithGoogle,
     signInWithEmailPassword,
     signUpParent,
     createChild,
@@ -45,10 +45,6 @@ export const UnifiedAuthOnboardingModal: React.FC<UnifiedAuthOnboardingModalProp
   // Wizard Steps: 1 = Auth/Login, 2 = Ask Age, 3 = Choose Character & Nickname, 4 = Ready From Scratch!
   const [step, setStep] = useState<1 | 2 | 3 | 4>(1);
   const [authMode, setAuthMode] = useState<'signup' | 'signin'>('signup');
-
-  // Google Login Window State
-  const [isGoogleWindowOpen, setIsGoogleWindowOpen] = useState(false);
-  const [googleUser, setGoogleUser] = useState<{ email: string; name?: string } | null>(null);
 
   // Auth Inputs
   const [email, setEmail] = useState('');
@@ -61,27 +57,19 @@ export const UnifiedAuthOnboardingModal: React.FC<UnifiedAuthOnboardingModalProp
   const [selectedAgeBand, setSelectedAgeBand] = useState<AgeGroup>('6-8');
   const [exactAge, setExactAge] = useState<number>(7);
   const [selectedMascot, setSelectedMascot] = useState<MascotId>('sparky');
-  const [childNickname, setChildNickname] = useState('Leo');
+  const [childNickname, setChildNickname] = useState('');
 
   if (!isOpen) return null;
 
   // --------------------------------------------------------------------------
   // STEP 1: AUTH ACTIONS
   // --------------------------------------------------------------------------
-  const handleGoogleLogin = () => {
+  const handleGoogleLogin = async () => {
     setErrorMsg('');
-    setIsGoogleWindowOpen(true);
-  };
-
-  const handleGoogleAccountSelected = async (acc: { email: string; name?: string }) => {
     setIsLoading(true);
-    setErrorMsg('');
-    setIsGoogleWindowOpen(false);
-    const res = await signInWithGoogleAccount(acc);
+    const res = await signInWithGoogle();
     setIsLoading(false);
     if (res.success) {
-      setGoogleUser(acc);
-      setEmail(acc.email);
       setStep(2);
     } else {
       setErrorMsg(res.message || 'Google Sign-in failed. Please try again.');
@@ -379,10 +367,10 @@ export const UnifiedAuthOnboardingModal: React.FC<UnifiedAuthOnboardingModalProp
               className="space-y-6 text-center"
             >
               <div className="space-y-2">
-                {googleUser && (
+                {parent?.email && (
                   <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 border border-emerald-300 text-xs font-bold text-emerald-800 shadow-xs mb-1">
                     <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                    <span>Signed in with Google: <strong>{googleUser.email}</strong></span>
+                    <span>Signed in: <strong>{parent.email}</strong></span>
                   </div>
                 )}
                 <span className="text-3xl block">🎂</span>
@@ -541,7 +529,7 @@ export const UnifiedAuthOnboardingModal: React.FC<UnifiedAuthOnboardingModalProp
                     maxLength={15}
                     value={childNickname}
                     onChange={(e) => setChildNickname(e.target.value)}
-                    placeholder="e.g. Leo, StarKid, Maya"
+                    placeholder="e.g. StarKid, Sunny, Maya"
                     className="w-full pl-10 pr-4 py-2.5 rounded-2xl border-2 border-slate-200 focus:border-amber-400 focus:outline-none text-sm font-bold text-slate-800"
                     required
                   />
@@ -624,13 +612,6 @@ export const UnifiedAuthOnboardingModal: React.FC<UnifiedAuthOnboardingModalProp
           )}
         </AnimatePresence>
       </motion.div>
-
-      {/* Authentic Google Sign-In Window */}
-      <GoogleSignInWindow
-        isOpen={isGoogleWindowOpen}
-        onClose={() => setIsGoogleWindowOpen(false)}
-        onSelectAccount={handleGoogleAccountSelected}
-      />
     </div>
   );
 };

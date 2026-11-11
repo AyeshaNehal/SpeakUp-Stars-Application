@@ -14,8 +14,20 @@ import {
   Volume2,
   Gamepad2,
 } from 'lucide-react';
+import { useParentAuth } from '../../context/ParentAuthContext';
+import { rewardsService } from '../../services/rewards/rewardsService';
+import { SparkyMascot, SparkyTheme } from '../mascot/SparkyMascot';
+
+const isSparkyTheme = (id?: string): id is SparkyTheme =>
+  ['sunny', 'sky', 'coral', 'mint', 'purple', 'cosmic'].includes(id || '');
 
 export const Sidebar: React.FC = () => {
+  const { activeChild } = useParentAuth();
+
+  const childId = activeChild?.id || '';
+  const points = childId ? rewardsService.getPoints(childId) : 0;
+  const streak = childId ? rewardsService.getStreak(childId).currentStreak : 0;
+  const levelInfo = rewardsService.getLevelInfo(points);
   const mainNav = [
     {
       to: '/',
@@ -104,25 +116,37 @@ export const Sidebar: React.FC = () => {
         <div className="bg-gradient-to-br from-sunny-50 via-sky-50 to-mint-50 rounded-3xl p-3.5 border-2 border-slate-100 shadow-sm">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2.5">
-              <span className="text-2xl">🦁</span>
+              <div className="w-10 h-10 rounded-2xl bg-white/90 shadow-xs border border-amber-200/80 flex items-center justify-center overflow-hidden flex-shrink-0">
+                {isSparkyTheme(activeChild?.avatarId) ? (
+                  <SparkyMascot size="sm" theme={activeChild?.avatarId as SparkyTheme} />
+                ) : activeChild?.avatarId === 'lion' ? (
+                  <span className="text-2xl">🦁</span>
+                ) : (
+                  <span className="text-xl">⭐</span>
+                )}
+              </div>
               <div>
-                <p className="font-heading font-bold text-slate-800 text-sm">Leo</p>
-                <p className="text-xs font-semibold text-slate-500">Age 7 • Explorer</p>
+                <p className="font-heading font-bold text-slate-800 text-sm">
+                  {activeChild?.nickname || "Let's Practice!"}
+                </p>
+                <p className="text-xs font-semibold text-slate-500">
+                  {activeChild ? `Ages ${activeChild.ageBand}` : 'Ready to start'}
+                </p>
               </div>
             </div>
             <div className="flex items-center gap-1 bg-white px-2.5 py-1 rounded-full shadow-xs border border-slate-100">
               <Flame className="w-4 h-4 text-orange-500 fill-orange-500" />
-              <span className="font-heading font-bold text-xs text-orange-600">4d</span>
+              <span className="font-heading font-bold text-xs text-orange-600">{streak}d</span>
             </div>
           </div>
 
           <div className="mt-3 flex items-center justify-between pt-2.5 border-t border-slate-200/60 text-xs font-bold text-slate-600">
             <span className="flex items-center gap-1 text-amber-600">
               <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-500" />
-              124 Stars
+              {points} Stars
             </span>
             <span className="text-sky-600 bg-sky-100/80 px-2 py-0.5 rounded-md text-[11px]">
-              Level 3 🌟
+              Level {levelInfo.level} 🌟
             </span>
           </div>
         </div>

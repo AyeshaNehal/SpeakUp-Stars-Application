@@ -65,7 +65,6 @@ import {
   ParentSafetyAlert,
 } from '../services/security/parentSafetyAlertService';
 import { ALL_CATEGORIES, TopicCategory } from '../services/topics/topicService';
-import { AgeGroup } from '../types';
 
 export const ParentDashboardPage: React.FC = () => {
   const navigate = useNavigate();
@@ -106,9 +105,9 @@ export const ParentDashboardPage: React.FC = () => {
   const [alerts, setAlerts] = useState<ParentSafetyAlert[]>([]);
   const [statusToast, setStatusToast] = useState<string | null>(null);
 
-  const currentChildId = activeChild?.id || 'default_child';
-  const parentEmail = parent?.email || 'parent@speakupstars.local';
-  const parentId = parent?.id || 'active_parent';
+  const currentChildId = activeChild?.id || (childrenList[0]?.id ?? '');
+  const parentEmail = parent?.email || '';
+  const parentId = parent?.id || '';
 
   // Load dashboard data
   const refreshData = () => {
@@ -215,7 +214,7 @@ export const ParentDashboardPage: React.FC = () => {
 
   const handleDownloadJSON = () => {
     const jsonStr = parentDashboardService.exportChildDataJSON(parentId, currentChildId);
-    const childName = activeChild?.nickname || 'Leo';
+    const childName = activeChild?.nickname || 'child';
     const dateStr = new Date().toISOString().split('T')[0];
     triggerFileDownload(jsonStr, `speakup-stars-${childName}-data-${dateStr}.json`, 'application/json');
     refreshData();
@@ -224,7 +223,7 @@ export const ParentDashboardPage: React.FC = () => {
 
   const handleDownloadCSV = () => {
     const csvStr = parentDashboardService.exportChildDataCSV(parentId, currentChildId);
-    const childName = activeChild?.nickname || 'Leo';
+    const childName = activeChild?.nickname || 'child';
     const dateStr = new Date().toISOString().split('T')[0];
     triggerFileDownload(csvStr, `speakup-stars-${childName}-sessions-${dateStr}.csv`, 'text/csv;charset=utf-8;');
     refreshData();
@@ -344,27 +343,28 @@ export const ParentDashboardPage: React.FC = () => {
           <div className="flex items-center gap-2">
             <span className="text-purple-200 font-heading font-bold">Child Profile:</span>
             <div className="flex flex-wrap gap-1.5">
-              {(childrenList.length > 0
-                ? childrenList
-                : [{ id: 'default_leo', nickname: 'Leo', ageBand: '6-8' as AgeGroup, avatarId: '🦁', parentId: 'demo_parent', createdAt: '' }]
-              ).map((child) => {
-                const isSelected = child.id === currentChildId;
-                return (
-                  <button
-                    key={child.id}
-                    onClick={() => selectActiveChild(child)}
-                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl font-heading font-bold text-xs transition-all ${
-                      isSelected
-                        ? 'bg-white text-purple-900 shadow-md scale-105'
-                        : 'bg-white/15 text-white hover:bg-white/25'
-                    }`}
-                  >
-                    <span>{child.avatarId === 'lion' ? '🦁' : child.avatarId || '⭐'}</span>
-                    <span>{child.nickname}</span>
-                    <span className="text-[10px] opacity-80">({child.ageBand})</span>
-                  </button>
-                );
-              })}
+              {childrenList.length === 0 ? (
+                <span className="text-purple-200 italic">No child profiles found</span>
+              ) : (
+                childrenList.map((child) => {
+                  const isSelected = child.id === currentChildId;
+                  return (
+                    <button
+                      key={child.id}
+                      onClick={() => selectActiveChild(child)}
+                      className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl font-heading font-bold text-xs transition-all ${
+                        isSelected
+                          ? 'bg-white text-purple-900 shadow-md scale-105'
+                          : 'bg-white/15 text-white hover:bg-white/25'
+                      }`}
+                    >
+                      <span>{child.avatarId === 'lion' ? '🦁' : '⭐'}</span>
+                      <span>{child.nickname}</span>
+                      <span className="text-[10px] opacity-80">({child.ageBand})</span>
+                    </button>
+                  );
+                })
+              )}
             </div>
           </div>
 

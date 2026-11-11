@@ -95,7 +95,9 @@ export const WheelPage: React.FC = () => {
     // Award 5 star points for spinning, plus +15 if landed on Wheel of the Day
     const isDaily = topic.id === wheelOfTheDay.featuredTopic.id;
     const pointsToAward = isDaily ? 20 : 5;
-    rewardsService.awardPoints(activeChild?.id || 'default_leo', 'spin_wheel', pointsToAward);
+    if (activeChild?.id) {
+      rewardsService.awardPoints(activeChild.id, 'spin_wheel', pointsToAward);
+    }
   };
 
   const handleReSpin = () => {

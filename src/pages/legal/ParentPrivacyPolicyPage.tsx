@@ -152,7 +152,7 @@ export const ParentPrivacyPolicyPage: React.FC = () => {
                     <span>What We Process:</span>
                   </h3>
                   <ul className="list-disc list-inside space-y-1 text-emerald-900 text-xs sm:text-sm">
-                    <li><strong>Child Nickname &amp; Age Band:</strong> E.g. &quot;Leo&quot;, age &quot;6-8&quot;. Never full names.</li>
+                    <li><strong>Child Nickname &amp; Age Band:</strong> E.g. &quot;StarKid&quot;, age &quot;6-8&quot;. Never full names.</li>
                     <li><strong>Temporary Voice Audio:</strong> Streamed into device RAM to measure volume, pace, and clarity.</li>
                     <li><strong>Real-time Smile/Eye-Contact:</strong> Estimated on-device at ~2fps and immediately deleted.</li>
                     <li><strong>Scrubbed Transcripts:</strong> Text of the speech with all names, locations, and personal info stripped out.</li>

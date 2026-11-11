@@ -10,9 +10,11 @@ import { RestYourVoiceModal } from '../safety/RestYourVoiceModal';
 import { PwaInstallPrompt } from '../common/PwaInstallPrompt';
 import { screenTimeReminderService } from '../../services/safety/screenTimeReminderService';
 import { AgeGroup } from '../../types';
+import { useParentAuth } from '../../context/ParentAuthContext';
 
 export const AppLayout: React.FC = () => {
-  const [ageGroup, setAgeGroup] = useState<AgeGroup>('6-8');
+  const { activeChild } = useParentAuth();
+  const [ageGroup, setAgeGroup] = useState<AgeGroup>(() => activeChild?.ageBand || '6-8');
   const [showScreenTimeToast, setShowScreenTimeToast] = useState(false);
   const [showRestModal, setShowRestModal] = useState(false);
 
@@ -89,8 +91,8 @@ export const AppLayout: React.FC = () => {
       {/* Rest Your Voice Modal */}
       <RestYourVoiceModal
         isOpen={showRestModal}
-        childNickname="Leo"
-        childId="default_leo"
+        childNickname={activeChild?.nickname || 'Star Speaker'}
+        childId={activeChild?.id || ''}
         onDismiss={() => {
           setShowRestModal(false);
           screenTimeReminderService.resetSession();

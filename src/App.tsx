@@ -19,6 +19,16 @@ import { ParentPrivacyPolicyPage } from './pages/legal/ParentPrivacyPolicyPage';
 import { KidFriendlyPrivacyPage } from './pages/legal/KidFriendlyPrivacyPage';
 import { TermsOfUsePage } from './pages/legal/TermsOfUsePage';
 
+// Onboarding & Auth Pages
+import { LoginPage } from './pages/auth/LoginPage';
+import { VerifyEmailPage } from './pages/auth/VerifyEmailPage';
+import { ParentSetupPage } from './pages/onboarding/ParentSetupPage';
+import { ConsentPage } from './pages/onboarding/ConsentPage';
+import { PinSetupPage } from './pages/onboarding/PinSetupPage';
+import { ChildWizardPage } from './pages/onboarding/ChildWizardPage';
+import { ChildChooserPage } from './pages/children/ChildChooserPage';
+
+import { RouteGuard } from './components/auth/RouteGuard';
 import { ParentAuthProvider } from './context/ParentAuthContext';
 import { AccessibilityProvider } from './context/AccessibilityContext';
 import { I18nProvider } from './context/I18nContext';
@@ -30,8 +40,74 @@ export const App: React.FC = () => {
         <ParentAuthProvider>
           <BrowserRouter>
             <Routes>
-              <Route element={<AppLayout />}>
+              {/* Standalone Auth & First-Login Onboarding Routes with State Machine Guard */}
+              <Route
+                path="/login"
+                element={
+                  <RouteGuard>
+                    <LoginPage />
+                  </RouteGuard>
+                }
+              />
+              <Route
+                path="/verify-email"
+                element={
+                  <RouteGuard>
+                    <VerifyEmailPage />
+                  </RouteGuard>
+                }
+              />
+              <Route
+                path="/onboarding/parent"
+                element={
+                  <RouteGuard>
+                    <ParentSetupPage />
+                  </RouteGuard>
+                }
+              />
+              <Route
+                path="/onboarding/consent"
+                element={
+                  <RouteGuard>
+                    <ConsentPage />
+                  </RouteGuard>
+                }
+              />
+              <Route
+                path="/onboarding/pin"
+                element={
+                  <RouteGuard>
+                    <PinSetupPage />
+                  </RouteGuard>
+                }
+              />
+              <Route
+                path="/onboarding/child"
+                element={
+                  <RouteGuard>
+                    <ChildWizardPage />
+                  </RouteGuard>
+                }
+              />
+              <Route
+                path="/child-select"
+                element={
+                  <RouteGuard>
+                    <ChildChooserPage />
+                  </RouteGuard>
+                }
+              />
+
+              {/* Main Application Routes inside AppLayout (Protected by RouteGuard) */}
+              <Route
+                element={
+                  <RouteGuard>
+                    <AppLayout />
+                  </RouteGuard>
+                }
+              >
                 <Route path="/" element={<HomePage />} />
+                <Route path="/home" element={<Navigate to="/" replace />} />
                 <Route path="/wheel" element={<WheelPage />} />
                 <Route path="/prep" element={<PrepPage />} />
                 <Route path="/record" element={<RecordPage />} />

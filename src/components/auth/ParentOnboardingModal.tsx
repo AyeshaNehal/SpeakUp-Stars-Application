@@ -424,7 +424,7 @@ export const ParentOnboardingModal: React.FC<ParentOnboardingModalProps> = ({
                   required
                   value={childNickname}
                   onChange={(e) => setChildNickname(e.target.value)}
-                  placeholder="e.g. Leo, StarExplorer, Sammy"
+                  placeholder="e.g. StarKid, Sunny, Sammy"
                   className="w-full px-4 py-3 rounded-2xl border-2 border-slate-200 focus:border-mint-400 focus:outline-none text-slate-800 min-h-[52px]"
                 />
               </div>

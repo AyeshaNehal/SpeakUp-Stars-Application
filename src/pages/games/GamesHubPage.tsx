@@ -20,9 +20,9 @@ export const GamesHubPage: React.FC = () => {
   const navigate = useNavigate();
   const { activeChild } = useParentAuth();
 
-  const childId = activeChild?.id || 'default_child';
-  const currentPoints = rewardsService.getPoints(childId);
-  const streakInfo = rewardsService.getStreak(childId);
+  const childId = activeChild?.id || '';
+  const currentPoints = childId ? rewardsService.getPoints(childId) : 0;
+  const streakInfo = childId ? rewardsService.getStreak(childId) : { currentStreak: 0, lastPracticeDate: null, streakFreezesAvailable: 1, freezeUsedToday: false, message: 'Ready for day 1!' };
 
   const currentMascot = (localStorage.getItem('speakup_selected_mascot') as MascotId) || 'sparky';
   const mascotObj = ALL_MASCOTS.find((m) => m.id === currentMascot) || ALL_MASCOTS[0];

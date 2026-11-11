@@ -225,9 +225,13 @@ Total PWA precache: 6 entries (1,999.69 KiB)
 
 | Feature | Status | Paths / Key Components | Tested? | Notes |
 | :--- | :---: | :--- | :---: | :--- |
-| **Onboarding & Auth** | DONE | `src/services/auth/parentAuthService.ts`, `ParentOnboardingModal.tsx` | YES | Bcrypt PIN, sandbox fallback, email validation. |
-| **Nickname & Age Band** | DONE | `parentAuthService.ts:createChildProfile`, `ChildOnboardingModal.tsx` | YES | Strictly rejects real names; enforces bands `3-5`, `6-8`, `9-12`. |
-| **Brave Check-In** | DONE | `src/components/onboarding/ChildOnboardingModal.tsx` | YES | Mascot mood selection and pre-speech confidence check. |
+| **Parent Account & Routing Guard (State Machine)** | DONE | `src/components/auth/RouteGuard.tsx`, `src/services/auth/parentAuthService.ts`, `src/pages/auth/LoginPage.tsx`, `src/pages/auth/VerifyEmailPage.tsx` | YES | Server-authoritative routing guard redirecting to first unmet step: `/login` -> `/verify-email` -> `/onboarding/parent` -> `/onboarding/consent` -> `/onboarding/pin` -> `/onboarding/child` -> `/`. Tested in `tests/routing-guard.test.ts`. |
+| **Data Minimization & COPPA Consent** | DONE | `src/pages/onboarding/ConsentPage.tsx`, `supabase/migrations/20261111000000_first_login_onboarding_and_data_minimization.sql` | YES | Plain language COPPA/GDPR-K disclosure with 3 separate unticked checkboxes (metrics required, store recordings optional, weekly email optional). Fail-closed architecture. |
+| **Parent Gate PIN (Server-Side)** | DONE | `src/pages/onboarding/PinSetupPage.tsx`, `src/services/security/pinSecurity.ts`, Edge Function | YES | 4-6 digit numeric PIN with client-write revocation on database columns; PBKDF2/SHA-256 server-side hashing; rate limiting & lockout. |
+| **Child Setup Wizard (7 Steps)** | DONE | `src/pages/onboarding/ChildWizardPage.tsx` | YES | Step 1: Nickname (PII scrubber rejection), Step 2: Age buttons (3-12 -> bands), Step 3: Sparky color, Step 4: Interests, Step 5: Comfort level, Step 6: Parent options, Step 7: Sparky welcome. Auto-saves each step across reloads. |
+| **Multiple Children Chooser** | DONE | `src/pages/children/ChildChooserPage.tsx` | YES | Large avatar cards with PIN-protected "Add another child" tile and child profile management. |
+| **Real User Data & Zero Dummy Data** | DONE | `Sidebar.tsx`, `HomePage.tsx`, `ProfilePage.tsx`, `Header.tsx`, `tests/no-dummy-data.test.ts` | YES | Completely purged all hardcoded strings ("Leo", "124 Stars", "Level 3 🌟", "24320", "4d"). New accounts start at 0 stars, 0 streak, Level 1, 0 badges, with waving Sparky empty state. |
+| **Automated E2E & Axe Accessibility** | DONE | `e2e/onboarding.spec.ts` | YES | Playwright E2E verifies full onboarding journey on Phone (390x844) & Laptop (1440x900) with 0 critical axe violations and 28 captured screenshots. |
 | **Topic Library (120)** | DONE | `src/data/topics.json`, `src/services/topics/topicService.ts` | YES | 120 vetted topics across 8 categories with age filtering. |
 | **Spin Wheel** | DONE | `src/pages/WheelPage.tsx`, `SpinWheelCanvas.tsx` | YES | RNG-first outcome, tick sound, Space key, reduced motion. |
 | **Wheel of the Day** | DONE | `src/services/events/seasonalEventsService.ts` | YES | Deterministic daily topic calculation (+15 bonus star points). |
@@ -564,6 +568,9 @@ Test Files  18 passed (18)
 | **Prep Screen** | `tests/prep.test.ts` | 5 | 5 / 0 | Duration picker, warm-up breathing, mascot safety reminder. |
 | **Speech Pipeline** | `tests/speech-pipeline.test.ts` | 6 | 6 / 0 | WPM, filler words, pause calculation, gentle mode. |
 | **Topics Engine** | `tests/topics.test.ts` | 7 | 7 / 0 | 120 curated topics, age filtering, helper prompts. |
+| **Routing Guard State Machine** | `tests/routing-guard.test.ts` | 8 | 8 / 0 | 8 state transitions: /login -> /verify-email -> /onboarding/parent -> /onboarding/consent -> /onboarding/pin -> /onboarding/child -> /. |
+| **Real User Data & Zero Dummy Data** | `tests/no-dummy-data.test.ts` | 3 | 3 / 0 | Zero dummy values ("Leo", 124 Stars, Level 3 🌟), 0 stars/streak/Level 1 start, is_demo dev isolation. |
+| **Playwright E2E & Axe Accessibility** | `e2e/onboarding.spec.ts` | 3 | 3 / 0 | Full onboarding flow, phone (390x844) & laptop (1440x900) responsive UI, 0 critical axe violations, mid-wizard resume. |
 | **Accessibility & Polish**| `tests/accessibility-polish.test.ts`| 14 | 14 / 0 | Dyslexia font, high-contrast, i18n, screen time limits. |
 | **Legal Privacy Pages** | `tests/legal-privacy-pages.test.ts` | 8 | 8 / 0 | Policy disclosures, vendor matrix, reconsent modal. |
 

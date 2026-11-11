@@ -67,7 +67,7 @@ export const AUTHORIZED_VENDORS: VendorDisclosure[] = [
   {
     name: 'Database & Cloud Storage (Supabase / AWS)',
     role: 'Cloud database with Row-Level Security (RLS) isolating each family.',
-    dataSent: 'Parent email, bcrypt-hashed parent PIN, child nickname (e.g. "Leo"), speaking star points, streak days, and scrubbed transcripts.',
+    dataSent: 'Parent email, bcrypt-hashed parent PIN, child nickname (e.g. "StarKid"), speaking star points, streak days, and scrubbed transcripts.',
     dataRetained: 'Encrypted at rest (AES-256). Deleted immediately upon parent deletion request or within 30 days for opt-in recordings.',
     privacyPolicyUrl: 'https://supabase.com/privacy',
     contractualSafeguard: 'SOC 2 Type II certified cloud provider with automated encrypted daily backups.',

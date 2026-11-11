@@ -9,6 +9,8 @@ import { MascotCompanion, ALL_MASCOTS, MascotId } from '../components/mascot/Mas
 import { ChildOnboardingModal } from '../components/onboarding/ChildOnboardingModal';
 import { UnifiedAuthOnboardingModal } from '../components/auth/UnifiedAuthOnboardingModal';
 import { useParentAuth } from '../context/ParentAuthContext';
+import { rewardsService } from '../services/rewards/rewardsService';
+import { parentDashboardService } from '../services/dashboard/parentDashboardService';
 
 export const HomePage: React.FC = () => {
   const navigate = useNavigate();
@@ -20,7 +22,18 @@ export const HomePage: React.FC = () => {
 
   const currentMascotId = (localStorage.getItem('speakup_selected_mascot') as MascotId) || 'sparky';
   const mascotObj = ALL_MASCOTS.find((m) => m.id === currentMascotId) || ALL_MASCOTS[0];
-  const kidName = activeChild?.nickname || localStorage.getItem('speakup_child_nickname') || 'Superstar';
+  const kidName = activeChild?.nickname || 'Superstar';
+
+  const childId = activeChild?.id || '';
+  const todayDateStr = new Date().toISOString().slice(0, 10);
+  const allSessions = childId ? parentDashboardService.getSessions(childId, parent?.id) : [];
+  const todaySessions = allSessions.filter((s) => s.createdAt.startsWith(todayDateStr));
+  const speechesCompleted = todaySessions.length;
+  const dailyGoal = 3;
+  const goalPercent = Math.min(100, Math.round((speechesCompleted / dailyGoal) * 100));
+
+  const allBadges = childId ? rewardsService.getBadges(childId) : [];
+  const unlockedBadges = allBadges.filter((b) => b.unlocked);
 
   return (
     <div className="space-y-6 sm:space-y-8">
@@ -118,13 +131,17 @@ export const HomePage: React.FC = () => {
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 rounded-2xl bg-mint-100 text-mint-700 flex items-center justify-center text-xl shadow-xs">
-                  🎯
+                  {speechesCompleted > 0 ? '🎯' : '👋'}
                 </div>
                 <div>
                   <h2 className="font-heading font-bold text-xl text-slate-800">
                     Today's Star Mission
                   </h2>
-                  <p className="text-sm text-slate-500 font-semibold">2 of 3 speeches completed</p>
+                  <p className="text-sm text-slate-500 font-semibold">
+                    {speechesCompleted === 0
+                      ? "Let's do your first speech! (0 of 3 speeches completed)"
+                      : `${speechesCompleted} of ${dailyGoal} speeches completed`}
+                  </p>
                 </div>
               </div>
               <span className="text-xs sm:text-sm font-heading font-bold text-emerald-700 bg-mint-100 px-3 py-1 rounded-full">
@@ -133,11 +150,11 @@ export const HomePage: React.FC = () => {
             </div>
 
             <ProgressBar
-              value={66}
+              value={goalPercent}
               variant="mint"
               size="md"
               showPercentage
-              label="Speech Goal: 66% Complete"
+              label={`Speech Goal: ${goalPercent}% Complete`}
             />
           </Card>
 
@@ -222,33 +239,35 @@ export const HomePage: React.FC = () => {
               </button>
             </div>
 
-            <div className="flex items-center justify-around py-2">
-              <div className="flex flex-col items-center">
-                <div className="w-14 h-14 rounded-full bg-white shadow-md flex items-center justify-center text-2xl border-2 border-purple-200">
-                  🦁
-                </div>
-                <span className="text-xs font-heading font-bold text-purple-950 mt-1.5">Brave Lion</span>
+            {unlockedBadges.length === 0 ? (
+              <div className="flex flex-col items-center justify-center py-4 text-center px-2">
+                <span className="text-3xl mb-1">👋</span>
+                <p className="text-xs font-heading font-bold text-purple-900">
+                  Let's do your first speech!
+                </p>
+                <p className="text-[11px] text-purple-700/80">
+                  Complete speeches to unlock shiny badges.
+                </p>
               </div>
-              <div className="flex flex-col items-center">
-                <div className="w-14 h-14 rounded-full bg-white shadow-md flex items-center justify-center text-2xl border-2 border-purple-200">
-                  ⚡
-                </div>
-                <span className="text-xs font-heading font-bold text-purple-950 mt-1.5">Clear Voice</span>
+            ) : (
+              <div className="flex items-center justify-around py-2">
+                {unlockedBadges.slice(0, 3).map((b) => (
+                  <div key={b.key} className="flex flex-col items-center">
+                    <div className="w-14 h-14 rounded-full bg-white shadow-md flex items-center justify-center text-2xl border-2 border-purple-200">
+                      {b.icon}
+                    </div>
+                    <span className="text-xs font-heading font-bold text-purple-950 mt-1.5">{b.name}</span>
+                  </div>
+                ))}
               </div>
-              <div className="flex flex-col items-center opacity-50">
-                <div className="w-14 h-14 rounded-full bg-purple-200/50 border-2 border-dashed border-purple-300 flex items-center justify-center text-2xl">
-                  🔒
-                </div>
-                <span className="text-xs font-heading font-bold text-purple-950 mt-1.5">Mystery</span>
-              </div>
-            </div>
+            )}
 
             <ProgressBar
-              value={4}
-              max={10}
+              value={unlockedBadges.length}
+              max={allBadges.length || 6}
               variant="purple"
               size="sm"
-              label="4 / 10 Badges Unlocked"
+              label={`${unlockedBadges.length} / ${allBadges.length || 6} Badges Unlocked`}
             />
           </Card>
 
@@ -307,9 +326,9 @@ export const HomePage: React.FC = () => {
       {/* Child Onboarding & Daily Courage Check-in Flow */}
       <ChildOnboardingModal
         isOpen={isChildOnboardingOpen}
-        childId={activeChild?.id || 'demo-child-1'}
-        parentId={parent?.id || 'demo-parent-1'}
-        initialNickname={activeChild?.nickname || 'Leo'}
+        childId={activeChild?.id || ''}
+        parentId={parent?.id || ''}
+        initialNickname={activeChild?.nickname || ''}
         ageBand={activeChild?.ageBand || '6-8'}
         onClose={() => setIsChildOnboardingOpen(false)}
         onCompleted={(res) => {

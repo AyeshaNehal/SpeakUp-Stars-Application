@@ -1,32 +1,40 @@
 import React, { useState } from 'react';
-import { useOutletContext } from 'react-router-dom';
-import { Flame, Star, Sparkles, Check, RefreshCw, LogIn } from 'lucide-react';
+import { useOutletContext, useNavigate } from 'react-router-dom';
+import { Flame, Star, Sparkles, Check, RefreshCw, Edit3, Lock, Users } from 'lucide-react';
 import { Card } from '../components/common/Card';
 import { Button } from '../components/common/Button';
+import { Modal } from '../components/common/Modal';
 import { AgeGroup } from '../types';
 import { useParentAuth } from '../context/ParentAuthContext';
 import { rewardsService } from '../services/rewards/rewardsService';
 import { MascotCompanion, ALL_MASCOTS, MascotId } from '../components/mascot/MascotCompanion';
-import { UnifiedAuthOnboardingModal } from '../components/auth/UnifiedAuthOnboardingModal';
 
 export const ProfilePage: React.FC = () => {
+  const navigate = useNavigate();
   const context = useOutletContext<{ ageGroup: AgeGroup; setAgeGroup: (ag: AgeGroup) => void }>();
-  const { activeChild, resetAllToScratch } = useParentAuth();
-  const [showAuthModal, setShowAuthModal] = useState(false);
+  const { activeChild, updateChildProfile, resetAllToScratch, childrenList } = useParentAuth();
 
   const ageGroup = context?.ageGroup || activeChild?.ageBand || '6-8';
   const setAgeGroup = context?.setAgeGroup || (() => {});
 
-  const childId = activeChild?.id || 'default_child';
-  const kidName = activeChild?.nickname || localStorage.getItem('speakup_child_nickname') || 'Star Speaker';
+  const childId = activeChild?.id || '';
+  const kidName = activeChild?.nickname || 'Star Speaker';
 
   const [currentMascot, setCurrentMascot] = useState<MascotId>(() => {
     return (localStorage.getItem('speakup_selected_mascot') as MascotId) || 'sparky';
   });
 
-  // Real Dynamic Values
-  const starPoints = rewardsService.getPoints(childId);
-  const streakInfo = rewardsService.getStreak(childId);
+  // Edit Modal State (PIN required)
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [editNickname, setEditNickname] = useState(kidName);
+  const [editAgeBand, setEditAgeBand] = useState<AgeGroup>(ageGroup);
+  const [pin, setPin] = useState('');
+  const [editError, setEditError] = useState<string | null>(null);
+  const [isSaving, setIsSaving] = useState(false);
+
+  // Real Dynamic Values (0 stars, 0-day streak, Level 1 for new users)
+  const starPoints = childId ? rewardsService.getPoints(childId) : 0;
+  const streakInfo = childId ? rewardsService.getStreak(childId) : { currentStreak: 0, lastPracticeDate: null, streakFreezesAvailable: 1, freezeUsedToday: false, message: 'Ready for day 1!' };
   const levelInfo = rewardsService.getLevelInfo(starPoints);
 
   const handleSelectMascot = (id: MascotId) => {
@@ -34,10 +42,47 @@ export const ProfilePage: React.FC = () => {
     localStorage.setItem('speakup_selected_mascot', id);
   };
 
+  const handleOpenEdit = () => {
+    setEditNickname(activeChild?.nickname || '');
+    setEditAgeBand(activeChild?.ageBand || '6-8');
+    setPin('');
+    setEditError(null);
+    setIsEditModalOpen(true);
+  };
+
+  const handleSaveEdit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!activeChild?.id) return;
+    setEditError(null);
+    setIsSaving(true);
+
+    try {
+      const res = await updateChildProfile(
+        activeChild.id,
+        {
+          nickname: editNickname.trim(),
+          ageBand: editAgeBand,
+        },
+        pin
+      );
+
+      if (res.success) {
+        setAgeGroup(editAgeBand);
+        setIsEditModalOpen(false);
+      } else {
+        setEditError(res.message || 'Incorrect PIN or update failed.');
+      }
+    } catch {
+      setEditError('Unable to update profile.');
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
   const handleResetToScratch = () => {
     if (window.confirm('Are you sure you want to reset everything to scratch? All points, streaks, and data will reset to 0.')) {
       resetAllToScratch();
-      setShowAuthModal(true);
+      navigate('/login');
     }
   };
 
@@ -92,6 +137,31 @@ export const ProfilePage: React.FC = () => {
                 <span>Level {levelInfo.level}: {levelInfo.title}</span>
               </div>
             </div>
+
+            {/* Edit Profile Button (Requires PIN) */}
+            <div className="pt-2 flex flex-wrap gap-2 justify-center sm:justify-start">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleOpenEdit}
+                icon={<Edit3 className="w-4 h-4 text-purple-600" />}
+                className="text-xs font-heading font-bold"
+              >
+                Edit Nickname &amp; Age Band (PIN Required)
+              </Button>
+
+              {childrenList.length > 1 && (
+                <Button
+                  variant="sky"
+                  size="sm"
+                  onClick={() => navigate('/child-select')}
+                  icon={<Users className="w-4 h-4" />}
+                  className="text-xs font-heading font-bold"
+                >
+                  Switch Child Profile
+                </Button>
+              )}
+            </div>
           </div>
         </div>
       </Card>
@@ -144,19 +214,10 @@ export const ProfilePage: React.FC = () => {
             </div>
           </Card>
 
-          {/* Account Controls & Reset From Scratch */}
+          {/* Reset All To Scratch Button */}
           <Card variant="white" padding="md" className="space-y-3 border-2 border-slate-100 shadow-sm">
-            <h3 className="font-heading font-black text-sm text-slate-800">Account & Profile Actions</h3>
-            <div className="flex flex-wrap items-center gap-3">
-              <Button
-                variant="sunny"
-                size="sm"
-                icon={<LogIn className="w-4 h-4" />}
-                onClick={() => setShowAuthModal(true)}
-              >
-                Login with Google / Password
-              </Button>
-
+            <h3 className="font-heading font-black text-sm text-slate-800">Account Safety &amp; Reset</h3>
+            <div>
               <Button
                 variant="outline"
                 size="sm"
@@ -174,7 +235,7 @@ export const ProfilePage: React.FC = () => {
         <div className="md:col-span-5 space-y-4">
           <Card variant="white" padding="md" className="space-y-4 border-2 border-slate-100 shadow-sm">
             <h2 className="font-heading font-black text-lg text-slate-800">
-              Difficulty & Age Band
+              Difficulty &amp; Age Band
             </h2>
             <div className="space-y-2.5">
               {[
@@ -184,7 +245,7 @@ export const ProfilePage: React.FC = () => {
               ].map((tier) => (
                 <button
                   key={tier.group}
-                  onClick={() => setAgeGroup(tier.group)}
+                  onClick={handleOpenEdit}
                   className={`
                     w-full text-left p-3.5 rounded-2xl border-2 transition-all min-h-[56px]
                     flex items-start justify-between gap-3 cursor-pointer
@@ -215,11 +276,91 @@ export const ProfilePage: React.FC = () => {
         </div>
       </div>
 
-      {/* Unified Auth Onboarding Modal */}
-      <UnifiedAuthOnboardingModal
-        isOpen={showAuthModal}
-        onClose={() => setShowAuthModal(false)}
-      />
+      {/* Edit Child Profile Modal (PIN Required) */}
+      <Modal
+        isOpen={isEditModalOpen}
+        onClose={() => setIsEditModalOpen(false)}
+        title="Edit Child Profile (Parent Gate)"
+        icon={<Lock className="w-6 h-6 text-purple-600" />}
+      >
+        <form onSubmit={handleSaveEdit} className="space-y-4">
+          <p className="text-xs text-slate-500">
+            Enter your Parent PIN to update nickname or change the age band. Changing age band updates content and recomputes age-adjusted speech norms.
+          </p>
+
+          {editError && (
+            <div className="p-3 bg-rose-50 border border-rose-200 rounded-xl text-rose-800 text-xs font-semibold">
+              {editError}
+            </div>
+          )}
+
+          <div>
+            <label className="block text-xs font-heading font-bold text-slate-700 uppercase mb-1">
+              Child Nickname
+            </label>
+            <input
+              type="text"
+              required
+              maxLength={15}
+              value={editNickname}
+              onChange={(e) => setEditNickname(e.target.value)}
+              className="w-full px-4 py-3 rounded-2xl border-2 border-slate-200 focus:border-purple-400 focus:outline-none text-slate-800 text-sm font-bold min-h-[48px]"
+            />
+          </div>
+
+          <div>
+            <label className="block text-xs font-heading font-bold text-slate-700 uppercase mb-1">
+              Age Band
+            </label>
+            <select
+              value={editAgeBand}
+              onChange={(e) => setEditAgeBand(e.target.value as AgeGroup)}
+              className="w-full px-4 py-3 rounded-2xl border-2 border-slate-200 focus:border-purple-400 focus:outline-none text-slate-800 text-sm font-bold min-h-[48px] bg-white"
+            >
+              <option value="3-5">Little Explorers (Ages 3-5)</option>
+              <option value="6-8">Brave Adventurers (Ages 6-8)</option>
+              <option value="9-12">Star Champions (Ages 9-12)</option>
+            </select>
+          </div>
+
+          <div>
+            <label className="block text-xs font-heading font-bold text-slate-700 uppercase mb-1">
+              Parent PIN
+            </label>
+            <input
+              type="password"
+              inputMode="numeric"
+              maxLength={6}
+              required
+              value={pin}
+              onChange={(e) => setPin(e.target.value.replace(/\D/g, ''))}
+              placeholder="Enter 4-6 digit PIN"
+              className="w-full px-4 py-3 rounded-2xl border-2 border-slate-200 focus:border-purple-400 focus:outline-none text-center text-lg font-mono tracking-widest min-h-[48px]"
+            />
+          </div>
+
+          <div className="flex gap-2 pt-2">
+            <Button
+              type="button"
+              variant="outline"
+              size="md"
+              onClick={() => setIsEditModalOpen(false)}
+              className="flex-1"
+            >
+              Cancel
+            </Button>
+            <Button
+              type="submit"
+              variant="purple"
+              size="md"
+              disabled={isSaving}
+              className="flex-1"
+            >
+              {isSaving ? 'Saving...' : 'Save Changes'}
+            </Button>
+          </div>
+        </form>
+      </Modal>
     </div>
   );
 };

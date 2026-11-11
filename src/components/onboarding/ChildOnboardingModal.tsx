@@ -52,9 +52,9 @@ const BRAVERY_OPTIONS = [
 
 export const ChildOnboardingModal: React.FC<ChildOnboardingModalProps> = ({
   isOpen,
-  childId = 'demo-child',
-  parentId = 'demo-parent',
-  initialNickname = 'Leo',
+  childId = '',
+  parentId = '',
+  initialNickname = '',
   ageBand = '6-8',
   onClose,
   onCompleted,
@@ -289,7 +289,7 @@ export const ChildOnboardingModal: React.FC<ChildOnboardingModalProps> = ({
                       "
                     />
                     <p className="text-[11px] text-slate-400 font-semibold">
-                      💡 Tip: Use a playful nickname like "Star", "Leo", or "Sonic"!
+                      💡 Tip: Use a playful nickname like "Star", "Sunny", or "Rocket"!
                     </p>
                   </div>
 

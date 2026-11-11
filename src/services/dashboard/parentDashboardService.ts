@@ -35,6 +35,7 @@ export interface SpeakingSessionRecord {
   scrubbedTranscript: string;
   recordingStored: boolean;
   recordingId?: string;
+  is_demo?: boolean;
   createdAt: string;
 }
 
@@ -295,7 +296,7 @@ class ParentDashboardService {
       retrievedAt: new Date().toISOString(),
       childProfile: {
         id: childId,
-        nickname: childId === 'guest_child' || childId === 'default_leo' ? 'Leo' : 'Active Child',
+        nickname: 'Active Child',
         ageBand: '6-8',
         storedPII: 'NONE. Full names, birthdays, and school details are strictly rejected.',
       },
@@ -576,6 +577,11 @@ class ParentDashboardService {
   }
 
   public seedDefaultSessionsIfEmpty(): SpeakingSessionRecord[] {
+    // Demo data lives ONLY behind import.meta.env.DEV and is flagged is_demo
+    if (!import.meta.env.DEV) {
+      return [];
+    }
+
     const existing = this.getAllSessionsInternal();
     if (existing.length > 0) return existing;
 
@@ -583,8 +589,8 @@ class ParentDashboardService {
       {
         id: 'sess_seed_1',
         sessionId: 'session_demo_1',
-        parentId: 'demo_parent',
-        childId: 'default_leo',
+        parentId: 'dev_sandbox_parent',
+        childId: 'dev_sandbox_child',
         topicTitle: 'My Favorite Animal',
         topicCategory: 'Animals',
         durationSeconds: 45,
@@ -597,15 +603,16 @@ class ParentDashboardService {
         volumeSteadiness: 0.8,
         braveVoiceScore: 78,
         growthLevel: 'Sprout',
-        scrubbedTranscript: 'I really love dogs because my dog [NAME] is so playful and friendly! We run in the park near [CITY].',
+        scrubbedTranscript: 'I really love dogs because my dog is so playful and friendly! We run in the park.',
         recordingStored: false,
+        is_demo: true,
         createdAt: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000).toISOString(),
       },
       {
         id: 'sess_seed_2',
         sessionId: 'session_demo_2',
-        parentId: 'demo_parent',
-        childId: 'default_leo',
+        parentId: 'dev_sandbox_parent',
+        childId: 'dev_sandbox_child',
         topicTitle: 'A Trip to Outer Space',
         topicCategory: 'Science & Space',
         durationSeconds: 50,
@@ -618,15 +625,16 @@ class ParentDashboardService {
         volumeSteadiness: 0.85,
         braveVoiceScore: 84,
         growthLevel: 'Flower',
-        scrubbedTranscript: 'If I had a rocket ship I would fly past the moon and wave at the stars! My teacher at [SCHOOL] told us about astronauts.',
+        scrubbedTranscript: 'If I had a rocket ship I would fly past the moon and wave at the stars!',
         recordingStored: false,
+        is_demo: true,
         createdAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
       },
       {
         id: 'sess_seed_3',
         sessionId: 'session_demo_3',
-        parentId: 'demo_parent',
-        childId: 'default_leo',
+        parentId: 'dev_sandbox_parent',
+        childId: 'dev_sandbox_child',
         topicTitle: 'The Silly Dragon Who Loved Pancakes',
         topicCategory: 'Silly Stories',
         durationSeconds: 60,
@@ -641,6 +649,7 @@ class ParentDashboardService {
         growthLevel: 'Tree',
         scrubbedTranscript: 'Once upon a time there was a purple dragon who flipped blueberry pancakes with his tail! It was super funny.',
         recordingStored: false,
+        is_demo: true,
         createdAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(),
       },
     ];
