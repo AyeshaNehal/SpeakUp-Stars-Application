@@ -50,17 +50,74 @@ class GameRewardService {
       if (unlocked) earnedBadges.push('Brave Voice 🦁');
     }
 
-    // 5. Positive, growth-focused feedback
-    const encouragingFeedback: string[] = [
-      `You kept your voice steady for ${Math.round(metrics.steadyVoiceTimeSeconds)} seconds!`,
-      `You triggered ${metrics.eruptionCount} big, beautiful volcanic eruptions!`,
-      'Your vocal projection was confident and clear throughout the round.',
-    ];
+    // Dynamic mascot name
+    const mascotId = (typeof localStorage !== 'undefined' ? localStorage.getItem('speakup_selected_mascot') : null) || 'sparky';
+    const mascotNames: Record<string, string> = {
+      sparky: 'Sparky the Dragon 🐉',
+      pip: 'Pip the Penguin 🐧',
+      luna: 'Luna the Owl 🦉',
+      dash: 'Dash the Cheetah 🐆',
+      barnaby: 'Barnaby the Bear 🐻',
+    };
+    const mascotName = mascotNames[mascotId] || 'Your Mascot Friend';
 
-    const mascotPraise =
-      metrics.eruptionCount >= 4
-        ? 'Sparky was leaping with joy! Your voice was like a superhero roar! 🌋✨'
-        : 'Sparky loves how steady and brave you sounded! That was amazing practice!';
+    // 5. Positive, game-specific growth feedback
+    let encouragingFeedback: string[] = [];
+    let mascotPraise = '';
+
+    switch (gameId) {
+      case 'volume_volcano':
+        encouragingFeedback = [
+          `You sustained steady power for ${Math.round(metrics.steadyVoiceTimeSeconds)} seconds!`,
+          `You triggered ${metrics.eruptionCount} fiery magma eruptions!`,
+          'Your vocal projection and typing courage were radiant!',
+        ];
+        mascotPraise = `${mascotName} was dancing with joy! Your voice erupted with pure courage! 🌋✨`;
+        break;
+
+      case 'echo_explorer':
+        encouragingFeedback = [
+          `You lit up ${metrics.eruptionCount} glowing crystal caverns!`,
+          `You echoed rhythm words with clarity for ${Math.round(metrics.steadyVoiceTimeSeconds)}s!`,
+          'Your pronunciation and rhythm lighted up the entire cave!',
+        ];
+        mascotPraise = `${mascotName} loved your crystal-clear echoes! You sounded fantastic! 💎✨`;
+        break;
+
+      case 'feelings_catch':
+        encouragingFeedback = [
+          `You expressed and caught ${metrics.eruptionCount} feeling stars!`,
+          `You practiced emotional inflection for ${Math.round(metrics.steadyVoiceTimeSeconds)} seconds!`,
+          'Your vocal tone was warm, expressive, and lively!',
+        ];
+        mascotPraise = `${mascotName} felt every bit of wonder and joy in your voice! 🎭💖`;
+        break;
+
+      case 'story_dice':
+        encouragingFeedback = [
+          `You spun ${metrics.eruptionCount} imaginative stories!`,
+          `You spoke creatively for ${Math.round(metrics.steadyVoiceTimeSeconds)} seconds!`,
+          'You connected characters, locations, and magical items with ease!',
+        ];
+        mascotPraise = `${mascotName} is mesmerized by your storytelling imagination! 🎲🌟`;
+        break;
+
+      case 'pace_racer':
+        encouragingFeedback = [
+          `You fired up ${metrics.eruptionCount} conversational nitro boosts!`,
+          `You held the green cruise zone for ${Math.round(metrics.steadyVoiceTimeSeconds)} seconds!`,
+          'Your reading tempo was steady, confident, and easy to follow!',
+        ];
+        mascotPraise = `${mascotName} is cheering at the finish line! Perfect steady speed! 🏎️🏁`;
+        break;
+
+      default:
+        encouragingFeedback = [
+          `You practiced speaking for ${Math.round(metrics.steadyVoiceTimeSeconds)} seconds!`,
+          'Your voice was steady, joyful, and confident.',
+        ];
+        mascotPraise = `${mascotName} is so proud of your wonderful practice! ⭐`;
+    }
 
     const fullMetrics: GameSessionMetrics = {
       ...metrics,

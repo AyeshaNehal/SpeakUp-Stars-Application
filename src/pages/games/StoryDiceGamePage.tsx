@@ -11,7 +11,10 @@ import { GameResultsModal } from '../../components/games/GameResultsModal';
 import { MascotCompanion, ALL_MASCOTS, MascotId } from '../../components/mascot/MascotCompanion';
 import { gameRewardService } from '../../services/games/gameRewardService';
 import { GameResults, GameStatus } from '../../services/games/types';
-import { Sparkles, Dices, RotateCcw } from 'lucide-react';
+import { soundEffects } from '../../services/sound/soundEffects';
+import { speechHelper } from '../../services/speech/tts';
+import { useParentAuth } from '../../context/ParentAuthContext';
+import { Sparkles, Dices, RotateCcw, Volume2 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 const DICE_CHARACTERS = [
@@ -40,6 +43,7 @@ const DICE_OBJECTS = [
 
 export const StoryDiceGamePage: React.FC = () => {
   const navigate = useNavigate();
+  const { activeChild } = useParentAuth();
   const [status, setStatus] = useState<GameStatus>('ready');
   const [lowGraphics, setLowGraphics] = useState<boolean>(false);
   const [timeRemaining, setTimeRemaining] = useState<number>(60);
@@ -58,6 +62,7 @@ export const StoryDiceGamePage: React.FC = () => {
   const mascotObj = ALL_MASCOTS.find((m) => m.id === currentMascot) || ALL_MASCOTS[4];
 
   const rollDice = () => {
+    soundEffects.playTick();
     setIsRolling(true);
     let rolls = 0;
     const interval = setInterval(() => {
@@ -72,7 +77,14 @@ export const StoryDiceGamePage: React.FC = () => {
     }, 80);
   };
 
+  const handleReadPrompt = () => {
+    speechHelper.speak(
+      `Once upon a time, a ${charDice.name} visited a ${locDice.name} and found a ${objDice.name}! Tell the story!`
+    );
+  };
+
   const handleStartGame = () => {
+    soundEffects.playTick();
     setStatus('playing');
     setTimeRemaining(60);
     setStoriesTold(0);
@@ -90,6 +102,7 @@ export const StoryDiceGamePage: React.FC = () => {
   };
 
   const handleFinishStory = () => {
+    soundEffects.playCelebration();
     setStoriesTold((prev) => prev + 1);
     setStarPointsEarned((prev) => Math.min(50, prev + 10));
 
@@ -110,11 +123,12 @@ export const StoryDiceGamePage: React.FC = () => {
   const endGame = () => {
     if (timerRef.current) clearInterval(timerRef.current);
     setStatus('completed');
+    soundEffects.playCelebration();
 
     const totalDuration = 60;
     const elapsedSeconds = totalDuration - timeRemaining;
     const results = gameRewardService.finalizeGameSession({
-      childId: 'active_child',
+      childId: activeChild?.id || 'active_child',
       gameId: 'story_dice',
       gameTitle: 'Story Dice',
       metrics: {
@@ -132,6 +146,7 @@ export const StoryDiceGamePage: React.FC = () => {
   useEffect(() => {
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
+      speechHelper.stop();
     };
   }, []);
 
@@ -194,19 +209,28 @@ export const StoryDiceGamePage: React.FC = () => {
 
           {status === 'playing' ? (
             <div className="space-y-4 max-w-md w-full">
-              <div className="flex justify-center gap-3">
+              <div className="flex flex-wrap justify-center gap-3">
+                <button
+                  onClick={handleReadPrompt}
+                  className="px-4 py-3 rounded-2xl bg-amber-500/20 hover:bg-amber-500/30 border border-amber-400/40 text-amber-200 font-heading font-bold text-xs flex items-center gap-1.5 cursor-pointer"
+                  title="Listen to story prompt"
+                >
+                  <Volume2 className="w-4 h-4 text-amber-300" />
+                  <span>Listen 🔊</span>
+                </button>
+
                 <button
                   onClick={rollDice}
                   disabled={isRolling}
-                  className="px-5 py-3 rounded-2xl bg-white/10 hover:bg-white/20 border border-white/20 text-white font-heading font-bold text-xs flex items-center gap-1.5 cursor-pointer"
+                  className="px-4 py-3 rounded-2xl bg-white/10 hover:bg-white/20 border border-white/20 text-white font-heading font-bold text-xs flex items-center gap-1.5 cursor-pointer"
                 >
                   <RotateCcw className="w-4 h-4" />
-                  <span>Re-roll Dice 🎲</span>
+                  <span>Re-roll 🎲</span>
                 </button>
 
                 <button
                   onClick={handleFinishStory}
-                  className="px-6 py-3.5 rounded-2xl bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-400 hover:to-indigo-500 text-white font-heading font-black text-sm shadow-lg hover:scale-105 active:scale-95 transition-all cursor-pointer flex items-center gap-2"
+                  className="px-5 py-3 rounded-2xl bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-400 hover:to-indigo-500 text-white font-heading font-black text-xs sm:text-sm shadow-lg hover:scale-105 active:scale-95 transition-all cursor-pointer flex items-center gap-2"
                 >
                   <Sparkles className="w-4 h-4 text-amber-300" />
                   <span>Story Told! (+10 ⭐)</span>

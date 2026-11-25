@@ -12,7 +12,10 @@ import { GameResultsModal } from '../../components/games/GameResultsModal';
 import { MascotCompanion, ALL_MASCOTS, MascotId } from '../../components/mascot/MascotCompanion';
 import { gameRewardService } from '../../services/games/gameRewardService';
 import { GameResults, GameStatus } from '../../services/games/types';
-import { Play, Gauge, Zap } from 'lucide-react';
+import { soundEffects } from '../../services/sound/soundEffects';
+import { speechHelper } from '../../services/speech/tts';
+import { useParentAuth } from '../../context/ParentAuthContext';
+import { Play, Gauge, Zap, Volume2 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 const READING_PROMPTS = [
@@ -24,6 +27,7 @@ const READING_PROMPTS = [
 
 export const PaceRacerGamePage: React.FC = () => {
   const navigate = useNavigate();
+  const { activeChild } = useParentAuth();
   const [status, setStatus] = useState<GameStatus>('ready');
   const [lowGraphics, setLowGraphics] = useState<boolean>(false);
   const [timeRemaining, setTimeRemaining] = useState<number>(60);
@@ -42,7 +46,12 @@ export const PaceRacerGamePage: React.FC = () => {
 
   const currentPrompt = READING_PROMPTS[promptIndex % READING_PROMPTS.length];
 
+  const handleReadPrompt = () => {
+    speechHelper.speak(currentPrompt);
+  };
+
   const handleStartGame = () => {
+    soundEffects.playTick();
     setStatus('playing');
     setTimeRemaining(60);
     setCarPosition(15);
@@ -64,6 +73,7 @@ export const PaceRacerGamePage: React.FC = () => {
   };
 
   const handleNitroBoost = () => {
+    soundEffects.playTick();
     setNitroCount((prev) => prev + 1);
     setCarPosition((pos) => Math.min(100, pos + 12));
     setStarPointsEarned((prev) => Math.min(50, prev + 5));
@@ -84,11 +94,12 @@ export const PaceRacerGamePage: React.FC = () => {
   const endGame = () => {
     if (timerRef.current) clearInterval(timerRef.current);
     setStatus('completed');
+    soundEffects.playCelebration();
 
     const totalDuration = 60;
     const elapsedSeconds = totalDuration - timeRemaining;
     const results = gameRewardService.finalizeGameSession({
-      childId: 'active_child',
+      childId: activeChild?.id || 'active_child',
       gameId: 'pace_racer',
       gameTitle: 'Pace Racer',
       metrics: {
@@ -106,6 +117,7 @@ export const PaceRacerGamePage: React.FC = () => {
   useEffect(() => {
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
+      speechHelper.stop();
     };
   }, []);
 
@@ -171,10 +183,19 @@ export const PaceRacerGamePage: React.FC = () => {
               </div>
 
               {/* Current Practice Prompt */}
-              <div className="bg-black/50 p-6 rounded-3xl border-2 border-emerald-300/40 shadow-inner text-center">
-                <span className="text-xs font-bold text-emerald-300 uppercase tracking-widest block mb-1">
-                  Read at Steady Speed:
-                </span>
+              <div className="bg-black/50 p-6 rounded-3xl border-2 border-emerald-300/40 shadow-inner text-center space-y-2">
+                <div className="flex items-center justify-center gap-2">
+                  <span className="text-xs font-bold text-emerald-300 uppercase tracking-widest">
+                    Read at Steady Speed:
+                  </span>
+                  <button
+                    onClick={handleReadPrompt}
+                    className="p-1.5 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-400/40 cursor-pointer transition-all hover:scale-105"
+                    title="Hear conversational pace"
+                  >
+                    <Volume2 className="w-4 h-4" />
+                  </button>
+                </div>
                 <p className="text-xl sm:text-2xl font-heading font-black text-amber-200 leading-relaxed">
                   "{currentPrompt}"
                 </p>

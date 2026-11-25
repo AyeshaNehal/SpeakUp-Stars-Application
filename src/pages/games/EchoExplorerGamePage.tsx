@@ -12,7 +12,10 @@ import { GameResultsModal } from '../../components/games/GameResultsModal';
 import { MascotCompanion, ALL_MASCOTS, MascotId } from '../../components/mascot/MascotCompanion';
 import { gameRewardService } from '../../services/games/gameRewardService';
 import { GameResults, GameStatus } from '../../services/games/types';
-import { Play, Sparkles } from 'lucide-react';
+import { soundEffects } from '../../services/sound/soundEffects';
+import { speechHelper } from '../../services/speech/tts';
+import { useParentAuth } from '../../context/ParentAuthContext';
+import { Play, Sparkles, Volume2 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 const ECHO_PHRASES = [
@@ -25,6 +28,7 @@ const ECHO_PHRASES = [
 
 export const EchoExplorerGamePage: React.FC = () => {
   const navigate = useNavigate();
+  const { activeChild } = useParentAuth();
   const [status, setStatus] = useState<GameStatus>('ready');
   const [lowGraphics, setLowGraphics] = useState<boolean>(false);
   const [timeRemaining, setTimeRemaining] = useState<number>(60);
@@ -40,11 +44,16 @@ export const EchoExplorerGamePage: React.FC = () => {
 
   const currentEcho = ECHO_PHRASES[currentIndex % ECHO_PHRASES.length];
 
+  const handleReadAloud = () => {
+    speechHelper.speak(currentEcho.phrase);
+  };
+
   const handleStartGame = () => {
     setStatus('playing');
     setTimeRemaining(60);
     setLitCrystals(0);
     setCurrentIndex(0);
+    handleReadAloud();
 
     timerRef.current = setInterval(() => {
       setTimeRemaining((prev) => {
@@ -61,6 +70,7 @@ export const EchoExplorerGamePage: React.FC = () => {
     setIsEchoing(true);
     setLitCrystals((prev) => prev + 1);
     setStarPointsEarned((prev) => Math.min(50, prev + 5));
+    soundEffects.playTick();
 
     try {
       confetti({
@@ -82,11 +92,12 @@ export const EchoExplorerGamePage: React.FC = () => {
   const endGame = () => {
     if (timerRef.current) clearInterval(timerRef.current);
     setStatus('completed');
+    soundEffects.playCelebration();
 
     const totalDuration = 60;
     const elapsedSeconds = totalDuration - timeRemaining;
     const results = gameRewardService.finalizeGameSession({
-      childId: 'active_child',
+      childId: activeChild?.id || 'active_child',
       gameId: 'echo_explorer',
       gameTitle: 'Echo Explorer',
       metrics: {
@@ -104,6 +115,7 @@ export const EchoExplorerGamePage: React.FC = () => {
   useEffect(() => {
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
+      speechHelper.stop();
     };
   }, []);
 
@@ -163,7 +175,17 @@ export const EchoExplorerGamePage: React.FC = () => {
                 <p className="text-xs text-indigo-200 mt-2 font-medium">{currentEcho.hint}</p>
               </div>
 
-              <div className="flex justify-center gap-4 pt-2">
+              <div className="flex justify-center gap-3 pt-2">
+                <button
+                  type="button"
+                  onClick={handleReadAloud}
+                  className="px-5 py-3.5 rounded-2xl bg-indigo-800/80 hover:bg-indigo-700 text-white font-heading font-bold text-sm shadow-md hover:scale-105 active:scale-95 transition-all cursor-pointer flex items-center gap-2 border border-indigo-400/40"
+                  title="Listen to phrase"
+                >
+                  <Volume2 className="w-5 h-5 text-amber-300" />
+                  <span>Listen 🔊</span>
+                </button>
+
                 <button
                   onClick={handleEchoDone}
                   disabled={isEchoing}

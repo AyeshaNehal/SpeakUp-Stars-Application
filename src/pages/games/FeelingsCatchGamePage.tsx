@@ -12,7 +12,10 @@ import { GameResultsModal } from '../../components/games/GameResultsModal';
 import { MascotCompanion, ALL_MASCOTS, MascotId } from '../../components/mascot/MascotCompanion';
 import { gameRewardService } from '../../services/games/gameRewardService';
 import { GameResults, GameStatus } from '../../services/games/types';
-import { Play, Sparkles, Heart } from 'lucide-react';
+import { soundEffects } from '../../services/sound/soundEffects';
+import { speechHelper } from '../../services/speech/tts';
+import { useParentAuth } from '../../context/ParentAuthContext';
+import { Play, Sparkles, Heart, Volume2 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 const FEELINGS_LIST = [
@@ -25,6 +28,7 @@ const FEELINGS_LIST = [
 
 export const FeelingsCatchGamePage: React.FC = () => {
   const navigate = useNavigate();
+  const { activeChild } = useParentAuth();
   const [status, setStatus] = useState<GameStatus>('ready');
   const [lowGraphics, setLowGraphics] = useState<boolean>(false);
   const [timeRemaining, setTimeRemaining] = useState<number>(60);
@@ -39,11 +43,16 @@ export const FeelingsCatchGamePage: React.FC = () => {
 
   const currentFeeling = FEELINGS_LIST[currentIndex % FEELINGS_LIST.length];
 
+  const handleReadAloud = () => {
+    speechHelper.speak(currentFeeling.prompt);
+  };
+
   const handleStartGame = () => {
     setStatus('playing');
     setTimeRemaining(60);
     setFeelingsCaught(0);
     setCurrentIndex(0);
+    handleReadAloud();
 
     timerRef.current = setInterval(() => {
       setTimeRemaining((prev) => {
@@ -59,6 +68,7 @@ export const FeelingsCatchGamePage: React.FC = () => {
   const handleCatchFeeling = () => {
     setFeelingsCaught((prev) => prev + 1);
     setStarPointsEarned((prev) => Math.min(50, prev + 5));
+    soundEffects.playTick();
 
     try {
       confetti({
@@ -77,11 +87,12 @@ export const FeelingsCatchGamePage: React.FC = () => {
   const endGame = () => {
     if (timerRef.current) clearInterval(timerRef.current);
     setStatus('completed');
+    soundEffects.playCelebration();
 
     const totalDuration = 60;
     const elapsedSeconds = totalDuration - timeRemaining;
     const results = gameRewardService.finalizeGameSession({
-      childId: 'active_child',
+      childId: activeChild?.id || 'active_child',
       gameId: 'feelings_catch',
       gameTitle: 'Feelings Catch',
       metrics: {
@@ -99,6 +110,7 @@ export const FeelingsCatchGamePage: React.FC = () => {
   useEffect(() => {
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
+      speechHelper.stop();
     };
   }, []);
 
@@ -146,7 +158,17 @@ export const FeelingsCatchGamePage: React.FC = () => {
                 <p className="text-sm font-medium mt-1 text-white/90">{currentFeeling.prompt}</p>
               </motion.div>
 
-              <div className="flex justify-center gap-4 pt-2">
+              <div className="flex justify-center gap-3 pt-2">
+                <button
+                  type="button"
+                  onClick={handleReadAloud}
+                  className="px-5 py-4 rounded-2xl bg-purple-900/70 hover:bg-purple-800 text-white font-heading font-bold text-sm shadow-md hover:scale-105 active:scale-95 transition-all cursor-pointer flex items-center gap-2 border border-purple-400/40"
+                  title="Listen to prompt"
+                >
+                  <Volume2 className="w-5 h-5 text-amber-300" />
+                  <span>Listen 🔊</span>
+                </button>
+
                 <button
                   onClick={handleCatchFeeling}
                   className="px-8 py-4 rounded-2xl bg-gradient-to-r from-pink-400 to-rose-500 hover:from-pink-300 hover:to-rose-400 text-white font-heading font-black text-base shadow-lg hover:scale-105 active:scale-95 transition-all cursor-pointer flex items-center gap-2"

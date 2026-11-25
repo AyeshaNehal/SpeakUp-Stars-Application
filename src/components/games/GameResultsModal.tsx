@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import confetti from 'canvas-confetti';
 import { GameResults } from '../../services/games/types';
-import { SparkyMascot } from '../mascot/SparkyMascot';
+import { MascotCompanion, ALL_MASCOTS, MascotId } from '../mascot/MascotCompanion';
 import { Sparkles, Trophy, RotateCcw, Compass, CheckCircle2 } from 'lucide-react';
 
 interface GameResultsModalProps {
@@ -17,6 +17,9 @@ export const GameResultsModal: React.FC<GameResultsModalProps> = ({
   onPlayAgain,
   onBackToGames,
 }) => {
+  const currentMascot = (typeof localStorage !== 'undefined' ? (localStorage.getItem('speakup_selected_mascot') as MascotId) : null) || 'sparky';
+  const mascotObj = ALL_MASCOTS.find((m) => m.id === currentMascot) || ALL_MASCOTS[0];
+
   useEffect(() => {
     if (isOpen && results) {
       // Fire celebratory confetti
@@ -31,7 +34,7 @@ export const GameResultsModal: React.FC<GameResultsModalProps> = ({
 
   if (!isOpen || !results) return null;
 
-  const { metrics, mascotPraise, encouragingFeedback, growthLevel } = results;
+  const { metrics, mascotPraise, encouragingFeedback, growthLevel, gameTitle } = results;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md animate-fade-in">
@@ -41,17 +44,17 @@ export const GameResultsModal: React.FC<GameResultsModalProps> = ({
         <div className="absolute -bottom-24 -right-24 w-48 h-48 bg-orange-400/20 rounded-full blur-3xl pointer-events-none" />
 
         {/* Mascot Joyful Header */}
-        <div className="mx-auto my-2 w-28 h-28 flex items-center justify-center">
-          <SparkyMascot theme="sunny" size="md" isWaving />
+        <div className="mx-auto my-2 flex items-center justify-center">
+          <MascotCompanion mascotId={mascotObj.id} size="md" />
         </div>
 
         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-100 text-amber-800 text-xs font-heading font-black mb-2">
           <Trophy className="w-3.5 h-3.5 text-amber-600" />
-          <span>Brave Speaking Round Complete!</span>
+          <span>{gameTitle} Round Complete!</span>
         </div>
 
         <h2 className="text-2xl sm:text-3xl font-heading font-black text-slate-800 mb-1">
-          Hooray! Fantastic Energy! 🌋
+          Hooray! Fantastic Energy! ⭐
         </h2>
 
         {/* Star Points Award Banner */}

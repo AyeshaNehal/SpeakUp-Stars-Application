@@ -19,6 +19,7 @@ import { AudioVolumeTracker, VolumeSample } from '../../services/games/audioVolu
 import { gameRewardService } from '../../services/games/gameRewardService';
 import { GameResults, GameStatus } from '../../services/games/types';
 import { Play, Keyboard, Mic } from 'lucide-react';
+import { useParentAuth } from '../../context/ParentAuthContext';
 import confetti from 'canvas-confetti';
 
 const BRAVE_WORDS = [
@@ -40,6 +41,7 @@ const BRAVE_WORDS = [
 
 export const VolumeVolcanoGamePage: React.FC = () => {
   const navigate = useNavigate();
+  const { activeChild } = useParentAuth();
 
   // Mode: 'typing' (default) or 'voice'
   const [gameMode, setGameMode] = useState<'typing' | 'voice'>('typing');
@@ -196,7 +198,7 @@ export const VolumeVolcanoGamePage: React.FC = () => {
 
     const totalSeconds = totalDuration - timeRemaining;
     const finalResults = gameRewardService.finalizeGameSession({
-      childId: 'active_child',
+      childId: activeChild?.id || 'active_child',
       gameId: 'volume_volcano',
       gameTitle: 'Volume Volcano',
       metrics: {
