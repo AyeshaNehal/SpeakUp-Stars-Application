@@ -39,9 +39,8 @@ export const RouteGuard: React.FC<RouteGuardProps> = ({ children }) => {
     return <Navigate to={route} replace />;
   }
 
-  // If user has completed onboarding but visits an onboarding / login screen, redirect to Home
+  // If user has completed onboarding but visits an onboarding / verification screen, redirect to Home
   if (
-    currentPath === '/login' ||
     currentPath === '/verify-email' ||
     currentPath.startsWith('/onboarding')
   ) {

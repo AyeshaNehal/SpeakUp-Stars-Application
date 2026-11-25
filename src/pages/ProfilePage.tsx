@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useOutletContext, useNavigate } from 'react-router-dom';
-import { Flame, Star, Sparkles, Check, RefreshCw, Edit3, Lock, Users } from 'lucide-react';
+import { Flame, Star, Sparkles, Check, RefreshCw, Edit3, Lock, Users, LogOut } from 'lucide-react';
 import { Card } from '../components/common/Card';
 import { Button } from '../components/common/Button';
 import { Modal } from '../components/common/Modal';
@@ -12,7 +12,7 @@ import { MascotCompanion, ALL_MASCOTS, MascotId } from '../components/mascot/Mas
 export const ProfilePage: React.FC = () => {
   const navigate = useNavigate();
   const context = useOutletContext<{ ageGroup: AgeGroup; setAgeGroup: (ag: AgeGroup) => void }>();
-  const { activeChild, updateChildProfile, resetAllToScratch, childrenList } = useParentAuth();
+  const { activeChild, updateChildProfile, resetAllToScratch, childrenList, signOut } = useParentAuth();
 
   const ageGroup = context?.ageGroup || activeChild?.ageBand || '6-8';
   const setAgeGroup = context?.setAgeGroup || (() => {});
@@ -214,10 +214,21 @@ export const ProfilePage: React.FC = () => {
             </div>
           </Card>
 
-          {/* Reset All To Scratch Button */}
+          {/* Account Safety & Log Out */}
           <Card variant="white" padding="md" className="space-y-3 border-2 border-slate-100 shadow-sm">
-            <h3 className="font-heading font-black text-sm text-slate-800">Account Safety &amp; Reset</h3>
-            <div>
+            <h3 className="font-heading font-black text-sm text-slate-800">Account Safety &amp; Session</h3>
+            <div className="flex flex-wrap items-center gap-3">
+              <Button
+                variant="coral"
+                size="sm"
+                icon={<LogOut className="w-4 h-4" />}
+                onClick={() => {
+                  signOut();
+                  navigate('/login');
+                }}
+              >
+                Log Out
+              </Button>
               <Button
                 variant="outline"
                 size="sm"

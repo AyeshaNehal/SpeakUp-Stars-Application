@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Star, Flame, Volume2, VolumeX, ShieldCheck, Sliders, RefreshCw } from 'lucide-react';
+import { Star, Flame, Volume2, VolumeX, ShieldCheck, Sliders, RefreshCw, LogOut } from 'lucide-react';
 import { AgeGroup } from '../../types';
 import { AccessibilityModal } from '../common/AccessibilityModal';
 import { UnifiedAuthOnboardingModal } from '../auth/UnifiedAuthOnboardingModal';
@@ -20,9 +20,10 @@ export const Header: React.FC<HeaderProps> = ({
   currentAgeGroup = '6-8',
   onAgeGroupChange,
 }) => {
+  const navigate = useNavigate();
   const { soundEffectsEnabled, setSoundEffectsEnabled } = useAccessibility();
   const { languageMeta } = useI18n();
-  const { activeChild, resetAllToScratch } = useParentAuth();
+  const { activeChild, resetAllToScratch, signOut } = useParentAuth();
   const [showA11yModal, setShowA11yModal] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
 
@@ -141,6 +142,23 @@ export const Header: React.FC<HeaderProps> = ({
               "
             >
               <RefreshCw className="w-4 h-4" />
+            </button>
+
+            {/* Log Out Button */}
+            <button
+              onClick={() => {
+                signOut();
+                navigate('/login');
+              }}
+              aria-label="Log Out"
+              title="Parent Log Out"
+              className="
+                min-h-[44px] min-w-[44px] flex items-center justify-center rounded-2xl
+                bg-slate-100 hover:bg-rose-50 text-slate-500 hover:text-rose-600 border border-slate-200
+                transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-300 cursor-pointer
+              "
+            >
+              <LogOut className="w-4 h-4" />
             </button>
 
             {/* Accessibility Quick-Control Button */}

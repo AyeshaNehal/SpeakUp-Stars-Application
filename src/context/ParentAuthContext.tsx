@@ -147,8 +147,13 @@ export const ParentAuthProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     if (sb) {
       sb.auth.signOut().catch(() => {});
     }
-    if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
-      localStorage.removeItem('speakup_active_parent_id');
+    if (typeof window !== 'undefined') {
+      if (typeof sessionStorage !== 'undefined') {
+        sessionStorage.clear();
+      }
+      if (typeof localStorage !== 'undefined') {
+        localStorage.removeItem('speakup_active_parent_id');
+      }
     }
     setParent(null);
     setChildrenList([]);

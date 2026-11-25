@@ -77,8 +77,8 @@ export interface ConsentRecord {
   createdAt: string;
 }
 
-const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || '';
-const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || 'https://prqkopoawrsmzmlaasfs.supabase.co';
+const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || 'sb_publishable_LQLaxJGQWYiHybFOtMjiYQ_wqZM_hRw';
 const IS_TEST = typeof process !== 'undefined' && Boolean(process.env.VITEST || process.env.NODE_ENV === 'test');
 
 class ParentAuthService {
@@ -87,7 +87,27 @@ class ParentAuthService {
 
   constructor() {
     if (!IS_TEST && SUPABASE_URL && SUPABASE_ANON_KEY) {
-      this.supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+      // Clear legacy persistent auth keys from localStorage so each fresh visit requires login
+      if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
+        localStorage.removeItem('speakup_active_parent_id');
+        try {
+          Object.keys(localStorage).forEach((key) => {
+            if (key.startsWith('sb-') && key.endsWith('-auth-token')) {
+              localStorage.removeItem(key);
+            }
+          });
+        } catch {
+          // Ignore
+        }
+      }
+
+      this.supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+        auth: {
+          storage: typeof window !== 'undefined' ? window.sessionStorage : undefined,
+          autoRefreshToken: true,
+          persistSession: true,
+        },
+      });
     }
   }
 
@@ -221,8 +241,8 @@ class ParentAuthService {
     sandbox.parents.push(newParent);
     this.saveLocalSandbox(sandbox);
 
-    if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
-      localStorage.setItem('speakup_active_parent_id', newParent.id);
+    if (typeof window !== 'undefined' && typeof sessionStorage !== 'undefined') {
+      sessionStorage.setItem('speakup_active_parent_id', newParent.id);
     }
 
     return {
@@ -267,14 +287,19 @@ class ParentAuthService {
   public async signInWithGoogle(): Promise<{ success: boolean; message?: string }> {
     if (this.supabase) {
       try {
-        const { error } = await this.supabase.auth.signInWithOAuth({
+        const origin = typeof window !== 'undefined' ? window.location.origin : 'http://localhost:5173';
+        const { data, error } = await this.supabase.auth.signInWithOAuth({
           provider: 'google',
           options: {
-            redirectTo: `${window.location.origin}/`,
+            redirectTo: `${origin}/`,
           },
         });
         if (error) {
           return { success: false, message: error.message };
+        }
+        if (data?.url && typeof window !== 'undefined') {
+          window.location.href = data.url;
+          return { success: true };
         }
         return { success: true, message: 'Redirecting to Google...' };
       } catch (err: any) {
@@ -297,8 +322,8 @@ class ParentAuthService {
     sandbox.parents.push(googleParent);
     this.saveLocalSandbox(sandbox);
 
-    if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
-      localStorage.setItem('speakup_active_parent_id', googleParent.id);
+    if (typeof window !== 'undefined' && typeof sessionStorage !== 'undefined') {
+      sessionStorage.setItem('speakup_active_parent_id', googleParent.id);
     }
 
     return {
@@ -347,8 +372,8 @@ class ParentAuthService {
           createdAt: data.user.created_at || new Date().toISOString(),
         };
 
-        if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
-          localStorage.setItem('speakup_active_parent_id', parentRecord.id);
+        if (typeof window !== 'undefined' && typeof sessionStorage !== 'undefined') {
+          sessionStorage.setItem('speakup_active_parent_id', parentRecord.id);
         }
 
         return { success: true, parent: parentRecord };
@@ -363,8 +388,8 @@ class ParentAuthService {
       return { success: false, message: 'No account found with this email address.' };
     }
 
-    if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
-      localStorage.setItem('speakup_active_parent_id', existing.id);
+    if (typeof window !== 'undefined' && typeof sessionStorage !== 'undefined') {
+      sessionStorage.setItem('speakup_active_parent_id', existing.id);
     }
 
     return {
@@ -405,7 +430,8 @@ class ParentAuthService {
         .eq('id', parentId);
 
       if (error) {
-        return { success: false, message: 'Database update failed.' };
+        privacyLogger.error('Failed to update parent in Supabase', error);
+        // Continue if local sandbox succeeds
       }
     }
 
@@ -820,8 +846,10 @@ class ParentAuthService {
     const sandbox = this.getLocalSandbox();
     let parent = targetParentId ? sandbox.parents.find((p) => p.id === targetParentId) || null : null;
 
-    if (!parent && typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
-      const savedId = localStorage.getItem('speakup_active_parent_id');
+    if (!parent && typeof window !== 'undefined') {
+      const savedId =
+        (typeof sessionStorage !== 'undefined' && sessionStorage.getItem('speakup_active_parent_id')) ||
+        (typeof localStorage !== 'undefined' && localStorage.getItem('speakup_active_parent_id'));
       if (savedId) {
         parent = sandbox.parents.find((p) => p.id === savedId) || null;
       }

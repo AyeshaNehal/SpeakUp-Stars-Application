@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
   Home,
@@ -13,6 +13,7 @@ import {
   Flame,
   Volume2,
   Gamepad2,
+  LogOut,
 } from 'lucide-react';
 import { useParentAuth } from '../../context/ParentAuthContext';
 import { rewardsService } from '../../services/rewards/rewardsService';
@@ -22,7 +23,8 @@ const isSparkyTheme = (id?: string): id is SparkyTheme =>
   ['sunny', 'sky', 'coral', 'mint', 'purple', 'cosmic'].includes(id || '');
 
 export const Sidebar: React.FC = () => {
-  const { activeChild } = useParentAuth();
+  const navigate = useNavigate();
+  const { activeChild, signOut } = useParentAuth();
 
   const childId = activeChild?.id || '';
   const points = childId ? rewardsService.getPoints(childId) : 0;
@@ -219,6 +221,27 @@ export const Sidebar: React.FC = () => {
             PIN 🔒
           </span>
         </NavLink>
+
+        {/* Parent Log Out Button */}
+        <button
+          type="button"
+          onClick={() => {
+            signOut();
+            navigate('/login');
+          }}
+          className="
+            w-full flex items-center justify-between px-3.5 py-2.5 rounded-2xl
+            font-heading text-xs font-bold text-slate-500 hover:text-rose-600
+            bg-slate-50 hover:bg-rose-50 border border-slate-200 hover:border-rose-200
+            transition-all cursor-pointer
+          "
+        >
+          <div className="flex items-center gap-2">
+            <LogOut className="w-4 h-4 text-slate-400 group-hover:text-rose-500" />
+            <span>Parent Log Out</span>
+          </div>
+          <span className="text-[10px] text-slate-400">Exit</span>
+        </button>
 
         <div className="flex items-center justify-between px-2 pt-1 text-xs text-slate-400 font-semibold">
           <span className="flex items-center gap-1.5 text-slate-500">

@@ -21,6 +21,10 @@ CREATE POLICY "Parents can only view their own account"
     ON public.parents FOR SELECT
     USING (auth.uid() = id);
 
+CREATE POLICY "Parents can insert their own account"
+    ON public.parents FOR INSERT
+    WITH CHECK (auth.uid() = id);
+
 CREATE POLICY "Parents can update their own account"
     ON public.parents FOR UPDATE
     USING (auth.uid() = id);
