@@ -175,10 +175,12 @@ export const ParentAuthProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     preferredLanguage: 'en' | 'ur' | 'ar' | 'hi' | 'es';
     isLegalGuardian: boolean;
   }) => {
-    if (!parent) return { success: false, message: 'Not signed in.' };
-    const res = await parentAuthService.updateParentProfile(parent.id, data);
+    const currentParentId = parent?.id || (await parentAuthService.getAccountState()).parent?.id;
+    if (!currentParentId) return { success: false, message: 'Not signed in.' };
+    const res = await parentAuthService.updateParentProfile(currentParentId, data);
     if (res.success) {
-      await refreshAccountState();
+      const updated = await refreshAccountState();
+      return { ...res, nextRoute: updated.route };
     }
     return res;
   };
@@ -187,10 +189,12 @@ export const ParentAuthProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     options: { metricsProcessing: boolean; storeRecordings: boolean; emailSummaries: boolean },
     method: 'credit_card' | 'signed_econsent' | 'government_id' | 'mock_provider' = 'signed_econsent'
   ) => {
-    if (!parent) return { success: false, message: 'Please create an account first.' };
-    const res = await parentAuthService.submitParentalConsent(parent.id, parent.email, options, method);
+    const currentParent = parent || (await parentAuthService.getAccountState()).parent;
+    if (!currentParent) return { success: false, message: 'Please create an account first.' };
+    const res = await parentAuthService.submitParentalConsent(currentParent.id, currentParent.email, options, method);
     if (res.success) {
-      await refreshAccountState();
+      const updated = await refreshAccountState();
+      return { ...res, nextRoute: updated.route };
     }
     return res;
   };
@@ -205,10 +209,12 @@ export const ParentAuthProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   };
 
   const saveParentPin = async (pin: string) => {
-    if (!parent) return { success: false, message: 'Not signed in.' };
-    const res = await parentAuthService.saveParentPin(parent.id, pin);
+    const currentParentId = parent?.id || (await parentAuthService.getAccountState()).parent?.id;
+    if (!currentParentId) return { success: false, message: 'Not signed in.' };
+    const res = await parentAuthService.saveParentPin(currentParentId, pin);
     if (res.success) {
-      await refreshAccountState();
+      const updated = await refreshAccountState();
+      return { ...res, nextRoute: updated.route };
     }
     return res;
   };

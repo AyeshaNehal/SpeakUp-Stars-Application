@@ -32,7 +32,9 @@ export const PinSetupPage: React.FC = () => {
     try {
       const res = await saveParentPin(pin);
       if (res.success) {
-        navigate('/onboarding/child');
+        setTimeout(() => {
+          navigate(res.nextRoute || '/onboarding/child');
+        }, 150);
       } else {
         setErrorMessage(res.message || 'Unable to configure PIN.');
       }
