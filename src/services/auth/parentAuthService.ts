@@ -536,35 +536,30 @@ class ParentAuthService {
       return { success: false, message: 'PIN must be between 4 and 6 numeric digits.' };
     }
 
-    if (this.supabase && SUPABASE_URL) {
+    const hashed = await hashPin(pin);
+
+    if (this.supabase) {
       try {
-        const { data: { session } } = await this.supabase.auth.getSession();
-        const res = await fetch(`${SUPABASE_URL}/functions/v1/verify-parent-pin`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${session?.access_token || SUPABASE_ANON_KEY}`,
-          },
-          body: JSON.stringify({
-            action: 'set',
-            parentId,
-            pin,
-          }),
-        });
-        const json = await res.json();
-        if (json.success) {
-          await this.supabase.from('parents').update({ pin_set: true }).eq('id', parentId);
-          return { success: true };
+        const { error } = await this.supabase
+          .from('parents')
+          .update({
+            pin_set: true,
+            pin_hash: hashed,
+            hashed_pin: hashed,
+            updated_at: new Date().toISOString(),
+          })
+          .eq('id', parentId);
+
+        if (error) {
+          privacyLogger.error('Failed to update PIN in Supabase', error);
         }
-        return { success: false, message: json.message || 'Failed to save PIN' };
       } catch (err) {
-        privacyLogger.error('Failed to set PIN via Edge Function', err);
+        privacyLogger.error('Supabase PIN update exception', err);
       }
     }
 
     // Sandbox storage with cryptographic hash
     const sandbox = this.getLocalSandbox();
-    const hashed = await hashPin(pin);
     sandbox.pins[parentId] = hashed;
 
     const parent = sandbox.parents.find((p) => p.id === parentId);
@@ -581,30 +576,24 @@ class ParentAuthService {
    * Verify Parent PIN
    */
   public async verifyParentPin(enteredPin: string, parentId?: string): Promise<PinStatus> {
-    if (this.supabase && SUPABASE_URL) {
+    const sandbox = this.getLocalSandbox();
+    let storedHash = parentId ? sandbox.pins[parentId] : undefined;
+
+    if (!storedHash && this.supabase && parentId) {
       try {
-        const { data: { session } } = await this.supabase.auth.getSession();
-        const res = await fetch(`${SUPABASE_URL}/functions/v1/verify-parent-pin`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${session?.access_token || SUPABASE_ANON_KEY}`,
-          },
-          body: JSON.stringify({
-            action: 'verify',
-            parentId: parentId || session?.user?.id,
-            pin: enteredPin,
-          }),
-        });
-        const json = await res.json();
-        return json as PinStatus;
+        const { data } = await this.supabase
+          .from('parents')
+          .select('pin_hash, hashed_pin')
+          .eq('id', parentId)
+          .single();
+        if (data) {
+          storedHash = data.pin_hash || data.hashed_pin;
+        }
       } catch (err) {
-        privacyLogger.error('Failed to verify PIN via Edge Function', err);
+        privacyLogger.error('Failed to load pin from Supabase', err);
       }
     }
 
-    const sandbox = this.getLocalSandbox();
-    const storedHash = parentId ? sandbox.pins[parentId] : undefined;
     return verifyPin(enteredPin, storedHash);
   }
 
