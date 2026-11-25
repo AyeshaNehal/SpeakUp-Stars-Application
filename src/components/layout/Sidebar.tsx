@@ -97,12 +97,12 @@ export const Sidebar: React.FC = () => {
       <div className="space-y-4">
         <NavLink
           to="/"
-          className="flex items-center gap-2.5 group focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-sunny-400 rounded-xl p-1"
+          className="flex items-center gap-3 group focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-sunny-400 rounded-xl p-1"
         >
           <motion.div
-            whileHover={{ rotate: [0, -8, 8, 0], scale: 1.05 }}
-            transition={{ duration: 0.5 }}
-            className="w-9 h-9 lg:w-10 lg:h-10 rounded-xl overflow-hidden shadow-sm border border-slate-200/60 flex-shrink-0"
+            whileHover={{ rotate: [0, -8, 8, 0], scale: 1.08 }}
+            transition={{ duration: 0.4 }}
+            className="w-11 h-11 lg:w-12 lg:h-12 rounded-2xl overflow-hidden shadow-md border-2 border-amber-300 flex-shrink-0"
           >
             <img src="/logo.png" alt="SpeakUp Stars Logo" className="w-full h-full object-cover" />
           </motion.div>
@@ -118,13 +118,13 @@ export const Sidebar: React.FC = () => {
         <div className="bg-gradient-to-br from-sunny-50 via-sky-50 to-mint-50 rounded-2xl p-2.5 border-2 border-slate-100 shadow-xs">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-xl bg-white/90 shadow-xs border border-amber-200/80 flex items-center justify-center overflow-hidden flex-shrink-0">
+              <div className="w-9 h-9 rounded-xl bg-white shadow-xs border border-amber-200/80 flex items-center justify-center overflow-hidden flex-shrink-0">
                 {isSparkyTheme(activeChild?.avatarId) ? (
                   <SparkyMascot size="sm" theme={activeChild?.avatarId as SparkyTheme} />
                 ) : activeChild?.avatarId === 'lion' ? (
                   <span className="text-lg">🦁</span>
                 ) : (
-                  <span className="text-base">⭐</span>
+                  <img src="/logo.png" alt="Star Avatar" className="w-full h-full object-cover" />
                 )}
               </div>
               <div>

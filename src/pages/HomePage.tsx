@@ -46,8 +46,8 @@ export const HomePage: React.FC = () => {
 
         <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-5 items-center">
           <div className="lg:col-span-8 space-y-3">
-            <div className="inline-flex items-center gap-1.5 bg-white/80 backdrop-blur-xs px-3 py-1 rounded-full text-amber-900 font-heading font-bold text-xs shadow-xs">
-              <Sparkles className="w-3.5 h-3.5 text-amber-600 animate-spin" />
+            <div className="inline-flex items-center gap-2 bg-white/90 backdrop-blur-xs px-3.5 py-1.5 rounded-full text-amber-900 font-heading font-bold text-xs shadow-xs">
+              <img src="/logo.png" alt="SpeakUp Stars Logo" className="w-5 h-5 rounded-md object-cover shadow-xs" />
               <span>Daily Speaking Adventure</span>
             </div>
 
