@@ -28,8 +28,9 @@ export const HomePage: React.FC = () => {
   const todayDateStr = new Date().toISOString().slice(0, 10);
   const allSessions = childId ? parentDashboardService.getSessions(childId, parent?.id) : [];
   const todaySessions = allSessions.filter((s) => s.createdAt.startsWith(todayDateStr));
-  const speechesCompleted = todaySessions.length;
   const dailyGoal = 3;
+  const rawCompleted = todaySessions.length;
+  const speechesCompleted = Math.min(rawCompleted, dailyGoal);
   const goalPercent = Math.min(100, Math.round((speechesCompleted / dailyGoal) * 100));
 
   const allBadges = childId ? rewardsService.getBadges(childId) : [];
@@ -138,9 +139,11 @@ export const HomePage: React.FC = () => {
                     Today's Star Mission
                   </h2>
                   <p className="text-sm text-slate-500 font-semibold">
-                    {speechesCompleted === 0
+                    {rawCompleted === 0
                       ? "Let's do your first speech! (0 of 3 speeches completed)"
-                      : `${speechesCompleted} of ${dailyGoal} speeches completed`}
+                      : rawCompleted >= dailyGoal
+                      ? `Goal achieved! (${dailyGoal} of ${dailyGoal} speeches completed ⭐)`
+                      : `${rawCompleted} of ${dailyGoal} speeches completed`}
                   </p>
                 </div>
               </div>

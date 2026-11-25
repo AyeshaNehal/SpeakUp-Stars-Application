@@ -127,7 +127,26 @@ class ParentDashboardService {
     if (this.isStorageAvailable()) {
       try {
         const raw = localStorage.getItem(this.SESSIONS_KEY);
-        if (raw) all = JSON.parse(raw);
+        if (raw) {
+          const parsed: SpeakingSessionRecord[] = JSON.parse(raw);
+          // Auto-deduplicate any rapid duplicate loops (sessions within 10s of each other)
+          const deduped: SpeakingSessionRecord[] = [];
+          for (const s of parsed) {
+            const hasDuplicate = deduped.some(
+              (d) =>
+                d.childId === s.childId &&
+                d.topicTitle === s.topicTitle &&
+                Math.abs(new Date(d.createdAt).getTime() - new Date(s.createdAt).getTime()) < 10000
+            );
+            if (!hasDuplicate) {
+              deduped.push(s);
+            }
+          }
+          all = deduped;
+          if (deduped.length !== parsed.length) {
+            localStorage.setItem(this.SESSIONS_KEY, JSON.stringify(deduped));
+          }
+        }
       } catch {
         all = [...this.memorySessions];
       }
@@ -147,13 +166,25 @@ class ParentDashboardService {
   public recordSession(
     data: Omit<SpeakingSessionRecord, 'id' | 'createdAt'>
   ): SpeakingSessionRecord {
+    const existing = this.getAllSessionsInternal();
+
+    // Prevent duplicate rapid-fire saves within 10s (e.g. from component re-renders)
+    const isRecentDuplicate = existing.some(
+      (s) =>
+        s.childId === data.childId &&
+        s.topicTitle === data.topicTitle &&
+        Math.abs(new Date(s.createdAt).getTime() - Date.now()) < 10000
+    );
+    if (isRecentDuplicate && existing.length > 0) {
+      return existing[0];
+    }
+
     const session: SpeakingSessionRecord = {
       ...data,
       id: `sess_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
       createdAt: new Date().toISOString(),
     };
 
-    const existing = this.getAllSessionsInternal();
     existing.unshift(session);
     this.saveSessionsInternal(existing);
 

@@ -10,7 +10,7 @@
  * - Only scrubbed transcripts & numeric metrics are analyzed. Zero raw media or PII transmission.
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation, useOutletContext } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
@@ -95,6 +95,7 @@ export const ResultsPage: React.FC = () => {
   const [faceAnalysisSetting, setFaceAnalysisSetting] = useState(
     parentSettingsService.isFaceAnalysisEnabled()
   );
+  const hasRecordedRef = useRef(false);
 
   // Sparky Theme
   const sparkyTheme: SparkyTheme =
@@ -150,8 +151,9 @@ export const ResultsPage: React.FC = () => {
           setAnalysisResult(baseResult);
           setFeedbackResult(aiResult);
 
-          // Award points, update streak & check badges if not in distress intervention
-          if (!aiResult.isDistressIntervention) {
+          // Award points, update streak & check badges if not in distress intervention (only once per speech)
+          if (!hasRecordedRef.current && !aiResult.isDistressIntervention) {
+            hasRecordedRef.current = true;
             const cid = activeChild?.id || 'guest_child';
             rewardsService.recordDailyPractice(cid);
             rewardsService.awardPoints(cid, 'finish_recording', 25);
