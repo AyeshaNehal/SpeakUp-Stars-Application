@@ -419,34 +419,65 @@ class ParentAuthService {
     }
 
     if (this.supabase) {
-      const { error } = await this.supabase
-        .from('parents')
-        .update({
-          display_name: trimmedName,
-          preferred_language: data.preferredLanguage,
-          is_legal_guardian: data.isLegalGuardian,
-          updated_at: new Date().toISOString(),
-        })
-        .eq('id', parentId);
+      try {
+        const { data: sessionData } = await this.supabase.auth.getSession();
+        const currentEmail = sessionData?.session?.user?.email || '';
 
-      if (error) {
-        privacyLogger.error('Failed to update parent in Supabase', error);
-        // Continue if local sandbox succeeds
+        // Try upsert first to guarantee the row exists for all foreign key tables
+        const { error: upsertErr } = await this.supabase
+          .from('parents')
+          .upsert(
+            {
+              id: parentId,
+              email: currentEmail,
+              display_name: trimmedName,
+              preferred_language: data.preferredLanguage,
+              is_legal_guardian: data.isLegalGuardian,
+              updated_at: new Date().toISOString(),
+            },
+            { onConflict: 'id' }
+          );
+
+        if (upsertErr) {
+          privacyLogger.error('Failed to upsert parent in Supabase, trying update fallback', upsertErr);
+          await this.supabase
+            .from('parents')
+            .update({
+              display_name: trimmedName,
+              preferred_language: data.preferredLanguage,
+              is_legal_guardian: data.isLegalGuardian,
+              updated_at: new Date().toISOString(),
+            })
+            .eq('id', parentId);
+        }
+      } catch (err) {
+        privacyLogger.error('Exception in updateParentProfile Supabase call', err);
       }
     }
 
     const sandbox = this.getLocalSandbox();
-    const parent = sandbox.parents.find((p) => p.id === parentId);
+    let parent = sandbox.parents.find((p) => p.id === parentId);
     if (parent) {
       parent.displayName = trimmedName;
       parent.preferredLanguage = data.preferredLanguage;
       parent.isLegalGuardian = data.isLegalGuardian;
       parent.updatedAt = new Date().toISOString();
-      this.saveLocalSandbox(sandbox);
-      return { success: true, parent };
+    } else {
+      parent = {
+        id: parentId,
+        email: '',
+        emailVerified: true,
+        displayName: trimmedName,
+        preferredLanguage: data.preferredLanguage,
+        isLegalGuardian: data.isLegalGuardian,
+        pinSet: Boolean(sandbox.pins[parentId]),
+        createdAt: new Date().toISOString(),
+      };
+      sandbox.parents.push(parent);
     }
+    this.saveLocalSandbox(sandbox);
 
-    return { success: true };
+    return { success: true, parent };
   }
 
   /**
@@ -562,10 +593,19 @@ class ParentAuthService {
     const sandbox = this.getLocalSandbox();
     sandbox.pins[parentId] = hashed;
 
-    const parent = sandbox.parents.find((p) => p.id === parentId);
+    let parent = sandbox.parents.find((p) => p.id === parentId);
     if (parent) {
       parent.pinSet = true;
       parent.updatedAt = new Date().toISOString();
+    } else {
+      parent = {
+        id: parentId,
+        email: '',
+        emailVerified: true,
+        pinSet: true,
+        createdAt: new Date().toISOString(),
+      };
+      sandbox.parents.push(parent);
     }
     this.saveLocalSandbox(sandbox);
 
@@ -855,14 +895,15 @@ class ParentAuthService {
             .maybeSingle();
 
           if (parentRow) {
+            const hasLocalPin = Boolean(sandbox.pins[parentRow.id]);
             parent = {
               id: parentRow.id,
               email: parentRow.email,
               emailVerified: Boolean(parentRow.email_verified || session.user.email_confirmed_at),
               displayName: parentRow.display_name,
-              preferredLanguage: parentRow.preferred_language,
+              preferredLanguage: parentRow.preferred_language || 'en',
               isLegalGuardian: Boolean(parentRow.is_legal_guardian),
-              pinSet: Boolean(parentRow.pin_set),
+              pinSet: Boolean(parentRow.pin_set || hasLocalPin),
               authProvider: session.user.app_metadata?.provider === 'google' ? 'google' : 'password',
               createdAt: parentRow.created_at,
               updatedAt: parentRow.updated_at,
@@ -876,19 +917,22 @@ class ParentAuthService {
               displayName: session.user.user_metadata?.full_name || session.user.user_metadata?.name || '',
               preferredLanguage: 'en',
               isLegalGuardian: false,
-              pinSet: false,
+              pinSet: Boolean(sandbox.pins[session.user.id]),
               authProvider: 'google',
               createdAt: new Date().toISOString(),
             };
-            await this.supabase.from('parents').insert({
-              id: newParent.id,
-              email: newParent.email,
-              email_verified: true,
-              display_name: newParent.displayName,
-              preferred_language: 'en',
-              is_legal_guardian: false,
-              pin_set: false,
-            });
+            await this.supabase.from('parents').upsert(
+              {
+                id: newParent.id,
+                email: newParent.email,
+                email_verified: true,
+                display_name: newParent.displayName,
+                preferred_language: 'en',
+                is_legal_guardian: false,
+                pin_set: newParent.pinSet,
+              },
+              { onConflict: 'id' }
+            );
             parent = newParent;
           }
         }

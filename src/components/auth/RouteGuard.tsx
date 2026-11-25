@@ -21,32 +21,41 @@ export const RouteGuard: React.FC<RouteGuardProps> = ({ children }) => {
     );
   }
 
-  const { step, route } = accountState;
+  const { step, route, parent } = accountState;
   const currentPath = location.pathname;
 
-  // Public legal pages are always accessible
+  // 1. Public legal pages are always accessible
   if (['/privacy', '/kids-privacy', '/terms'].includes(currentPath)) {
     return <>{children}</>;
   }
 
-  // If user has not completed onboarding and is trying to access protected content
-  if (step !== 'complete') {
-    // If user is already on the exact unmet step route, allow rendering it
-    if (currentPath === route) {
+  // 2. Unauthenticated users must be on /login
+  if (step === 'login' || !parent) {
+    if (currentPath === '/login') {
       return <>{children}</>;
     }
-    // Otherwise redirect to the first unmet step
-    return <Navigate to={route} replace />;
+    return <Navigate to="/login" replace />;
   }
 
-  // If user has completed onboarding but visits an onboarding / verification screen, redirect to Home
-  if (
-    currentPath === '/verify-email' ||
-    currentPath.startsWith('/onboarding')
-  ) {
-    return <Navigate to="/" replace />;
+  // 3. Logged in user visiting /login gets redirected to their next step or home
+  if (currentPath === '/login') {
+    return <Navigate to={step === 'complete' ? '/' : route} replace />;
   }
 
-  // Fully onboarded and on a normal route
-  return <>{children}</>;
+  // 4. User who has finished full onboarding cannot re-enter onboarding screens
+  if (step === 'complete') {
+    if (currentPath === '/verify-email' || currentPath.startsWith('/onboarding')) {
+      return <Navigate to="/" replace />;
+    }
+    return <>{children}</>;
+  }
+
+  // 5. Authenticated user actively in onboarding:
+  // Allow navigating between onboarding steps smoothly without route-guard bouncing
+  if (currentPath.startsWith('/onboarding') || currentPath === '/verify-email') {
+    return <>{children}</>;
+  }
+
+  // 6. If trying to access any main app route before onboarding finishes, redirect to active step
+  return <Navigate to={route} replace />;
 };

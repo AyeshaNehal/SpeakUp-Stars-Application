@@ -48,7 +48,7 @@ export const ParentSetupPage: React.FC = () => {
       });
 
       if (res.success) {
-        navigate('/onboarding/consent');
+        navigate(res.nextRoute || '/onboarding/consent');
       } else {
         setErrorMessage(res.message || 'Could not save parent profile.');
       }

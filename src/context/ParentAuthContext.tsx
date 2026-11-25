@@ -33,13 +33,13 @@ interface ParentAuthContextType {
   signInWithGoogle: () => Promise<{ success: boolean; message?: string }>;
   signInWithEmailPassword: (email: string, pass: string) => Promise<{ success: boolean; message?: string; parent?: ParentAccount }>;
   signOut: () => void;
-  updateParentProfile: (data: { displayName: string; preferredLanguage: 'en' | 'ur' | 'ar' | 'hi' | 'es'; isLegalGuardian: boolean }) => Promise<{ success: boolean; message?: string }>;
+  updateParentProfile: (data: { displayName: string; preferredLanguage: 'en' | 'ur' | 'ar' | 'hi' | 'es'; isLegalGuardian: boolean }) => Promise<{ success: boolean; message?: string; nextRoute?: string }>;
   submitConsent: (
     options: { metricsProcessing: boolean; storeRecordings: boolean; emailSummaries: boolean },
     method?: 'credit_card' | 'signed_econsent' | 'government_id' | 'mock_provider'
-  ) => Promise<{ success: boolean; message?: string }>;
+  ) => Promise<{ success: boolean; message?: string; nextRoute?: string }>;
   withdrawConsent: () => Promise<{ success: boolean; message: string }>;
-  saveParentPin: (pin: string) => Promise<{ success: boolean; message?: string }>;
+  saveParentPin: (pin: string) => Promise<{ success: boolean; message?: string; nextRoute?: string }>;
   saveChildWizardStep: (childData: Partial<ChildRecord> & { id?: string }) => Promise<{ success: boolean; child?: ChildRecord; message?: string }>;
   completeChildWizard: (childId: string) => Promise<{ success: boolean; child?: ChildRecord; message?: string }>;
   updateChildProfile: (childId: string, updates: Partial<ChildRecord>, pin: string) => Promise<{ success: boolean; child?: ChildRecord; message?: string }>;
@@ -179,8 +179,10 @@ export const ParentAuthProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     if (!currentParentId) return { success: false, message: 'Not signed in.' };
     const res = await parentAuthService.updateParentProfile(currentParentId, data);
     if (res.success) {
+      setParent((prev) => (prev ? { ...prev, displayName: data.displayName, preferredLanguage: data.preferredLanguage, isLegalGuardian: data.isLegalGuardian } : prev));
+      setAccountState((prev) => (prev ? { ...prev, step: 'consent', route: '/onboarding/consent' } : prev));
       const updated = await refreshAccountState();
-      return { ...res, nextRoute: updated.route };
+      return { ...res, nextRoute: updated.route || '/onboarding/consent' };
     }
     return res;
   };
@@ -193,8 +195,9 @@ export const ParentAuthProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     if (!currentParent) return { success: false, message: 'Please create an account first.' };
     const res = await parentAuthService.submitParentalConsent(currentParent.id, currentParent.email, options, method);
     if (res.success) {
+      setAccountState((prev) => (prev ? { ...prev, step: 'pin', route: '/onboarding/pin' } : prev));
       const updated = await refreshAccountState();
-      return { ...res, nextRoute: updated.route };
+      return { ...res, nextRoute: updated.route || '/onboarding/pin' };
     }
     return res;
   };
@@ -213,25 +216,42 @@ export const ParentAuthProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     if (!currentParentId) return { success: false, message: 'Not signed in.' };
     const res = await parentAuthService.saveParentPin(currentParentId, pin);
     if (res.success) {
+      setParent((prev) => (prev ? { ...prev, pinSet: true } : prev));
+      setAccountState((prev) => (prev ? { ...prev, step: 'child_wizard', route: '/onboarding/child' } : prev));
       const updated = await refreshAccountState();
-      return { ...res, nextRoute: updated.route };
+      return { ...res, nextRoute: updated.route || '/onboarding/child' };
     }
     return res;
   };
 
   const saveChildWizardStep = async (childData: Partial<ChildRecord> & { id?: string }) => {
-    if (!parent) return { success: false, message: 'Not signed in.' };
-    const res = await parentAuthService.saveChildWizardStep(parent.id, childData);
+    const currentParentId = parent?.id || (await parentAuthService.getAccountState()).parent?.id;
+    if (!currentParentId) return { success: false, message: 'Not signed in.' };
+    const res = await parentAuthService.saveChildWizardStep(currentParentId, childData);
     if (res.success && res.child) {
+      setActiveChild(res.child);
+      setChildrenList((prev) => {
+        const idx = prev.findIndex((c) => c.id === res.child!.id);
+        if (idx >= 0) {
+          const updated = [...prev];
+          updated[idx] = res.child!;
+          return updated;
+        }
+        return [...prev, res.child!];
+      });
       await refreshAccountState();
     }
     return res;
   };
 
   const completeChildWizard = async (childId: string) => {
-    if (!parent) return { success: false, message: 'Not signed in.' };
-    const res = await parentAuthService.completeChildWizard(parent.id, childId);
+    const currentParentId = parent?.id || (await parentAuthService.getAccountState()).parent?.id;
+    if (!currentParentId) return { success: false, message: 'Not signed in.' };
+    const res = await parentAuthService.completeChildWizard(currentParentId, childId);
     if (res.success && res.child) {
+      setActiveChild(res.child);
+      setChildrenList((prev) => prev.map((c) => (c.id === res.child!.id ? res.child! : c)));
+      setAccountState((prev) => (prev ? { ...prev, step: 'complete', route: '/', activeChild: res.child! } : prev));
       await refreshAccountState();
     }
     return res;

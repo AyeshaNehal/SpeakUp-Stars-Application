@@ -38,7 +38,7 @@ export const ConsentPage: React.FC = () => {
       });
 
       if (res.success) {
-        navigate('/onboarding/pin');
+        navigate(res.nextRoute || '/onboarding/pin');
       } else {
         setErrorMessage(res.message || 'Consent could not be recorded.');
       }

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Lock, KeyRound, ShieldAlert, ArrowRight, ArrowLeft, CheckCircle2 } from 'lucide-react';
+import { Lock, KeyRound, ShieldAlert, ArrowRight, ArrowLeft, CheckCircle2, Eye, EyeOff } from 'lucide-react';
 import { Button } from '../../components/common/Button';
 import { Card } from '../../components/common/Card';
 import { SparkyMascot } from '../../components/mascot/SparkyMascot';
@@ -12,34 +12,41 @@ export const PinSetupPage: React.FC = () => {
 
   const [pin, setPin] = useState('');
   const [confirmPin, setConfirmPin] = useState('');
+  const [showPin, setShowPin] = useState(false);
+  const [showConfirmPin, setShowConfirmPin] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const cleanPin = pin.trim().replace(/\D/g, '');
+  const cleanConfirmPin = confirmPin.trim().replace(/\D/g, '');
+
+  const isPinValidLength = cleanPin.length >= 4 && cleanPin.length <= 6;
+  const isConfirmValidLength = cleanConfirmPin.length >= 4 && cleanConfirmPin.length <= 6;
+  const isMatch = isPinValidLength && isConfirmValidLength && cleanPin === cleanConfirmPin;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMessage(null);
 
-    if (!/^\d{4,6}$/.test(pin)) {
+    if (!isPinValidLength) {
       setErrorMessage('PIN must be 4 to 6 numeric digits (0-9).');
       return;
     }
-    if (pin !== confirmPin) {
+    if (cleanPin !== cleanConfirmPin) {
       setErrorMessage('PINs do not match. Please verify both entries.');
       return;
     }
 
     setIsSubmitting(true);
     try {
-      const res = await saveParentPin(pin);
+      const res = await saveParentPin(cleanPin);
       if (res.success) {
-        setTimeout(() => {
-          navigate(res.nextRoute || '/onboarding/child');
-        }, 150);
+        navigate(res.nextRoute || '/onboarding/child');
       } else {
         setErrorMessage(res.message || 'Unable to configure PIN.');
       }
     } catch {
-      setErrorMessage('Server communication error.');
+      setErrorMessage('Server communication error. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -54,7 +61,7 @@ export const PinSetupPage: React.FC = () => {
             <button
               type="button"
               onClick={() => navigate('/onboarding/consent')}
-              className="text-xs font-bold text-slate-500 hover:text-slate-800 flex items-center gap-1"
+              className="text-xs font-bold text-slate-500 hover:text-slate-800 flex items-center gap-1 cursor-pointer"
             >
               <ArrowLeft className="w-4 h-4" /> Back
             </button>
@@ -122,10 +129,10 @@ export const PinSetupPage: React.FC = () => {
                     Enter 4 to 6 Digit PIN
                   </label>
                   <div className="relative">
-                    <KeyRound className="w-5 h-5 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2" />
+                    <KeyRound className="w-5 h-5 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none" />
                     <input
                       id="parent-pin"
-                      type="password"
+                      type={showPin ? 'text' : 'password'}
                       inputMode="numeric"
                       pattern="[0-9]*"
                       maxLength={6}
@@ -133,8 +140,17 @@ export const PinSetupPage: React.FC = () => {
                       value={pin}
                       onChange={(e) => setPin(e.target.value.replace(/\D/g, ''))}
                       placeholder="••••"
-                      className="w-full pl-11 pr-4 py-3 rounded-2xl border-2 border-slate-200 focus:border-purple-400 focus:outline-none text-slate-800 text-xl font-mono tracking-widest min-h-[56px]"
+                      className="w-full pl-11 pr-12 py-3 rounded-2xl border-2 border-slate-200 focus:border-purple-400 focus:outline-none text-slate-800 text-xl font-mono tracking-widest min-h-[56px]"
                     />
+                    <button
+                      type="button"
+                      onClick={() => setShowPin(!showPin)}
+                      className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 p-1 cursor-pointer"
+                      title={showPin ? 'Hide PIN' : 'Show PIN'}
+                      aria-label={showPin ? 'Hide PIN' : 'Show PIN'}
+                    >
+                      {showPin ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                    </button>
                   </div>
                 </div>
 
@@ -146,10 +162,10 @@ export const PinSetupPage: React.FC = () => {
                     Confirm PIN
                   </label>
                   <div className="relative">
-                    <Lock className="w-5 h-5 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2" />
+                    <Lock className="w-5 h-5 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none" />
                     <input
                       id="parent-pin-confirm"
-                      type="password"
+                      type={showConfirmPin ? 'text' : 'password'}
                       inputMode="numeric"
                       pattern="[0-9]*"
                       maxLength={6}
@@ -157,22 +173,32 @@ export const PinSetupPage: React.FC = () => {
                       value={confirmPin}
                       onChange={(e) => setConfirmPin(e.target.value.replace(/\D/g, ''))}
                       placeholder="••••"
-                      className="w-full pl-11 pr-4 py-3 rounded-2xl border-2 border-slate-200 focus:border-purple-400 focus:outline-none text-slate-800 text-xl font-mono tracking-widest min-h-[56px]"
+                      className="w-full pl-11 pr-12 py-3 rounded-2xl border-2 border-slate-200 focus:border-purple-400 focus:outline-none text-slate-800 text-xl font-mono tracking-widest min-h-[56px]"
                     />
+                    <button
+                      type="button"
+                      onClick={() => setShowConfirmPin(!showConfirmPin)}
+                      className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 p-1 cursor-pointer"
+                      title={showConfirmPin ? 'Hide PIN' : 'Show PIN'}
+                      aria-label={showConfirmPin ? 'Hide PIN' : 'Show PIN'}
+                    >
+                      {showConfirmPin ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                    </button>
                   </div>
                 </div>
 
-                {pin && confirmPin && pin === confirmPin && (
+                {/* Real-time PIN helper / validation feedback */}
+                {isMatch && (
                   <div className="flex items-center gap-2 text-xs font-heading font-bold text-emerald-600 bg-emerald-50 p-2.5 rounded-xl border border-emerald-200">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0" />
                     <span>PINs match! Ready to save.</span>
                   </div>
                 )}
 
-                {pin && confirmPin && pin !== confirmPin && (
+                {cleanPin.length > 0 && cleanConfirmPin.length > 0 && !isMatch && (
                   <div className="flex items-center gap-2 text-xs font-heading font-bold text-rose-600 bg-rose-50 p-2.5 rounded-xl border border-rose-200">
-                    <ShieldAlert className="w-4 h-4 text-rose-600" />
-                    <span>PINs do not match. Please check both boxes for typos.</span>
+                    <ShieldAlert className="w-4 h-4 text-rose-600 flex-shrink-0" />
+                    <span>PINs do not match. Make sure both 4-6 digit fields match.</span>
                   </div>
                 )}
 
@@ -181,9 +207,15 @@ export const PinSetupPage: React.FC = () => {
                   variant="purple"
                   size="lg"
                   className="w-full justify-center min-h-[56px] text-base"
-                  disabled={isSubmitting || !pin || pin !== confirmPin}
+                  disabled={isSubmitting || !isMatch}
                 >
-                  {isSubmitting ? 'Securing PIN...' : <>Save PIN &amp; Start Child Setup <ArrowRight className="w-5 h-5" /></>}
+                  {isSubmitting ? (
+                    'Securing PIN...'
+                  ) : (
+                    <>
+                      Save PIN &amp; Start Child Setup <ArrowRight className="w-5 h-5" />
+                    </>
+                  )}
                 </Button>
               </form>
             </Card>
