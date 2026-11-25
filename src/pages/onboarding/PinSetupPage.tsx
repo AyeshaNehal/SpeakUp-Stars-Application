@@ -167,6 +167,13 @@ export const PinSetupPage: React.FC = () => {
                   </div>
                 )}
 
+                {pin && confirmPin && pin !== confirmPin && (
+                  <div className="flex items-center gap-2 text-xs font-heading font-bold text-rose-600 bg-rose-50 p-2.5 rounded-xl border border-rose-200">
+                    <ShieldAlert className="w-4 h-4 text-rose-600" />
+                    <span>PINs do not match. Please check both boxes for typos.</span>
+                  </div>
+                )}
+
                 <Button
                   type="submit"
                   variant="purple"
