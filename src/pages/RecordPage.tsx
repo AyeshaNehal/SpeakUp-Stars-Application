@@ -35,6 +35,7 @@ import { faceAnalysisService } from '../services/vision/faceAnalysisService';
 import { CleanVisualMetrics } from '../services/security/biometricGuards';
 import { useParentAuth } from '../context/ParentAuthContext';
 import { getRandomTopic, Topic } from '../services/topics/topicService';
+import { parentSettingsService } from '../services/settings/parentSettingsService';
 import { AgeGroup } from '../types';
 
 type RecordingState =
@@ -65,9 +66,10 @@ export const RecordPage: React.FC = () => {
     () => (location.state as { topic?: Topic; targetDuration?: number })?.topic || getRandomTopic(ageBand)
   );
 
+  const isGentleMode = Boolean(activeChild?.gentleMode || parentSettingsService.getSettings().gentleModeDefault);
   const targetDuration: number =
     (location.state as { topic?: Topic; targetDuration?: number })?.targetDuration ||
-    (ageBand === '3-5' ? 30 : ageBand === '9-12' ? 90 : 60);
+    (isGentleMode ? 30 : ageBand === '3-5' ? 30 : ageBand === '9-12' ? 90 : 60);
 
   // Recording Lifecycle States
   const [stage, setStage] = useState<RecordingState>('permission_prompt');

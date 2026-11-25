@@ -50,12 +50,42 @@ export const PinGateModal: React.FC<PinGateModalProps> = ({ isOpen, onClose, onS
     return () => clearInterval(timer);
   }, [isLocked, lockoutSecs]);
 
-  const handleKeyPress = (digit: string) => {
+  const attemptUnlock = async (pinToTest: string, isFinal: boolean = false) => {
+    // If no parent account set up yet, enter directly to onboarding
+    if (!parent) {
+      onSuccess();
+      onClose();
+      return true;
+    }
+
+    const res = await enterParentMode(pinToTest);
+    if (res.success) {
+      setPin('');
+      setErrorMsg('');
+      onSuccess();
+      onClose();
+      return true;
+    } else {
+      if (isFinal || pinToTest.length === 6) {
+        setErrorMsg(res.message || 'Incorrect PIN.');
+        setPin('');
+        const status = pinRateLimiter.getStatus();
+        if (status.isLocked) {
+          setIsLocked(true);
+          setLockoutSecs(Math.ceil(status.remainingLockoutMs / 1000));
+        }
+      }
+      return false;
+    }
+  };
+
+  const handleKeyPress = async (digit: string) => {
     if (isLocked || pin.length >= 6) return;
     const newPin = pin + digit;
     setPin(newPin);
+    setErrorMsg('');
     if (newPin.length >= 4) {
-      attemptUnlock(newPin);
+      await attemptUnlock(newPin, newPin.length === 6);
     }
   };
 
@@ -63,30 +93,6 @@ export const PinGateModal: React.FC<PinGateModalProps> = ({ isOpen, onClose, onS
     if (isLocked || pin.length === 0) return;
     setPin(pin.slice(0, -1));
     setErrorMsg('');
-  };
-
-  const attemptUnlock = async (pinToTest: string) => {
-    // If no parent account set up yet, enter directly to onboarding
-    if (!parent) {
-      onSuccess();
-      onClose();
-      return;
-    }
-
-    const res = await enterParentMode(pinToTest);
-    if (res.success) {
-      setPin('');
-      onSuccess();
-      onClose();
-    } else {
-      setErrorMsg(res.message || 'Incorrect PIN.');
-      setPin('');
-      const status = pinRateLimiter.getStatus();
-      if (status.isLocked) {
-        setIsLocked(true);
-        setLockoutSecs(Math.ceil(status.remainingLockoutMs / 1000));
-      }
-    }
   };
 
   // Keyboard navigation support for laptop
@@ -98,6 +104,8 @@ export const PinGateModal: React.FC<PinGateModalProps> = ({ isOpen, onClose, onS
         handleKeyPress(e.key);
       } else if (e.key === 'Backspace') {
         handleDelete();
+      } else if (e.key === 'Enter' && pin.length >= 4) {
+        attemptUnlock(pin, true);
       }
     };
     window.addEventListener('keydown', handleKeyDown);
@@ -197,18 +205,33 @@ export const PinGateModal: React.FC<PinGateModalProps> = ({ isOpen, onClose, onS
             </button>
           ))}
 
-          <button
-            onClick={() => setPin('')}
-            disabled={isLocked || pin.length === 0}
-            className="
-              min-h-[56px] min-w-[56px] rounded-2xl
-              bg-slate-50 hover:bg-slate-100 text-xs font-heading font-bold text-slate-500
-              border-2 border-slate-200 transition-all flex items-center justify-center
-              disabled:opacity-40 disabled:cursor-not-allowed
-            "
-          >
-            CLEAR
-          </button>
+          {pin.length >= 4 ? (
+            <button
+              onClick={() => attemptUnlock(pin, true)}
+              disabled={isLocked}
+              className="
+                min-h-[56px] min-w-[56px] rounded-2xl
+                bg-purple-600 hover:bg-purple-700 active:bg-purple-800 text-xs font-heading font-black text-white
+                border-2 border-purple-500 transition-all flex items-center justify-center cursor-pointer shadow-sm
+                disabled:opacity-40 disabled:cursor-not-allowed
+              "
+            >
+              UNLOCK
+            </button>
+          ) : (
+            <button
+              onClick={() => setPin('')}
+              disabled={isLocked || pin.length === 0}
+              className="
+                min-h-[56px] min-w-[56px] rounded-2xl
+                bg-slate-50 hover:bg-slate-100 text-xs font-heading font-bold text-slate-500
+                border-2 border-slate-200 transition-all flex items-center justify-center
+                disabled:opacity-40 disabled:cursor-not-allowed
+              "
+            >
+              CLEAR
+            </button>
+          )}
 
           <button
             disabled={isLocked}

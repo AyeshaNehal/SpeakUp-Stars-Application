@@ -85,7 +85,9 @@ export const ResultsPage: React.FC = () => {
 
   const [isLoading, setIsLoading] = useState(true);
   const [pipelineError, setPipelineError] = useState<string | null>(null);
-  const [gentleMode, setGentleMode] = useState(false);
+  const [gentleMode, setGentleMode] = useState<boolean>(() =>
+    Boolean(activeChild?.gentleMode || parentSettingsService.getSettings().gentleModeDefault)
+  );
   const [analysisResult, setAnalysisResult] = useState<SpeechAnalysisResult | null>(null);
   const [feedbackResult, setFeedbackResult] = useState<AIFeedbackResult | null>(null);
   const [isReadingAloud, setIsReadingAloud] = useState(false);
