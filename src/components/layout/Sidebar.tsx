@@ -85,76 +85,76 @@ export const Sidebar: React.FC = () => {
   return (
     <aside
       className="
-        hidden md:flex flex-col w-64 lg:w-72 xl:w-80
+        hidden md:flex flex-col w-56 lg:w-60 xl:w-64
         h-screen sticky top-0
-        bg-white border-r-3 border-slate-100
-        p-4 lg:p-6 justify-between select-none
+        bg-white border-r-2 border-slate-100
+        p-3 lg:p-4 justify-between select-none
         shadow-sm z-30
       "
       aria-label="Desktop Sidebar Navigation"
     >
       {/* Brand Header */}
-      <div className="space-y-6">
+      <div className="space-y-4">
         <NavLink
           to="/"
-          className="flex items-center gap-3 group focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-sunny-400 rounded-2xl p-1"
+          className="flex items-center gap-2.5 group focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-sunny-400 rounded-xl p-1"
         >
           <motion.div
-            whileHover={{ rotate: [0, -10, 10, 0], scale: 1.1 }}
+            whileHover={{ rotate: [0, -10, 10, 0], scale: 1.05 }}
             transition={{ duration: 0.5 }}
-            className="w-12 h-12 lg:w-14 lg:h-14 rounded-2xl bg-gradient-to-tr from-sunny to-amber-300 flex items-center justify-center shadow-md shadow-sunny-500/20 text-2xl border-2 border-white"
+            className="w-9 h-9 lg:w-10 lg:h-10 rounded-xl bg-gradient-to-tr from-sunny to-amber-300 flex items-center justify-center shadow-sm text-lg border-2 border-white"
           >
             ⭐
           </motion.div>
           <div>
-            <span className="font-heading font-black text-xl lg:text-2xl tracking-tight text-slate-800 flex items-center gap-1">
+            <span className="font-heading font-black text-lg lg:text-xl tracking-tight text-slate-800 flex items-center gap-1">
               SpeakUp <span className="text-amber-500">Stars</span>
             </span>
-            <p className="text-xs font-semibold text-slate-400">Kids Voice Adventure</p>
+            <p className="text-[11px] font-semibold text-slate-400">Kids Voice Adventure</p>
           </div>
         </NavLink>
 
         {/* Kid Mini Status Card */}
-        <div className="bg-gradient-to-br from-sunny-50 via-sky-50 to-mint-50 rounded-3xl p-3.5 border-2 border-slate-100 shadow-sm">
+        <div className="bg-gradient-to-br from-sunny-50 via-sky-50 to-mint-50 rounded-2xl p-2.5 border-2 border-slate-100 shadow-xs">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2.5">
-              <div className="w-10 h-10 rounded-2xl bg-white/90 shadow-xs border border-amber-200/80 flex items-center justify-center overflow-hidden flex-shrink-0">
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-xl bg-white/90 shadow-xs border border-amber-200/80 flex items-center justify-center overflow-hidden flex-shrink-0">
                 {isSparkyTheme(activeChild?.avatarId) ? (
                   <SparkyMascot size="sm" theme={activeChild?.avatarId as SparkyTheme} />
                 ) : activeChild?.avatarId === 'lion' ? (
-                  <span className="text-2xl">🦁</span>
+                  <span className="text-lg">🦁</span>
                 ) : (
-                  <span className="text-xl">⭐</span>
+                  <span className="text-base">⭐</span>
                 )}
               </div>
               <div>
-                <p className="font-heading font-bold text-slate-800 text-sm">
+                <p className="font-heading font-bold text-slate-800 text-xs">
                   {activeChild?.nickname || "Let's Practice!"}
                 </p>
-                <p className="text-xs font-semibold text-slate-500">
+                <p className="text-[11px] font-semibold text-slate-500">
                   {activeChild ? `Ages ${activeChild.ageBand}` : 'Ready to start'}
                 </p>
               </div>
             </div>
-            <div className="flex items-center gap-1 bg-white px-2.5 py-1 rounded-full shadow-xs border border-slate-100">
-              <Flame className="w-4 h-4 text-orange-500 fill-orange-500" />
-              <span className="font-heading font-bold text-xs text-orange-600">{streak}d</span>
+            <div className="flex items-center gap-1 bg-white px-2 py-0.5 rounded-full shadow-xs border border-slate-100">
+              <Flame className="w-3.5 h-3.5 text-orange-500 fill-orange-500" />
+              <span className="font-heading font-bold text-[11px] text-orange-600">{streak}d</span>
             </div>
           </div>
 
-          <div className="mt-3 flex items-center justify-between pt-2.5 border-t border-slate-200/60 text-xs font-bold text-slate-600">
+          <div className="mt-2 flex items-center justify-between pt-2 border-t border-slate-200/60 text-[11px] font-bold text-slate-600">
             <span className="flex items-center gap-1 text-amber-600">
-              <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-500" />
+              <Star className="w-3 h-3 fill-amber-400 text-amber-500" />
               {points} Stars
             </span>
-            <span className="text-sky-600 bg-sky-100/80 px-2 py-0.5 rounded-md text-[11px]">
+            <span className="text-sky-600 bg-sky-100/80 px-1.5 py-0.5 rounded-md text-[10px]">
               Level {levelInfo.level} 🌟
             </span>
           </div>
         </div>
 
         {/* Navigation Links */}
-        <nav className="space-y-1.5" aria-label="Main Menu">
+        <nav className="space-y-1" aria-label="Main Menu">
           {mainNav.map((item) => {
             const Icon = item.icon;
             return (
@@ -162,8 +162,8 @@ export const Sidebar: React.FC = () => {
                 key={item.to}
                 to={item.to}
                 className={({ isActive }) => `
-                  group flex items-center gap-3.5 px-3.5 py-3 rounded-2xl
-                  text-slate-700 font-heading text-base font-semibold
+                  group flex items-center gap-2.5 px-3 py-2 rounded-xl
+                  text-slate-700 font-heading text-xs sm:text-sm font-semibold
                   transition-all duration-150 border-2 border-transparent
                   focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-sunny-400
                   ${isActive ? item.activeBg : 'hover:bg-slate-50 hover:text-slate-900'}
@@ -171,21 +171,21 @@ export const Sidebar: React.FC = () => {
               >
                 {({ isActive }) => (
                   <motion.div
-                    whileHover={{ x: 4 }}
+                    whileHover={{ x: 3 }}
                     transition={{ type: 'spring', stiffness: 400, damping: 25 }}
-                    className="flex items-center gap-3.5 w-full"
+                    className="flex items-center gap-2.5 w-full"
                   >
                     <div
                       className={`
-                        w-10 h-10 rounded-xl flex items-center justify-center transition-colors
+                        w-8 h-8 rounded-lg flex items-center justify-center transition-colors
                         ${isActive ? 'bg-white shadow-xs' : item.color}
                       `}
                     >
-                      <Icon className="w-5 h-5" />
+                      <Icon className="w-4 h-4" />
                     </div>
                     <span className="flex-1">{item.label}</span>
                     {isActive && (
-                      <div className="w-2 h-2 rounded-full bg-current" />
+                      <div className="w-1.5 h-1.5 rounded-full bg-current" />
                     )}
                   </motion.div>
                 )}
@@ -196,12 +196,12 @@ export const Sidebar: React.FC = () => {
       </div>
 
       {/* Footer Area: Parent Dashboard & Sound toggle */}
-      <div className="pt-4 border-t-2 border-slate-100 space-y-2">
+      <div className="pt-3 border-t-2 border-slate-100 space-y-1.5">
         <NavLink
           to="/parent"
           className={({ isActive }) => `
-            flex items-center justify-between px-3.5 py-3 rounded-2xl
-            font-heading text-sm font-bold transition-all
+            flex items-center justify-between px-3 py-2 rounded-xl
+            font-heading text-xs font-bold transition-all
             border-2
             focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-purple-400
             ${
@@ -211,13 +211,13 @@ export const Sidebar: React.FC = () => {
             }
           `}
         >
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-xl bg-purple-200 text-purple-700 flex items-center justify-center">
-              <ShieldCheck className="w-4 h-4" />
+          <div className="flex items-center gap-2">
+            <div className="w-7 h-7 rounded-lg bg-purple-200 text-purple-700 flex items-center justify-center">
+              <ShieldCheck className="w-3.5 h-3.5" />
             </div>
             <span>Parent Dashboard</span>
           </div>
-          <span className="text-[11px] bg-white px-2 py-0.5 rounded-full text-slate-500 border border-slate-200">
+          <span className="text-[10px] bg-white px-1.5 py-0.5 rounded-full text-slate-500 border border-slate-200">
             PIN 🔒
           </span>
         </NavLink>
@@ -230,25 +230,25 @@ export const Sidebar: React.FC = () => {
             navigate('/login');
           }}
           className="
-            w-full flex items-center justify-between px-3.5 py-2.5 rounded-2xl
-            font-heading text-xs font-bold text-slate-500 hover:text-rose-600
+            w-full flex items-center justify-between px-3 py-1.5 rounded-xl
+            font-heading text-[11px] font-bold text-slate-500 hover:text-rose-600
             bg-slate-50 hover:bg-rose-50 border border-slate-200 hover:border-rose-200
             transition-all cursor-pointer
           "
         >
           <div className="flex items-center gap-2">
-            <LogOut className="w-4 h-4 text-slate-400 group-hover:text-rose-500" />
+            <LogOut className="w-3.5 h-3.5 text-slate-400 group-hover:text-rose-500" />
             <span>Parent Log Out</span>
           </div>
           <span className="text-[10px] text-slate-400">Exit</span>
         </button>
 
-        <div className="flex items-center justify-between px-2 pt-1 text-xs text-slate-400 font-semibold">
-          <span className="flex items-center gap-1.5 text-slate-500">
-            <Volume2 className="w-3.5 h-3.5 text-mint-500" />
+        <div className="flex items-center justify-between px-2 pt-0.5 text-[11px] text-slate-400 font-semibold">
+          <span className="flex items-center gap-1 text-slate-500">
+            <Volume2 className="w-3 h-3 text-mint-500" />
             Sound FX On
           </span>
-          <span className="text-[11px] text-slate-400">v0.1 PWA</span>
+          <span className="text-[10px] text-slate-400">v0.1 PWA</span>
         </div>
       </div>
     </aside>

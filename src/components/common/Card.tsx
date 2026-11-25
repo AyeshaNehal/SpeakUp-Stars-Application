@@ -35,14 +35,14 @@ export const Card: React.FC<CardProps> = ({
 
   const paddingStyles = {
     none: 'p-0',
-    sm: 'p-3 sm:p-4',
-    md: 'p-4 sm:p-6 lg:p-7',
-    lg: 'p-6 sm:p-8 lg:p-10',
+    sm: 'p-2.5 sm:p-3',
+    md: 'p-3.5 sm:p-4 lg:p-5',
+    lg: 'p-5 sm:p-6 lg:p-7',
   };
 
   const borderClasses = {
-    solid: 'border-2 sm:border-3',
-    dashed: 'border-2 sm:border-3 border-dashed',
+    solid: 'border-2',
+    dashed: 'border-2 border-dashed',
     none: 'border-0',
   };
 

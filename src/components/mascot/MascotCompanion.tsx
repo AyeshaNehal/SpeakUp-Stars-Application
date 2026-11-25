@@ -114,10 +114,10 @@ export const MascotCompanion: React.FC<MascotCompanionProps> = ({
   const mascot = ALL_MASCOTS.find((m) => m.id === mascotId) || ALL_MASCOTS[0];
 
   const sizeClasses = {
-    sm: 'w-24 h-24',
-    md: 'w-36 h-36',
-    lg: 'w-48 h-48 sm:w-56 sm:h-56',
-    xl: 'w-60 h-60 sm:w-72 sm:h-72',
+    sm: 'w-16 h-16',
+    md: 'w-22 h-22 sm:w-26 sm:h-26',
+    lg: 'w-28 h-28 sm:w-36 sm:h-36',
+    xl: 'w-38 h-38 sm:w-46 sm:h-46',
   };
 
   return (

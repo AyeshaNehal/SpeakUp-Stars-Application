@@ -37,12 +37,12 @@ export const Button: React.FC<ButtonProps> = ({
     ghost: 'bg-transparent text-slate-600 hover:bg-slate-100 hover:text-slate-900 font-heading',
   };
 
-  // Ensure minimum 56px touch target for kid usability on mobile
+  // Balanced, comfortable touch sizing that fits nicely on screen
   const sizeStyles: Record<ButtonSize, string> = {
-    sm: 'min-h-[44px] min-w-[44px] px-4 py-2 text-base rounded-2xl gap-2',
-    md: 'min-h-[52px] min-w-[52px] px-5 py-2.5 text-lg rounded-2xl gap-2.5',
-    lg: 'min-h-[56px] min-w-[56px] px-6 py-3.5 text-xl rounded-3xl gap-3',
-    xl: 'min-h-[64px] min-w-[64px] px-8 py-4 text-2xl rounded-4xl gap-3.5 font-bold',
+    sm: 'min-h-[36px] px-3 py-1.5 text-xs sm:text-sm rounded-xl gap-1.5',
+    md: 'min-h-[42px] px-4 py-2 text-sm rounded-xl gap-2',
+    lg: 'min-h-[46px] px-5 py-2.5 text-sm sm:text-base rounded-2xl gap-2.5 font-bold',
+    xl: 'min-h-[52px] px-6 py-3 text-base sm:text-lg rounded-2xl gap-2.5 font-bold',
   };
 
   const motionProps = isBouncy && !disabled

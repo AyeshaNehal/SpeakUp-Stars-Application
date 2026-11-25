@@ -156,7 +156,7 @@ export const SpinWheelCanvas: React.FC<SpinWheelProps> = ({
   }, [isSpinning, currentRotation, numSegments]);
 
   return (
-    <div className="relative flex flex-col items-center justify-center select-none w-full max-w-[340px] sm:max-w-[400px] lg:max-w-[440px] aspect-square">
+    <div className="relative flex flex-col items-center justify-center select-none w-full max-w-[280px] sm:max-w-[330px] lg:max-w-[370px] aspect-square">
       {/* Outer Glow Halo */}
       <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-sunny/20 via-sky/20 to-coral/20 blur-2xl pointer-events-none" />
 

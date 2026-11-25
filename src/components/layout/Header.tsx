@@ -50,7 +50,7 @@ export const Header: React.FC<HeaderProps> = ({
   return (
     <>
       <header className="sticky top-0 z-20 bg-white/90 backdrop-blur-md border-b-2 border-slate-100 select-none">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-4">
+        <div className="max-w-6xl mx-auto px-3 sm:px-5 lg:px-6 h-13 sm:h-15 flex items-center justify-between gap-3">
           {/* Left: Mobile Brand OR Laptop Greeting */}
           <div className="flex items-center gap-3">
             {/* Mobile brand (hidden on desktop since sidebar shows it) */}

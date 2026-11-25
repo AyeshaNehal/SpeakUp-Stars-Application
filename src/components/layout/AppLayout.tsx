@@ -54,16 +54,16 @@ export const AppLayout: React.FC = () => {
         {/* Top Header */}
         <Header currentAgeGroup={ageGroup} onAgeGroupChange={setAgeGroup} />
 
-        {/* Scrollable Page Outlet with fluid padding & landscape responsiveness */}
+        {/* Scrollable Page Outlet with balanced padding */}
         <main
           id="main-content"
           tabIndex={-1}
           role="main"
           className="
-            flex-1 w-full max-w-7xl mx-auto
-            px-3 xs:px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8
-            pb-28 sm:pb-32 md:pb-10
-            landscape:pb-24 md:landscape:pb-10
+            flex-1 w-full max-w-6xl mx-auto
+            px-3 sm:px-5 lg:px-6 py-3.5 sm:py-5
+            pb-24 sm:pb-28 md:pb-8
+            landscape:pb-20 md:landscape:pb-8
             transition-all duration-150
             focus:outline-none
           "

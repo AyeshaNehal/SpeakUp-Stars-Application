@@ -37,17 +37,17 @@ export const HomePage: React.FC = () => {
   const unlockedBadges = allBadges.filter((b) => b.unlocked);
 
   return (
-    <div className="space-y-6 sm:space-y-8">
+    <div className="space-y-5 sm:space-y-6">
       {/* Hero Welcome Banner */}
-      <section className="relative overflow-hidden rounded-4xl sm:rounded-5xl bg-gradient-to-br from-sunny-200 via-sunny to-amber-300 p-6 sm:p-8 lg:p-10 border-3 border-amber-300 shadow-md">
+      <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-sunny-200 via-sunny to-amber-300 p-5 sm:p-6 lg:p-7 border-2 border-amber-300 shadow-sm">
         {/* Decorative background bubbles */}
-        <div className="absolute -right-8 -top-8 w-44 h-44 rounded-full bg-white/20 blur-xl pointer-events-none" />
-        <div className="absolute left-1/3 -bottom-10 w-36 h-36 rounded-full bg-amber-400/30 blur-lg pointer-events-none" />
+        <div className="absolute -right-8 -top-8 w-36 h-36 rounded-full bg-white/20 blur-xl pointer-events-none" />
+        <div className="absolute left-1/3 -bottom-10 w-28 h-28 rounded-full bg-amber-400/30 blur-lg pointer-events-none" />
 
-        <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
-          <div className="lg:col-span-8 space-y-4">
-            <div className="inline-flex items-center gap-2 bg-white/80 backdrop-blur-xs px-3.5 py-1.5 rounded-full text-amber-900 font-heading font-bold text-xs sm:text-sm shadow-xs">
-              <Sparkles className="w-4 h-4 text-amber-600 animate-spin" />
+        <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-5 items-center">
+          <div className="lg:col-span-8 space-y-3">
+            <div className="inline-flex items-center gap-1.5 bg-white/80 backdrop-blur-xs px-3 py-1 rounded-full text-amber-900 font-heading font-bold text-xs shadow-xs">
+              <Sparkles className="w-3.5 h-3.5 text-amber-600 animate-spin" />
               <span>Daily Speaking Adventure</span>
             </div>
 
@@ -59,12 +59,12 @@ export const HomePage: React.FC = () => {
               {mascotObj.tagline} Choose your adventure, play mini-games, and collect shiny star points!
             </p>
 
-            {/* Quick Action Buttons with 56px touch target */}
-            <div className="flex flex-wrap items-center gap-3 pt-2">
+            {/* Quick Action Buttons */}
+            <div className="flex flex-wrap items-center gap-2.5 pt-1">
               <Button
                 variant="coral"
-                size="lg"
-                icon={<Mic className="w-6 h-6" />}
+                size="md"
+                icon={<Mic className="w-4 h-4" />}
                 onClick={() => navigate('/record')}
               >
                 Speak Now!
@@ -72,8 +72,8 @@ export const HomePage: React.FC = () => {
 
               <Button
                 variant="sky"
-                size="lg"
-                icon={<Sparkles className="w-6 h-6" />}
+                size="md"
+                icon={<Sparkles className="w-4 h-4" />}
                 onClick={() => navigate('/wheel')}
               >
                 Spin Topic Wheel
@@ -81,20 +81,20 @@ export const HomePage: React.FC = () => {
 
               <Button
                 variant="sunny"
-                size="md"
-                icon={<Gamepad2 className="w-5 h-5" />}
+                size="sm"
+                icon={<Gamepad2 className="w-4 h-4" />}
                 onClick={() => navigate('/games')}
               >
-                Play Mini-Games 🎮
+                Mini-Games 🎮
               </Button>
 
               <Button
                 variant="mint"
-                size="md"
-                icon={<UserPlus className="w-5 h-5" />}
+                size="sm"
+                icon={<UserPlus className="w-4 h-4" />}
                 onClick={() => setIsAuthModalOpen(true)}
               >
-                Login / Choose Mascot ✨
+                Choose Mascot ✨
               </Button>
             </div>
           </div>
@@ -105,7 +105,7 @@ export const HomePage: React.FC = () => {
               <MascotCompanion
                 mascotId={mascotObj.id}
                 braveryLevel={currentBravery}
-                size="lg"
+                size="md"
                 showDialogue={true}
                 dialogueText={`Hi ${kidName}! ${mascotObj.voiceIntro}`}
                 onClick={() => setIsAuthModalOpen(true)}
@@ -113,7 +113,7 @@ export const HomePage: React.FC = () => {
               />
               <button
                 onClick={() => setIsAuthModalOpen(true)}
-                className="mt-2 bg-white/95 hover:bg-white text-slate-800 px-4 py-2 rounded-full text-xs font-heading font-black shadow-md border-2 border-amber-300 transition-all hover:scale-105 cursor-pointer flex items-center gap-1.5"
+                className="mt-1.5 bg-white/95 hover:bg-white text-slate-800 px-3 py-1.5 rounded-full text-[11px] font-heading font-black shadow-xs border border-amber-300 transition-all hover:scale-105 cursor-pointer flex items-center gap-1"
               >
                 <span>{mascotObj.emoji}</span>
                 <span>Change Mascot ({mascotObj.name})</span>
@@ -124,21 +124,21 @@ export const HomePage: React.FC = () => {
       </section>
 
       {/* Main Content Layout: Responsive 2-column layout on laptop */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
         {/* Left / Main Section: Daily Mission & Quick Topics */}
-        <section className="lg:col-span-8 space-y-6">
+        <section className="lg:col-span-8 space-y-5">
           {/* Daily Goal Card */}
-          <Card variant="white" padding="md" className="space-y-4">
+          <Card variant="white" padding="md" className="space-y-3">
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-2xl bg-mint-100 text-mint-700 flex items-center justify-center text-xl shadow-xs">
+              <div className="flex items-center gap-2.5">
+                <div className="w-10 h-10 rounded-xl bg-mint-100 text-mint-700 flex items-center justify-center text-lg shadow-xs">
                   {speechesCompleted > 0 ? '🎯' : '👋'}
                 </div>
                 <div>
-                  <h2 className="font-heading font-bold text-xl text-slate-800">
+                  <h2 className="font-heading font-bold text-lg text-slate-800">
                     Today's Star Mission
                   </h2>
-                  <p className="text-sm text-slate-500 font-semibold">
+                  <p className="text-xs text-slate-500 font-semibold">
                     {rawCompleted === 0
                       ? "Let's do your first speech! (0 of 3 speeches completed)"
                       : rawCompleted >= dailyGoal
@@ -147,7 +147,7 @@ export const HomePage: React.FC = () => {
                   </p>
                 </div>
               </div>
-              <span className="text-xs sm:text-sm font-heading font-bold text-emerald-700 bg-mint-100 px-3 py-1 rounded-full">
+              <span className="text-xs font-heading font-bold text-emerald-700 bg-mint-100 px-2.5 py-1 rounded-full">
                 +15 Bonus Stars ⭐
               </span>
             </div>
@@ -155,7 +155,7 @@ export const HomePage: React.FC = () => {
             <ProgressBar
               value={goalPercent}
               variant="mint"
-              size="md"
+              size="sm"
               showPercentage
               label={`Speech Goal: ${goalPercent}% Complete`}
             />
@@ -163,37 +163,37 @@ export const HomePage: React.FC = () => {
 
           {/* Featured Speaking Categories Grid */}
           <div>
-            <div className="flex items-center justify-between mb-4 px-1">
-              <h3 className="font-heading font-black text-xl text-slate-800">
+            <div className="flex items-center justify-between mb-3 px-1">
+              <h3 className="font-heading font-black text-lg text-slate-800">
                 Popular Adventures
               </h3>
               <button
                 onClick={() => navigate('/wheel')}
-                className="text-sky-600 hover:text-sky-700 font-heading font-bold text-sm flex items-center gap-1 min-h-[44px] min-w-[44px]"
+                className="text-sky-600 hover:text-sky-700 font-heading font-bold text-xs flex items-center gap-1"
               >
-                See All <ArrowRight className="w-4 h-4" />
+                See All <ArrowRight className="w-3.5 h-3.5" />
               </button>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
               <Card
                 variant="sky"
                 isInteractive
-                padding="md"
+                padding="sm"
                 onClick={() => navigate('/record')}
-                className="flex items-start gap-4"
+                className="flex items-start gap-3"
               >
-                <div className="w-14 h-14 rounded-2xl bg-sky-200 text-3xl flex items-center justify-center flex-shrink-0 shadow-xs">
+                <div className="w-11 h-11 rounded-xl bg-sky-200 text-2xl flex items-center justify-center flex-shrink-0 shadow-xs">
                   🚀
                 </div>
                 <div>
-                  <h4 className="font-heading font-bold text-lg text-slate-800">
+                  <h4 className="font-heading font-bold text-base text-slate-800">
                     Space Explorers
                   </h4>
-                  <p className="text-xs text-slate-600 mt-1">
+                  <p className="text-xs text-slate-600 mt-0.5 line-clamp-2">
                     Describe your journey to Mars and what aliens look like!
                   </p>
-                  <span className="inline-block mt-3 text-xs font-bold text-sky-700 bg-white/80 px-2.5 py-1 rounded-lg">
+                  <span className="inline-block mt-2 text-[11px] font-bold text-sky-700 bg-white/80 px-2 py-0.5 rounded-md">
                     Level: All Ages
                   </span>
                 </div>
@@ -202,21 +202,21 @@ export const HomePage: React.FC = () => {
               <Card
                 variant="coral"
                 isInteractive
-                padding="md"
+                padding="sm"
                 onClick={() => navigate('/record')}
-                className="flex items-start gap-4"
+                className="flex items-start gap-3"
               >
-                <div className="w-14 h-14 rounded-2xl bg-coral-200 text-3xl flex items-center justify-center flex-shrink-0 shadow-xs">
+                <div className="w-11 h-11 rounded-xl bg-coral-200 text-2xl flex items-center justify-center flex-shrink-0 shadow-xs">
                   🦕
                 </div>
                 <div>
-                  <h4 className="font-heading font-bold text-lg text-slate-800">
+                  <h4 className="font-heading font-bold text-base text-slate-800">
                     Dino Kingdom
                   </h4>
-                  <p className="text-xs text-slate-600 mt-1">
+                  <p className="text-xs text-slate-600 mt-0.5 line-clamp-2">
                     If you had a pet T-Rex, what games would you play?
                   </p>
-                  <span className="inline-block mt-3 text-xs font-bold text-coral-700 bg-white/80 px-2.5 py-1 rounded-lg">
+                  <span className="inline-block mt-2 text-[11px] font-bold text-coral-700 bg-white/80 px-2 py-0.5 rounded-md">
                     Level: Fun & Fast
                   </span>
                 </div>
@@ -226,25 +226,25 @@ export const HomePage: React.FC = () => {
         </section>
 
         {/* Right / Side Panel: Streaks, Star Badges & Parent Tip */}
-        <aside className="lg:col-span-4 space-y-6">
+        <aside className="lg:col-span-4 space-y-5">
           {/* Rewards Preview Card */}
-          <Card variant="purple" padding="md" className="space-y-4">
+          <Card variant="purple" padding="md" className="space-y-3">
             <div className="flex items-center justify-between">
-              <h3 className="font-heading font-black text-lg text-purple-950 flex items-center gap-2">
-                <Trophy className="w-5 h-5 text-purple-600" />
+              <h3 className="font-heading font-black text-base text-purple-950 flex items-center gap-1.5">
+                <Trophy className="w-4 h-4 text-purple-600" />
                 Badge Trophy Room
               </h3>
               <button
                 onClick={() => navigate('/rewards')}
-                className="text-xs font-bold text-purple-700 hover:underline min-h-[36px]"
+                className="text-xs font-bold text-purple-700 hover:underline"
               >
                 View
               </button>
             </div>
 
             {unlockedBadges.length === 0 ? (
-              <div className="flex flex-col items-center justify-center py-4 text-center px-2">
-                <span className="text-3xl mb-1">👋</span>
+              <div className="flex flex-col items-center justify-center py-3 text-center px-2">
+                <span className="text-2xl mb-1">👋</span>
                 <p className="text-xs font-heading font-bold text-purple-900">
                   Let's do your first speech!
                 </p>
@@ -253,13 +253,13 @@ export const HomePage: React.FC = () => {
                 </p>
               </div>
             ) : (
-              <div className="flex items-center justify-around py-2">
+              <div className="flex items-center justify-around py-1.5">
                 {unlockedBadges.slice(0, 3).map((b) => (
                   <div key={b.key} className="flex flex-col items-center">
-                    <div className="w-14 h-14 rounded-full bg-white shadow-md flex items-center justify-center text-2xl border-2 border-purple-200">
+                    <div className="w-10 h-10 rounded-full bg-white shadow-xs flex items-center justify-center text-xl border border-purple-200">
                       {b.icon}
                     </div>
-                    <span className="text-xs font-heading font-bold text-purple-950 mt-1.5">{b.name}</span>
+                    <span className="text-[11px] font-heading font-bold text-purple-950 mt-1">{b.name}</span>
                   </div>
                 ))}
               </div>
@@ -275,12 +275,12 @@ export const HomePage: React.FC = () => {
           </Card>
 
           {/* Quick Speech Tip Card */}
-          <Card variant="sunny" padding="md" className="space-y-3">
-            <div className="flex items-center gap-2 text-amber-900 font-heading font-bold">
-              <Heart className="w-5 h-5 text-coral fill-coral" />
+          <Card variant="sunny" padding="md" className="space-y-2">
+            <div className="flex items-center gap-1.5 text-amber-900 font-heading font-bold text-xs sm:text-sm">
+              <Heart className="w-4 h-4 text-coral fill-coral" />
               <span>Friendly Tip for Today</span>
             </div>
-            <p className="text-xs sm:text-sm text-amber-950 font-medium">
+            <p className="text-xs text-amber-950 font-medium leading-relaxed">
               "Take a deep breath like blowing out birthday candles before you speak. You've got this!"
             </p>
           </Card>
