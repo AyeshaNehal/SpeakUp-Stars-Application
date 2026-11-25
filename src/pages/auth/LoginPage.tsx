@@ -63,8 +63,8 @@ export const LoginPage: React.FC = () => {
       <div className="w-full max-w-md space-y-6">
         {/* Brand Header */}
         <div className="text-center space-y-2">
-          <div className="inline-flex w-16 h-16 rounded-3xl bg-sunny text-amber-900 items-center justify-center text-3xl shadow-md border-3 border-white animate-bounce">
-            ⭐
+          <div className="inline-flex w-16 h-16 rounded-3xl overflow-hidden shadow-lg border-2 border-white">
+            <img src="/logo.png" alt="SpeakUp Stars Logo" className="w-full h-full object-cover" />
           </div>
           <h1 className="font-heading font-black text-2xl sm:text-3xl text-slate-800">
             SpeakUp <span className="text-amber-500">Stars</span>

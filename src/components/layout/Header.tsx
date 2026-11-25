@@ -58,8 +58,8 @@ export const Header: React.FC<HeaderProps> = ({
               to="/"
               className="md:hidden flex items-center gap-2 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-sunny-400 rounded-xl"
             >
-              <div className="w-10 h-10 rounded-xl bg-sunny flex items-center justify-center text-xl shadow-xs">
-                ⭐
+              <div className="w-8 h-8 rounded-lg overflow-hidden shadow-xs border border-slate-200/60 flex-shrink-0">
+                <img src="/logo.png" alt="SpeakUp Stars Logo" className="w-full h-full object-cover" />
               </div>
               <div>
                 <span className="font-heading font-black text-lg text-slate-800 leading-tight">

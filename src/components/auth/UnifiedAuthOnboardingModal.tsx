@@ -220,8 +220,8 @@ export const UnifiedAuthOnboardingModal: React.FC<UnifiedAuthOnboardingModalProp
               className="space-y-5"
             >
               <div className="text-center space-y-2">
-                <div className="inline-flex p-3 rounded-2xl bg-sunny-100 text-amber-700 text-2xl shadow-inner">
-                  ⭐
+                <div className="inline-flex w-14 h-14 rounded-2xl overflow-hidden shadow-md border-2 border-white">
+                  <img src="/logo.png" alt="SpeakUp Stars Logo" className="w-full h-full object-cover" />
                 </div>
                 <h2 className="text-2xl sm:text-3xl font-heading font-black text-slate-800">
                   Welcome to SpeakUp Stars!

@@ -100,11 +100,11 @@ export const Sidebar: React.FC = () => {
           className="flex items-center gap-2.5 group focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-sunny-400 rounded-xl p-1"
         >
           <motion.div
-            whileHover={{ rotate: [0, -10, 10, 0], scale: 1.05 }}
+            whileHover={{ rotate: [0, -8, 8, 0], scale: 1.05 }}
             transition={{ duration: 0.5 }}
-            className="w-9 h-9 lg:w-10 lg:h-10 rounded-xl bg-gradient-to-tr from-sunny to-amber-300 flex items-center justify-center shadow-sm text-lg border-2 border-white"
+            className="w-9 h-9 lg:w-10 lg:h-10 rounded-xl overflow-hidden shadow-sm border border-slate-200/60 flex-shrink-0"
           >
-            ⭐
+            <img src="/logo.png" alt="SpeakUp Stars Logo" className="w-full h-full object-cover" />
           </motion.div>
           <div>
             <span className="font-heading font-black text-lg lg:text-xl tracking-tight text-slate-800 flex items-center gap-1">
